@@ -32,5 +32,7 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: null,   // { date:"Jun 17", html:"<...>" } latest daily report (pushed by the morning task)
-  ntfyTopic: "nickys-wcpool-draft-9k4m2"  // phone-push topic on ntfy.sh; subscribers get a buzz on every pick
+  ntfyTopic: "nickys-wcpool-draft-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on every pick
+  history: [],   // [{label,pts:{...}}] daily standings, drives the Points Over Time chart
+  stats: {}      // cumulative scorers/assists (future stats page)
 };

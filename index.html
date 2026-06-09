@@ -6,6 +6,7 @@
 <title>Nicky's World Cup Pool — Standings</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
 <style>
   :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; }
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -39,11 +40,18 @@
   .gt td.gp{ font-weight:800; } .gw{color:#059669;font-weight:600;} .gl{color:#dc2626;} .odot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px;}
   .stamp{ text-align:right; font-size:11px; color:#9ca3af; margin:6px 0 0; }
   .msg{ color:var(--grey); font-size:14px; padding:18px 2px; }
+  .countdown{ background:var(--navy); color:#fff; border-radius:12px; padding:12px 18px; margin:16px 0; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .countdown .cd-lbl{ font-size:12px; color:#9fb0e0; font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+  .countdown .cd-nums{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .chartwrap{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; height:280px; position:relative; }
+  tr.elim td{ color:#b4b8bf; }
+  table.h2h th,table.h2h td{ text-align:center; padding:8px 6px; font-size:13px; } table.h2h td:first-child,table.h2h th:first-child{ text-align:left; }
 </style>
 </head>
 <body>
 <div class="top"><span class="badge">26</span><h1>Nicky's World Cup Pool</h1><a href="/rules.html" style="margin-left:auto">Rules</a><a href="/recap.html" style="margin-left:14px">Recap</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/draft.html" style="margin-left:14px">Draft →</a></div>
 <div class="wrap">
+  <div class="countdown" id="countdown"></div>
   <div id="hero"></div>
   <div id="content"></div>
   <div class="stamp" id="stamp"></div>
@@ -77,6 +85,11 @@ function groupTable(g){
     if(r.hs>r.as){st[h].w++;st[aw].l++;}else if(r.hs<r.as){st[aw].w++;st[h].l++;}else{st[h].d++;st[aw].d++;} }));
   return Object.values(st).map(x=>({...x,gd:x.gf-x.ga,pts:x.w*3+x.d})).sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
 }
+function groupGP(team){ const g=Object.keys(P.groups).find(k=>P.groups[k].includes(team)); if(!g)return 0; const teams=P.groups[g]; let n=0,played=0; PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r=(P.results||{})[g+"-"+n]; if(r&&r.hs!=null&&(teams[a]===team||teams[b]===team))played++; })); return played; }
+function koAll(){ const S=P.scoring; return S.r32+S.r16+S.qf+S.sf+S.final; }
+function maxFuture(team){ const t=(P.teams||{})[team]; const S=P.scoring; if(t&&t.out)return 0; if(!t)return 3*S.groupWin+S.bonus1st+S.bonusSweep+koAll(); if(t.final)return 0; if(t.sf)return S.final; if(t.qf)return S.sf+S.final; if(t.r16)return S.qf+S.sf+S.final; if(t.r32)return S.r16+S.qf+S.sf+S.final; if(t.advanced)return koAll(); const gp=groupGP(team),losses=Math.max(0,gp-(t.gw||0)-(t.gd||0)),rem=Math.max(0,3-gp); const placeUp=t.groupPlace?0:S.bonus1st; const sweepUp=(losses===0&&(t.gd||0)===0&&!t.sweep)?S.bonusSweep:0; return rem*S.groupWin+placeUp+sweepUp+koAll(); }
+function isAlive(team){ const t=(P.teams||{})[team]; return !(t&&t.out); }
+function h2hMatrix(){ const players=P.order; const M={}; players.forEach(a=>{M[a]={};players.forEach(b=>M[a][b]=[0,0,0]);}); Object.keys(P.groups).forEach(g=>{ const teams=P.groups[g]; let n=0; PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r=(P.results||{})[g+"-"+n]; if(!r||r.hs==null)return; const ho=ownerOf(teams[a]),ao=ownerOf(teams[b]); if(!ho||!ao||ho===ao)return; if(r.hs>r.as){M[ho][ao][0]++;M[ao][ho][2]++;}else if(r.hs<r.as){M[ao][ho][0]++;M[ho][ao][2]++;}else{M[ho][ao][1]++;M[ao][ho][1]++;} })); }); return M; }
 
 async function load(){
   try{ const r=await fetch("/api/state",{cache:"no-store"}); P=await r.json(); render(); }
@@ -104,9 +117,48 @@ function render(){
       return `<tr class="${cls}"><td>${cc(x.t)}${x.t}${od}</td><td>${x.pld}</td><td${x.w?' class="gw"':''}>${x.w}</td><td>${x.d}</td><td${x.l?' class="gl"':''}>${x.l}</td><td>${x.gd>0?'+':''}${x.gd}</td><td class="gp">${x.pts}</td></tr>`; }).join("");
     return `<div class="grp"><h3>Group ${g}</h3><table class="gt"><thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody>${body}</tbody></table>${played?'':'<div style="font-size:11px;color:#9ca3af;margin-top:6px">No matches played yet</div>'}</div>`;
   }).join("")+`</div>`;
+
+  // Still Alive & Ceiling
+  const proj=R.map(r=>{ const ts=byPlayer[r.name]||[]; const alive=ts.filter(isAlive).length; const future=ts.reduce((s,tn)=>s+maxFuture(tn),0);
+    const advc=ts.filter(tn=>{const t=(P.teams||{})[tn];return t&&t.advanced;}).length; const alreadyBonus=ts.length===6&&advc===6;
+    const possible=ts.length===6&&ts.every(tn=>{const t=(P.teams||{})[tn];return !t||(!t.out&&(t.advanced||groupGP(tn)<3));});
+    const allAdv=(!alreadyBonus&&possible)?P.scoring.bonusAllAdvance:0;
+    return {name:r.name,alive,drafted:ts.length,banked:r.total,ceil:r.total+future+allAdv}; }).sort((a,b)=>b.ceil-a.ceil||b.banked-a.banked);
+  const topBanked=R.length?R[0].total:0;
+  h+=`<h2>Still Alive &amp; Ceiling</h2><div class="card"><table><thead><tr><th>Manager</th><th>Alive</th><th style="text-align:right">Banked</th><th style="text-align:right">Max possible</th></tr></thead><tbody>`+proj.map(p=>{ const elim=topBanked>0&&p.ceil<topBanked; return `<tr class="${elim?'elim':''}"><td><span class="pdot" style="background:${colorOf(p.name)}"></span>${p.name}${elim?' <span style="font-size:10px;background:#fee2e2;color:#b91c1c;border-radius:6px;padding:1px 5px">OUT</span>':''}</td><td>${p.alive}/${p.drafted||6}</td><td style="text-align:right">${p.banked}</td><td class="pts">${p.ceil}</td></tr>`; }).join("")+`</tbody></table></div>`;
+
+  // Head to Head
+  const M=h2hMatrix();
+  h+=`<h2>Head to Head</h2><div class="card" style="overflow-x:auto"><table class="h2h"><thead><tr><th>vs →</th>`+P.order.map(p=>`<th><span class="pdot" style="background:${colorOf(p)}"></span></th>`).join("")+`</tr></thead><tbody>`+P.order.map(a=>`<tr><td><span class="pdot" style="background:${colorOf(a)}"></span>${a}</td>`+P.order.map(b=>{ if(a===b)return `<td style="color:#cbd5e1">—</td>`; const w=M[a][b]; const any=w[0]+w[1]+w[2]>0; return `<td>${any?w[0]+"-"+w[1]+"-"+w[2]:'<span style="color:#cbd5e1">·</span>'}</td>`; }).join("")+`</tr>`).join("")+`</tbody></table></div>`;
+
+  // Points Over Time
+  h+=`<h2>Points Over Time</h2><div class="chartwrap"><canvas id="ptsChart"></canvas><div class="msg" id="chartEmpty" style="text-align:center"></div></div>`;
+
   document.getElementById("content").innerHTML=h;
+  renderChart();
   document.getElementById("stamp").textContent="Auto-refreshes every 15s";
 }
+let chartInst=null;
+function renderChart(){
+  const cv=document.getElementById("ptsChart"); const emp=document.getElementById("chartEmpty"); if(!cv)return;
+  const H=(P&&P.history)||[];
+  if(H.length<1){ cv.style.display="none"; if(emp)emp.textContent="The chart fills in as daily results are recorded."; return; }
+  if(typeof Chart==="undefined"){ setTimeout(renderChart,250); return; }
+  cv.style.display="block"; if(emp)emp.textContent="";
+  const labels=H.map(x=>x.label);
+  const ds=P.order.map(n=>({ label:n, data:H.map(x=>x.pts&&x.pts[n]!=null?x.pts[n]:null), borderColor:colorOf(n), backgroundColor:colorOf(n), borderWidth:2.5, tension:.25, pointRadius:2, spanGaps:true }));
+  if(chartInst)chartInst.destroy();
+  chartInst=new Chart(cv.getContext("2d"),{ type:"line", data:{labels,datasets:ds}, options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:"index",intersect:false}, plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:12}}}}, scales:{y:{beginAtZero:true,title:{display:true,text:"Total points"}}} } });
+}
+function tickCountdown(){
+  const el=document.getElementById("countdown"); if(!el)return;
+  const ko=new Date(Date.UTC(2026,5,11,19,0,0)); // Jun 11, 3:00 PM ET kickoff
+  const diff=ko-new Date();
+  if(diff<=0){ el.innerHTML=`<span class="cd-lbl">The tournament is underway! ⚽</span>`; return; }
+  const d=Math.floor(diff/864e5),hh=Math.floor(diff%864e5/36e5),mm=Math.floor(diff%36e5/6e4),ss=Math.floor(diff%6e4/1e3);
+  el.innerHTML=`<span class="cd-lbl">⚽ Kickoff · Mexico v South Africa</span><span class="cd-nums">${d}d ${hh}h ${mm}m ${ss}s</span>`;
+}
+setInterval(tickCountdown,1000); tickCountdown();
 load(); setInterval(load, 15000);
 </script>
 </body>
