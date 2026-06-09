@@ -29,6 +29,18 @@ module.exports = async (req, res) => {
       else return res.status(400).json({ error: "No valid action/patch" });
     }
     await setPool(pool);
+    // phone push: an explicit {notify:"..."} message, or an automatic one when a daily recap is posted
+    const pushText = body.notify
+      || (body.patch && body.patch.recap ? `📋 Daily recap is up${body.patch.recap.date ? " (" + body.patch.recap.date + ")" : ""} — tap to see the standings.` : null);
+    if (pushText && pool.ntfyTopic) {
+      try {
+        await fetch("https://ntfy.sh/" + pool.ntfyTopic, {
+          method: "POST",
+          headers: { "Title": "Nicky's World Cup Pool", "Tags": "soccer" },
+          body: String(pushText)
+        });
+      } catch (e) { /* best-effort */ }
+    }
     res.status(200).json(pool);
   } catch (e) {
     res.status(500).json({ error: String(e) });

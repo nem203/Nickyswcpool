@@ -26,6 +26,19 @@ module.exports = async (req, res) => {
     if (pool.picks.some(p => p.team === team)) return res.status(409).json({ error: "Team already taken" });
     pool.picks.push({ team, player });
     await setPool(pool);
+    // fire-and-forget phone push via ntfy (buzzes subscribers' phones, even when locked)
+    try {
+      if (pool.ntfyTopic) {
+        const done = pool.picks.length >= total;
+        const nextUp = done ? null : onClock(pool.order, pool.picks.length);
+        const msg = `${player} drafted ${team}` + (done ? " — draft complete! 🏁" : ` — ${nextUp} is on the clock`);
+        await fetch("https://ntfy.sh/" + pool.ntfyTopic, {
+          method: "POST",
+          headers: { "Title": "Pick " + pool.picks.length + " of " + total, "Tags": "soccer" },
+          body: msg
+        });
+      }
+    } catch (e) { /* push is best-effort; never block a pick */ }
     res.status(200).json(pool);
   } catch (e) {
     res.status(500).json({ error: String(e) });

@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Live Draft — Nicky's World Cup Pool</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <style>
   :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; }
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -41,16 +43,19 @@
 </style>
 </head>
 <body>
-<div class="top"><span class="badge">26</span><h1>Live Draft</h1><a href="/" style="margin-left:auto">Standings</a><a href="/rules.html" style="margin-left:14px">Rules</a><a href="/recap.html" style="margin-left:14px">Recap →</a></div>
+<div class="top"><span class="badge">26</span><h1>Live Draft</h1><a href="/" style="margin-left:auto">Standings</a><a href="/rules.html" style="margin-left:14px">Rules</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/recap.html" style="margin-left:14px">Recap →</a></div>
 <div class="wrap">
   <div class="me">You are: <select id="meSel"><option value="">— pick your name —</option></select><span id="meHint" class="msg" style="padding:0"></span></div>
+  <div id="pushbar" style="display:none; background:#fff7ed; border:1px solid #f3c6a8; border-radius:12px; padding:11px 16px; margin:0 0 14px; font-size:13px; color:#9a3412; line-height:1.5"></div>
   <div id="board"></div>
   <h2>Available teams</h2>
   <input class="search" id="search" placeholder="Filter teams…">
   <div class="pool" id="pool"></div>
 </div>
 <script>
-let POOL = null, me = localStorage.getItem("wc-me") || "";
+let POOL = null, me = localStorage.getItem("wc-me") || "", lastCount = null, notifyOn = false;
+function chime(strong){ try{ const a=new (window.AudioContext||window.webkitAudioContext)(); const o=a.createOscillator(), g=a.createGain(); o.connect(g); g.connect(a.destination); o.type="sine"; o.frequency.value=strong?880:640; g.gain.setValueAtTime(0.0001,a.currentTime); g.gain.exponentialRampToValueAtTime(0.35,a.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+(strong?0.5:0.28)); o.start(); o.stop(a.currentTime+(strong?0.55:0.32)); if(strong) setTimeout(()=>chime(false),200); }catch(e){} }
+function notify(title, body){ if(notifyOn && "Notification" in window && Notification.permission==="granted"){ try{ new Notification(title,{body}); }catch(e){} } }
 const cc = (p, t) => `<span class="cc">${(p.codes&&p.codes[t])||""}</span>`;
 const colorOf = (p, n) => (p.colors && p.colors[n]) || "#999";
 function onClock(order, c){ const n=order.length, r=Math.floor(c/n); const s=(r%2===0)?order:order.slice().reverse(); return s[c%n]; }
@@ -83,10 +88,26 @@ function render(){
   if (sel.options.length <= 1) { POOL.order.forEach(n => { const o=document.createElement("option"); o.value=n; o.textContent=n; sel.appendChild(o); }); }
   if (me) sel.value = me;
 
+  const pb = document.getElementById("pushbar");
+  if (POOL.ntfyTopic) {
+    pb.style.display = "block";
+    pb.innerHTML = `📲 <b>Get phone alerts:</b> install the free <b>ntfy</b> app, then subscribe to topic <b>${POOL.ntfyTopic}</b> — or open <a href="https://ntfy.sh/${POOL.ntfyTopic}" target="_blank" rel="noopener" style="color:#9a3412">ntfy.sh/${POOL.ntfyTopic}</a>. Buzzes your phone on every pick, even when locked.`;
+  }
+
   const total = POOL.order.length * (POOL.rounds||6);
   const done = POOL.picks.length >= total;
   const cur = done ? null : onClock(POOL.order, POOL.picks.length);
   const myTurn = cur && me && cur === me;
+
+  // ping when a new pick comes in (and a louder alert when it's now your turn)
+  const cnt = POOL.picks.length;
+  if (lastCount !== null && cnt > lastCount) {
+    const last = POOL.picks[cnt - 1];
+    chime(myTurn);
+    notify(myTurn ? "🎯 You're on the clock!" : `Pick ${cnt}: ${last.player}`,
+           myTurn ? "Tap a team to make your pick." : `${last.player} drafted ${last.team}`);
+  }
+  lastCount = cnt;
 
   if (done) board.innerHTML = `<div class="done">🏁 Draft complete — all ${total} picks are in!</div>`;
   else {
@@ -117,7 +138,14 @@ function render(){
   ).join("") || `<div class="msg">No teams left.</div>`;
 }
 
-document.getElementById("meSel").addEventListener("change", e => { me=e.target.value; localStorage.setItem("wc-me",me); render(); });
+document.getElementById("meSel").addEventListener("change", e => {
+  me = e.target.value; localStorage.setItem("wc-me", me);
+  if ("Notification" in window) {
+    if (Notification.permission === "granted") notifyOn = true;
+    else if (Notification.permission !== "denied") Notification.requestPermission().then(p => { notifyOn = (p === "granted"); });
+  }
+  render();
+});
 document.getElementById("search").addEventListener("input", render);
 load();
 setInterval(load, 2500);
