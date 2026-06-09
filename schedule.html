@@ -17,6 +17,10 @@
   .watch{ background:#fff; border:1px solid var(--line); border-left:5px solid var(--orange); border-radius:12px; padding:12px 16px; margin:16px 0 4px; font-size:12.5px; color:#475569; line-height:1.5; }
   .watch b{ color:var(--dark); }
   .hint{ font-size:11px; color:var(--grey); margin:8px 2px 6px; }
+  .filters{ display:flex; flex-wrap:wrap; gap:6px; margin:4px 2px 12px; }
+  .fchip{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:#fff; border-radius:20px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer; color:var(--dark); }
+  .fchip.on{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  .fchip .fdot{ width:9px; height:9px; border-radius:50%; flex:none; }
   .day{ font-size:12px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--orange); margin:18px 0 6px; }
   .card{ background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
   .m{ display:flex; gap:12px; padding:10px 14px; border-top:1px solid #f1f2f4; font-size:14px; align-items:flex-start; }
@@ -40,6 +44,7 @@
     Spanish on <b>Telemundo</b> &amp; <b>Universo</b> (some simultaneous games on Universo) — stream via Peacock. Channel shown per game is the network; exact FOX/FS1 splits firm up closer to kickoff.
   </div>
   <div class="hint">All times US Eastern. Group stage Jun 11–27. Owned teams shown in their manager's color, with the owner in parentheses.</div>
+  <div class="filters" id="filters"></div>
   <div id="out"></div>
   <div class="day">Knockout Stage</div>
   <div class="ko">
@@ -96,7 +101,16 @@ const FALLBACK_COLORS = { "Nicky":"#ea580c","Reilly":"#d97706","Diccy":"#db2777"
 function schedDate(id){ const s=SCHED[id]; const m=s.match(/([A-Z][a-z]{2}) (\d+) · (\d+):(\d+) (AM|PM)/); let hr=(+m[3])%12; if(m[5]==="PM")hr+=12; return new Date(2026,MONTHS[m[1]],+m[2],hr,+m[4]); }
 function engChannel(time){ return (/^12:00 PM|^1:00 PM/.test(time)) ? "FS1" : "FOX"; } // mid-day games tend to be FS1
 
-let PICKS = {}, COLORS = FALLBACK_COLORS;
+let PICKS = {}, COLORS = FALLBACK_COLORS, filterMgr = null;
+function renderFilters(){
+  const el=document.getElementById("filters"); if(!el)return;
+  const players=Object.keys(PICKS).length?Object.keys(PICKS):Object.keys(FALLBACK_COLORS);
+  let html=`<button class="fchip${filterMgr===null?' on':''}" onclick="setFilter(null)">All teams</button>`;
+  players.forEach(p=>{ const c=COLORS[p]||FALLBACK_COLORS[p]||'#999'; const on=filterMgr===p;
+    html+=`<button class="fchip${on?' on':''}" style="${on?`background:${c};border-color:${c};color:#fff`:''}" onclick="setFilter('${p}')"><span class="fdot" style="background:${c}"></span>${p}</button>`; });
+  el.innerHTML=html;
+}
+function setFilter(m){ filterMgr=m; build(); }
 function ownerOf(t){ for(const p in PICKS) if((PICKS[p]||[]).includes(t)) return p; return null; }
 function teamHTML(t){ const o=ownerOf(t); const c=`<span class="cc">${CODES[t]||""}</span>${t}`; return o?`<span style="color:${COLORS[o]||'#999'};font-weight:700">${c} <span style="font-weight:600;opacity:.8">(${o})</span></span>`:c; }
 
@@ -106,13 +120,15 @@ function build(){
     PATTERN.forEach((md,mi)=>md.forEach(([a,b])=>{ n++; const id=g+"-"+n; const time=SCHED[id].split("· ")[1].trim();
       out.push({ id, g, home:ts[a], away:ts[b], d:schedDate(id), date:SCHED[id].split(" · ")[0], time, venue:VENUES[id]||"", ch:engChannel(time) }); })); });
   out.sort((x,y)=>x.d-y.d);
+  renderFilters();
+  const fixtures = filterMgr ? out.filter(m=>ownerOf(m.home)===filterMgr||ownerOf(m.away)===filterMgr) : out;
   let html=""; let curDay="";
-  out.forEach(m=>{
+  fixtures.forEach(m=>{
     if(m.date!==curDay){ if(curDay) html+="</div>"; curDay=m.date; html+=`<div class="day">${m.date}</div><div class="card">`; }
     html+=`<div class="m"><span class="t">${m.time}</span><span class="g">${m.g}</span><span class="body"><div>${teamHTML(m.home)} <span style="color:#9ca3af">v</span> ${teamHTML(m.away)}</div><div class="sub">📍 ${m.venue} &nbsp;·&nbsp; <span class="tv">📺 ${m.ch} / Telemundo</span></div></span></div>`;
   });
   if(curDay) html+="</div>";
-  document.getElementById("out").innerHTML=html;
+  document.getElementById("out").innerHTML = fixtures.length ? html : `<div style="padding:16px;color:#9ca3af;font-size:14px">No matches to show${filterMgr?" for "+filterMgr:""} — team picks load from the live site.</div>`;
 }
 async function load(){
   try{ const r=await fetch("/api/state",{cache:"no-store"}); const P=await r.json();
