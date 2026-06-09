@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draft Analysis — Nicky's World Cup Pool</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#eceef1; color:var(--dark); }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 14px 60px; }
+  .top{ background:var(--navy); color:#fff; border-bottom:6px solid var(--orange); padding:16px 22px; display:flex; align-items:center; gap:12px; }
+  .badge{ width:40px;height:40px;border-radius:50%;background:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none; }
+  .top h1{ font-size:18px; } .top a{ color:#9fb0e0; font-size:12px; text-decoration:none; }
+  .intro{ font-size:13px; color:var(--grey); margin:16px 2px; line-height:1.5; }
+  h2{ font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--navy); margin:24px 0 10px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ text-align:left; padding:10px 14px; font-size:14px; } thead th{ font-size:11px; text-transform:uppercase; color:var(--grey); border-bottom:1px solid #eef0f2; }
+  tbody tr{ border-bottom:1px solid #f1f2f4; } tbody tr:last-child{ border-bottom:none; }
+  .pdot{ width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle; }
+  .grade{ font-weight:800; } td.r{ text-align:right; font-variant-numeric:tabular-nums; }
+  .mgr{ background:#fff; border:1px solid var(--line); border-left:5px solid #ccc; border-radius:12px; padding:14px 18px; margin-bottom:12px; }
+  .mgr h3{ font-size:17px; display:flex; align-items:center; gap:10px; margin-bottom:3px; }
+  .mgr h3 .dot{ width:13px;height:13px;border-radius:50%; }
+  .mgr h3 .gr{ margin-left:auto; font-size:13px; background:#10204e; color:#fff; border-radius:8px; padding:2px 9px; font-weight:800; }
+  .mgr .meta{ font-size:12px; color:var(--grey); margin-bottom:7px; }
+  .mgr .squad{ font-size:12px; color:#475569; margin-bottom:8px; }
+  .mgr p{ font-size:14px; line-height:1.55; }
+  .call{ background:#fff7ed; border:1px solid #f3c6a8; border-radius:12px; padding:14px 18px; margin-bottom:12px; }
+  .call h3{ font-size:15px; margin-bottom:4px; } .call p{ font-size:14px; line-height:1.5; }
+  .kicker{ font-size:13px; font-weight:700; color:var(--dark); background:#eef1f5; border-radius:12px; padding:14px 18px; line-height:1.6; }
+  .disclaim{ font-size:11px; color:#9ca3af; margin-top:18px; }
+</style>
+</head>
+<body>
+<div class="top"><span class="badge">26</span><h1>Draft Analysis</h1><span style="margin-left:auto"></span><a href="/">Standings</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/draft.html" style="margin-left:14px">Draft →</a></div>
+<div class="wrap">
+  <div class="intro">Grades, projected points, win odds — and zero mercy. Numbers from a pre-tournament simulation, so the slander is at least data-driven.</div>
+
+  <h2>🏆 Power Rankings</h2>
+  <div class="card"><table>
+    <thead><tr><th>#</th><th>Manager</th><th>Grade</th><th class="r">Proj. pts</th><th class="r">Win odds</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="pdot" style="background:#ea580c"></span>Nicky</td><td class="grade">A</td><td class="r">50.5</td><td class="r">~25%</td></tr>
+      <tr><td>2</td><td><span class="pdot" style="background:#eab308"></span>Gary</td><td class="grade">A−</td><td class="r">46.6</td><td class="r">~20%</td></tr>
+      <tr><td>3</td><td><span class="pdot" style="background:#d97706"></span>Reilly</td><td class="grade">B+</td><td class="r">46.4</td><td class="r">~18%</td></tr>
+      <tr><td>4</td><td><span class="pdot" style="background:#7c3aed"></span>Lee</td><td class="grade">B</td><td class="r">44.3</td><td class="r">~17%</td></tr>
+      <tr><td>5</td><td><span class="pdot" style="background:#db2777"></span>Diccy</td><td class="grade">B−</td><td class="r">40.9</td><td class="r">~12%</td></tr>
+      <tr><td>6</td><td><span class="pdot" style="background:#059669"></span>Gabey</td><td class="grade">C</td><td class="r">39.0</td><td class="r">~8%</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Team by team</h2>
+
+  <div class="mgr" style="border-left-color:#ea580c">
+    <h3><span class="dot" style="background:#ea580c"></span>Nicky <span class="gr">A</span></h3>
+    <div class="meta">Proj. 50.5 · Win odds ~25%</div>
+    <div class="squad">Spain · Netherlands · Morocco · South Korea · Austria · Australia</div>
+    <p>The class of the field — two genuine contenders, a sturdy Morocco, and safe advancers down the line. The model makes you the runaway favorite at ~25%, which is a polite way of saying you now have the most to lose — and a sixth-round pick named Australia carrying the dream. Heavy is the head that drafts the crown. 👑</p>
+  </div>
+
+  <div class="mgr" style="border-left-color:#eab308">
+    <h3><span class="dot" style="background:#eab308"></span>Gary <span class="gr">A−</span></h3>
+    <div class="meta">Proj. 46.6 · Win odds ~20%</div>
+    <div class="squad">Portugal · Germany · Uruguay · Japan · Sweden · Paraguay</div>
+    <p>Quietly the most complete roster in the pool — Ronaldo and Germany up top, real depth below. No glaring weakness, no flair, no personality. The Toyota Camry of draft boards. You'll finish second and tell everyone you "value floor over ceiling."</p>
+  </div>
+
+  <div class="mgr" style="border-left-color:#d97706">
+    <h3><span class="dot" style="background:#d97706"></span>Reilly <span class="gr">B+</span></h3>
+    <div class="meta">Proj. 46.4 · Win odds ~18%</div>
+    <div class="squad">France · Colombia · Croatia · Senegal · Canada · Iran</div>
+    <p>France is a monster anchor and you stole Iran at the buzzer like a man grabbing the last bagel. Solid, balanced, genuinely dangerous. Then you spent a pick on <b>Canada</b> — bold of you to draft based on geography and vibes.</p>
+  </div>
+
+  <div class="mgr" style="border-left-color:#7c3aed">
+    <h3><span class="dot" style="background:#7c3aed"></span>Lee <span class="gr">B</span></h3>
+    <div class="meta">Proj. 44.3 · Win odds ~17%</div>
+    <div class="squad">Belgium · Argentina · Turkey · Ivory Coast · Czech Republic · Scotland</div>
+    <p>The boom-or-bust special. Argentina + Belgium back-to-back is the highest ceiling in the room — if either lifts the trophy you win going away. But the bottom of your roster is Scotland, Czech Republic, and Ivory Coast, a.k.a. "thanks for playing." You either win it all or finish dead last; there is no Lee in-between.</p>
+  </div>
+
+  <div class="mgr" style="border-left-color:#db2777">
+    <h3><span class="dot" style="background:#db2777"></span>Diccy <span class="gr">B−</span></h3>
+    <div class="meta">Proj. 40.9 · Win odds ~12%</div>
+    <div class="squad">England · USA · Mexico · Egypt · Bosnia · DR Congo</div>
+    <p>Drafted England then went full patriot with <b>both</b> host nations — a beautiful "I'll be watching in my time zone" strategy. Decent top end, but Egypt / Bosnia / DR Congo is where points go to retire. Heart says contender, spreadsheet says mid.</p>
+  </div>
+
+  <div class="mgr" style="border-left-color:#059669">
+    <h3><span class="dot" style="background:#059669"></span>Gabey <span class="gr">C</span></h3>
+    <div class="meta">Proj. 39.0 · Win odds ~8%</div>
+    <div class="squad">Brazil · Norway · Ecuador · Switzerland · Algeria · Ghana</div>
+    <p>You opened with Brazil and clearly felt the draft was won, because the next five picks read like a list of teams checking out of their hotels by June 27. Norway didn't even qualify for the last one and you still spent a pick on them. Good news: nowhere to go but up. Bad news: math.</p>
+  </div>
+
+  <h2>The Verdict</h2>
+  <div class="call"><h3>🥇 Best draft — Nicky</h3><p>Top projected points and the best title odds. Textbook draft — which means the only acceptable outcome now is winning. No pressure.</p></div>
+  <div class="call"><h3>🪦 Worst draft — Gabey</h3><p>One elite team and a supporting cast auditioning for "first eliminated." Brazil can't play all six matches for you, buddy.</p></div>
+
+  <div class="kicker">Bottom line: Nicky's the favorite, Gary's the safe bet, Reilly's quietly dangerous, Lee's the wildcard who'll either win it or set himself on fire, Diccy's riding the hosts, and Gabey's already drafting his excuses. ⚽</div>
+
+  <div class="disclaim">Projections &amp; odds from a pre-tournament Monte-Carlo model — entertainment only. The ball is round; upsets happen; trash talk is eternal.</div>
+</div>
+</body>
+</html>

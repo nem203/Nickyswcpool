@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Draft — Nicky's World Cup Pool</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#eceef1; color:var(--dark); }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 14px 60px; }
+  .top{ background:var(--navy); color:#fff; border-bottom:6px solid var(--orange); padding:16px 22px; display:flex; align-items:center; gap:12px; }
+  .badge{ width:40px;height:40px;border-radius:50%;background:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none; }
+  .top h1{ font-size:18px; } .top a{ color:#9fb0e0; font-size:12px; margin-left:auto; text-decoration:none; }
+  .me{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 16px; margin:16px 0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:14px; }
+  .me select{ padding:7px 10px; border:1px solid var(--line); border-radius:8px; font-size:14px; }
+  .clock{ background:#fff; border:1px solid var(--line); border-left:7px solid #ccc; border-radius:14px; padding:15px 20px; margin-bottom:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .clock .pk{ font-size:12px; color:var(--grey); font-weight:700; text-transform:uppercase; }
+  .clock .who{ font-size:26px; font-weight:800; display:flex; align-items:center; gap:10px; }
+  .clock .who .dot{ width:18px;height:18px;border-radius:50%; }
+  .clock .next{ margin-left:auto; font-size:12px; color:var(--grey); text-align:right; }
+  .yourturn{ background:#fff7ed; border-left-color:var(--orange); }
+  .cols{ display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-bottom:18px; }
+  @media(max-width:760px){ .cols{ grid-template-columns:repeat(3,1fr); } }
+  @media(max-width:460px){ .cols{ grid-template-columns:repeat(2,1fr); } }
+  .mcol{ background:#fff; border:1px solid var(--line); border-top-width:5px; border-radius:10px; padding:8px 9px; }
+  .mcol h3{ font-size:12px; display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+  .mcol h3 .dot{ width:10px;height:10px;border-radius:50%; }
+  .mcol ol{ list-style:none; } .mcol li{ font-size:11px; padding:3px 0; border-top:1px solid #f4f5f6; }
+  .mcol li:first-child{ border-top:none; } .mcol li.empty{ color:#cbd0d6; }
+  h2{ font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--navy); margin:6px 0 10px; }
+  .search{ width:100%; padding:11px 14px; border:1px solid var(--line); border-radius:10px; font-size:14px; margin-bottom:10px; }
+  .pool{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:7px; }
+  .team{ display:flex; align-items:center; gap:7px; border:1px solid var(--line); background:#fff; border-radius:9px; padding:9px 10px; font-size:13px; font-weight:600; cursor:pointer; }
+  .team[disabled]{ opacity:.45; cursor:not-allowed; }
+  .team:not([disabled]):hover{ border-color:var(--orange); background:#fff7ed; }
+  .team .g{ margin-left:auto; color:#c7ccd3; font-size:10px; font-weight:700; }
+  .cc{ display:inline-block; background:#eef1f5; color:#10204e; font-weight:800; padding:2px 5px; border-radius:4px; font-size:8px; font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .msg{ font-size:13px; color:var(--grey); padding:10px 2px; }
+  .done{ background:#fff7ed; border:1px solid #f3c6a8; color:#c2410c; border-radius:12px; padding:18px; text-align:center; font-weight:700; margin-bottom:14px; }
+</style>
+</head>
+<body>
+<div class="top"><span class="badge">26</span><h1>Live Draft</h1><a href="/" style="margin-left:auto">Standings</a><a href="/rules.html" style="margin-left:14px">Rules</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/recap.html" style="margin-left:14px">Recap →</a></div>
+<div class="wrap">
+  <div class="me">You are: <select id="meSel"><option value="">— pick your name —</option></select><span id="meHint" class="msg" style="padding:0"></span></div>
+  <div id="pushbar" style="display:none; background:#fff7ed; border:1px solid #f3c6a8; border-radius:12px; padding:11px 16px; margin:0 0 14px; font-size:13px; color:#9a3412; line-height:1.5"></div>
+  <div id="board"></div>
+  <h2>Available teams</h2>
+  <input class="search" id="search" placeholder="Filter teams…">
+  <div class="pool" id="pool"></div>
+</div>
+<script>
+let POOL = null, me = localStorage.getItem("wc-me") || "", lastCount = null, notifyOn = false;
+function chime(strong){ try{ const a=new (window.AudioContext||window.webkitAudioContext)(); const o=a.createOscillator(), g=a.createGain(); o.connect(g); g.connect(a.destination); o.type="sine"; o.frequency.value=strong?880:640; g.gain.setValueAtTime(0.0001,a.currentTime); g.gain.exponentialRampToValueAtTime(0.35,a.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+(strong?0.5:0.28)); o.start(); o.stop(a.currentTime+(strong?0.55:0.32)); if(strong) setTimeout(()=>chime(false),200); }catch(e){} }
+function notify(title, body){ if(notifyOn && "Notification" in window && Notification.permission==="granted"){ try{ new Notification(title,{body}); }catch(e){} } }
+const cc = (p, t) => `<span class="cc">${(p.codes&&p.codes[t])||""}</span>`;
+const colorOf = (p, n) => (p.colors && p.colors[n]) || "#999";
+function onClock(order, c){ const n=order.length, r=Math.floor(c/n); const s=(r%2===0)?order:order.slice().reverse(); return s[c%n]; }
+
+async function load(){
+  try {
+    const r = await fetch("/api/state", { cache:"no-store" });
+    POOL = await r.json();
+    render();
+  } catch(e){ document.getElementById("board").innerHTML = `<div class="msg">Connection issue — retrying…</div>`; }
+}
+async function pick(team){
+  if (!POOL || !me) return;
+  const btns = document.querySelectorAll(".team"); btns.forEach(b=>b.disabled=true);
+  try {
+    const r = await fetch("/api/pick", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ player: me, team }) });
+    const j = await r.json();
+    if (!r.ok) { alert(j.error || "Pick failed"); }
+    POOL = r.ok ? j : POOL; render();
+  } catch(e){ alert("Network error — try again."); }
+  load();
+}
+
+function render(){
+  const board = document.getElementById("board");
+  if (!POOL || POOL.uninitialized) { board.innerHTML = `<div class="msg">Waiting for the commissioner to start the draft…</div>`; document.getElementById("pool").innerHTML=""; return; }
+
+  // identity selector
+  const sel = document.getElementById("meSel");
+  if (sel.options.length <= 1) { POOL.order.forEach(n => { const o=document.createElement("option"); o.value=n; o.textContent=n; sel.appendChild(o); }); }
+  if (me) sel.value = me;
+
+  const pb = document.getElementById("pushbar");
+  if (POOL.ntfyTopic) {
+    pb.style.display = "block";
+    pb.innerHTML = `📲 <b>Get phone alerts:</b> install the free <b>ntfy</b> app, then subscribe to topic <b>${POOL.ntfyTopic}</b> — or open <a href="https://ntfy.sh/${POOL.ntfyTopic}" target="_blank" rel="noopener" style="color:#9a3412">ntfy.sh/${POOL.ntfyTopic}</a>. Buzzes your phone on every pick, even when locked.`;
+  }
+
+  const total = POOL.order.length * (POOL.rounds||6);
+  const done = POOL.picks.length >= total;
+  const cur = done ? null : onClock(POOL.order, POOL.picks.length);
+  const myTurn = cur && me && cur === me;
+
+  // ping when a new pick comes in (and a louder alert when it's now your turn)
+  const cnt = POOL.picks.length;
+  if (lastCount !== null && cnt > lastCount) {
+    const last = POOL.picks[cnt - 1];
+    chime(myTurn);
+    notify(myTurn ? "🎯 You're on the clock!" : `Pick ${cnt}: ${last.player}`,
+           myTurn ? "Tap a team to make your pick." : `${last.player} drafted ${last.team}`);
+  }
+  lastCount = cnt;
+
+  if (done) board.innerHTML = `<div class="done">🏁 Draft complete — all ${total} picks are in!</div>`;
+  else {
+    const round = Math.floor(POOL.picks.length/POOL.order.length)+1;
+    const nxt = onClock(POOL.order, POOL.picks.length+1);
+    board.innerHTML = `<div class="clock ${myTurn?'yourturn':''}" style="border-left-color:${colorOf(POOL,cur)}">
+      <div><div class="pk">Pick ${POOL.picks.length+1} of ${total} · Round ${round}</div>
+      <div class="who"><span class="dot" style="background:${colorOf(POOL,cur)}"></span>${cur}${myTurn?" — that's you! 🎯":" on the clock"}</div></div>
+      <div class="next">${POOL.picks.length+1<total?("Next: "+nxt):"Last pick"}</div></div>`;
+  }
+  document.getElementById("meHint").textContent = me ? (myTurn ? "It's your pick — tap a team below." : "Sit tight — we'll highlight when it's your turn.") : "Select your name to draft.";
+
+  // rosters
+  board.innerHTML += `<div class="cols">` + POOL.order.map(p => {
+    const mine = POOL.picks.filter(x=>x.player===p).map(x=>x.team);
+    let lis=""; for(let i=0;i<(POOL.rounds||6);i++) lis += mine[i]?`<li>${cc(POOL,mine[i])} ${mine[i]}</li>`:`<li class="empty">Pick ${i+1}</li>`;
+    return `<div class="mcol" style="border-top-color:${colorOf(POOL,p)}"><h3><span class="dot" style="background:${colorOf(POOL,p)}"></span>${p}</h3><ol>${lis}</ol></div>`;
+  }).join("") + `</div>`;
+
+  // available
+  const taken = new Set(POOL.picks.map(x=>x.team));
+  const all = Object.keys(POOL.codes);
+  const teamGroup = {}; Object.keys(POOL.groups).forEach(g=>POOL.groups[g].forEach(t=>teamGroup[t]=g));
+  const q = (document.getElementById("search").value||"").toLowerCase();
+  const avail = all.filter(t=>!taken.has(t) && t.toLowerCase().includes(q)).sort();
+  document.getElementById("pool").innerHTML = avail.map(t =>
+    `<button class="team" ${myTurn?"":"disabled"} onclick="pick('${t.replace(/'/g,"\\'")}')">${cc(POOL,t)} ${t}<span class="g">${teamGroup[t]}</span></button>`
+  ).join("") || `<div class="msg">No teams left.</div>`;
+}
+
+document.getElementById("meSel").addEventListener("change", e => {
+  me = e.target.value; localStorage.setItem("wc-me", me);
+  if ("Notification" in window) {
+    if (Notification.permission === "granted") notifyOn = true;
+    else if (Notification.permission !== "denied") Notification.requestPermission().then(p => { notifyOn = (p === "granted"); });
+  }
+  render();
+});
+document.getElementById("search").addEventListener("input", render);
+load();
+setInterval(load, 2500);
+</script>
+</body>
+</html>

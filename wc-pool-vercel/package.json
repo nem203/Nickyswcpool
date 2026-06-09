@@ -1,0 +1,7 @@
+{
+  "name": "wc-pool",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nicky's World Cup Pool — live draft + standings tracker",
+  "engines": { "node": ">=18" }
+}

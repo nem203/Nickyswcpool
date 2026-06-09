@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicky's World Cup Pool</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#f5f6f8; color:#1a1c20; line-height:1.45; }
+.wrap { max-width:960px; margin:0 auto; padding:24px 18px 60px; }
+h1 { font-size:24px; margin:0; letter-spacing:-0.3px; color:#fff; }
+.sub { color:#9fb0e0; font-size:13px; margin-top:3px; }
+.brand { display:flex; align-items:center; gap:14px; }
+.brandbadge { width:44px; height:44px; border-radius:50%; background:#ea580c; color:#fff; font-weight:800; font-size:17px; display:flex; align-items:center; justify-content:center; flex:none; }
+h2 { font-size:15px; text-transform:uppercase; letter-spacing:1px; color:#374151; margin:30px 0 12px; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:4px; overflow:hidden; }
+
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:22px; background:#10204e; padding:20px 24px; border-radius:14px; border-bottom:6px solid #ea580c; }
+.refresh { background:#ea580c; color:#fff; border:none; border-radius:9px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
+.refresh:hover { background:#c2410c; }
+.refresh:disabled { background:#9ca3af; cursor:default; }
+.refresh-msg { font-size:12px; color:#9fb0e0; margin-top:6px; min-height:14px; text-align:right; }
+
+.tabs { display:flex; gap:6px; border-bottom:1px solid #e5e7eb; margin-bottom:4px; }
+.tab { background:none; border:none; padding:10px 16px; font-size:14px; font-weight:600; color:#6b7280; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+.tab.active { color:#1d4ed8; border-bottom-color:#1d4ed8; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:11px 14px; font-size:14px; }
+thead th { font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:#6b7280; border-bottom:1px solid #eef0f2; }
+tbody tr { border-bottom:1px solid #f1f2f4; }
+tbody tr:last-child { border-bottom:none; }
+.rank { width:34px; color:#9ca3af; font-variant-numeric:tabular-nums; }
+.player { font-weight:600; }
+.pts { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; font-size:16px; }
+.lead td { background:#fffbeb; }
+.medal { font-size:15px; }
+
+.dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:7px; vertical-align:middle; flex:none; }
+.player-cell { display:flex; align-items:center; }
+
+.rosters { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
+.roster { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px 16px; }
+.roster h3 { margin:0 0 4px; font-size:15px; display:flex; justify-content:space-between; align-items:baseline; }
+.roster h3 .tot { font-size:13px; color:#6b7280; font-weight:600; }
+.roster ul { list-style:none; margin:8px 0 0; padding:0; }
+.roster li { display:flex; justify-content:space-between; padding:5px 0; font-size:13px; border-top:1px solid #f4f5f6; }
+.roster li:first-child { border-top:none; }
+.team-name.tbd { color:#b4b8bf; font-style:italic; }
+.team-pts { color:#6b7280; font-variant-numeric:tabular-nums; }
+.flag { color:#9ca3af; font-size:11px; }
+.badge { display:inline-block; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 6px; font-size:10px; margin-left:6px; vertical-align:middle; }
+
+.legend { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.legend .card { padding:14px 16px; }
+.legend h4 { margin:0 0 8px; font-size:12px; text-transform:uppercase; letter-spacing:.6px; color:#6b7280; }
+.legend .row { display:flex; justify-content:space-between; padding:3px 0; font-size:13px; }
+.legend .row b { font-variant-numeric:tabular-nums; }
+@media (max-width:560px){ .legend { grid-template-columns:1fr; } }
+
+.groups { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px; }
+.grp { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; }
+.grp h3 { margin:0 0 2px; font-size:14px; }
+.grp .teams { font-size:11px; color:#9ca3af; margin-bottom:8px; }
+.match { display:flex; align-items:flex-start; padding:7px 0; font-size:13px; border-top:1px solid #f4f5f6; gap:8px; }
+.match:first-of-type { border-top:none; }
+.match .mt { color:#9ca3af; font-size:10px; width:30px; flex:none; padding-top:1px; }
+.match .body { flex:1; }
+.match .when { color:#9ca3af; font-size:11px; margin-top:1px; }
+.match .score { font-variant-numeric:tabular-nums; font-weight:700; color:#1a1c20; }
+.match .score.tbd { color:#cbd0d6; font-weight:400; font-size:11px; }
+.ko { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:6px 4px; margin-top:14px; }
+.ko .kr { display:flex; justify-content:space-between; padding:10px 14px; font-size:13px; border-top:1px solid #f4f5f6; }
+.ko .kr:first-child { border-top:none; }
+.ko .kr b { font-weight:600; }
+.ko .kr span { color:#6b7280; }
+.daterange { font-size:11px; color:#9ca3af; margin:2px 0 14px; }
+
+.audit-player { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:12px 16px; margin-bottom:12px; border-left:4px solid #ccc; }
+.audit-player h3 { margin:0 0 8px; font-size:15px; display:flex; justify-content:space-between; align-items:baseline; }
+.audit-player h3 .tot { font-size:13px; color:#6b7280; font-weight:600; }
+.audit-team { padding:7px 0; border-top:1px solid #f4f5f6; font-size:13px; }
+.audit-team:first-of-type { border-top:none; }
+.audit-team .tn { font-weight:600; display:flex; justify-content:space-between; }
+.audit-team .tn .sub { color:#9ca3af; font-weight:400; }
+.audit-team .lines { margin:3px 0 0; padding-left:0; list-style:none; }
+.audit-team .lines li { display:flex; justify-content:space-between; color:#6b7280; font-size:12px; padding:1px 0; }
+.audit-team .lines li b { color:#1a1c20; font-variant-numeric:tabular-nums; }
+.audit-team .none { color:#b4b8bf; font-size:12px; font-style:italic; }
+.audit-bonus { display:flex; justify-content:space-between; font-size:12px; padding:6px 0 0; margin-top:4px; border-top:1px dashed #eef0f2; color:#4338ca; font-weight:600; }
+.log-row { display:flex; gap:10px; padding:9px 14px; font-size:13px; border-top:1px solid #f4f5f6; }
+.log-row:first-child { border-top:none; }
+.log-row .lw { color:#9ca3af; font-size:11px; width:74px; flex:none; padding-top:1px; }
+.log-empty { padding:14px; color:#9ca3af; font-size:13px; }
+
+.note { font-size:12px; color:#9ca3af; margin-top:26px; }
+
+/* Next up */
+.nextup-card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:4px; }
+.nextup-head { font-size:12px; color:#374151; padding:8px 12px 4px; font-weight:600; }
+.nu-row { display:flex; align-items:center; gap:10px; padding:8px 12px; border-top:1px solid #f4f5f6; font-size:13px; }
+.nu-row:first-of-type { border-top:none; }
+.nu-row .t { color:#9ca3af; font-size:11px; width:78px; flex:none; }
+.nu-row .g { color:#9ca3af; font-size:11px; width:18px; flex:none; }
+.nu-row .p { flex:1; }
+.nu-empty { padding:14px; color:#9ca3af; font-size:13px; }
+
+/* Movement */
+.move-up { color:#059669; font-weight:600; }
+.move-down { color:#dc2626; font-weight:600; }
+.move-flat { color:#cbd0d6; }
+.gain { color:#059669; font-size:11px; margin-left:5px; }
+
+/* Group tables */
+.gt { width:100%; border-collapse:collapse; }
+.gt th, .gt td { padding:5px 5px; font-size:12px; text-align:right; }
+.gt th:first-child, .gt td:first-child { text-align:left; }
+.gt thead th { color:#9ca3af; font-weight:600; font-size:10px; text-transform:uppercase; border-bottom:1px solid #eef0f2; }
+.gt tbody tr { border-top:1px solid #f6f7f8; }
+.gt tbody tr:first-child { border-top:none; }
+.gt .adv td:first-child { box-shadow:inset 4px 0 0 #059669; padding-left:9px; }
+.gt .poss td:first-child { box-shadow:inset 4px 0 0 #d97706; padding-left:9px; }
+.gt td.gpts { font-weight:700; }
+.gt td.gw { color:#059669; font-weight:600; }
+.gt td.gl { color:#dc2626; }
+.gt td.gdr { color:#9ca3af; }
+
+/* Country code badge */
+.cc { display:inline-block; background:#eef1f5; color:#10204e; font-size:9px; font-weight:800; letter-spacing:.3px; padding:2px 5px; border-radius:4px; margin-right:6px; vertical-align:middle; font-family:ui-monospace,Menlo,Consolas,monospace; }
+
+/* Points bar behind standings */
+.ptbar { height:4px; background:#eef0f2; border-radius:3px; margin-top:5px; max-width:220px; }
+.ptbar span { display:block; height:100%; border-radius:3px; }
+
+/* Stamp */
+.stamp { text-align:right; font-size:11px; color:#9ca3af; margin:-12px 0 16px; }
+
+/* Projection */
+tr.elim td { color:#b4b8bf; }
+.odot { display:inline-block; width:8px; height:8px; border-radius:50%; vertical-align:middle; }
+
+/* Points Over Time chart */
+.chartwrap { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px 16px; height:300px; position:relative; }
+.chart-empty { color:#9ca3af; font-size:13px; text-align:center; padding-top:120px; }
+
+/* H2H matrix */
+table.h2h th, table.h2h td { font-size:13px; padding:9px 10px; border-bottom:1px solid #f1f2f4; }
+table.h2h thead th { font-size:11px; color:#6b7280; }
+table.h2h td.diag { color:#cbd5e1; text-align:center; }
+table.h2h .dot { width:9px; height:9px; margin-right:5px; }
+
+/* Hero strip */
+.hero { display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:#fff; border:1px solid #e5e7eb; border-left:5px solid #ea580c; border-radius:12px; padding:13px 18px; margin-bottom:18px; }
+.hero.pre { border-left-color:#cbd5e1; }
+.hero-medal { font-size:20px; line-height:1; }
+.hero-name { font-weight:800; font-size:18px; display:inline-flex; align-items:center; }
+.hero-pts { font-weight:700; color:#1a1c20; font-variant-numeric:tabular-nums; }
+.hero-gap { color:#6b7280; font-size:13px; margin-left:auto; }
+.hero-pre { color:#6b7280; font-size:14px; }
+
+/* Next Up owned highlight */
+.nu-row.owned { background:#fff7ed; box-shadow:inset 3px 0 0 #ea580c; border-radius:6px; }
+
+/* Mobile */
+@media (max-width:560px){
+  .wrap { padding:16px 12px 50px; }
+  .topbar { padding:16px; gap:10px; }
+  h1 { font-size:20px; }
+  .brandbadge { width:38px; height:38px; font-size:15px; }
+  .tabs { gap:2px; }
+  .tab { padding:9px 10px; font-size:13px; }
+  th, td { padding:9px 8px; font-size:13px; }
+  .hero-gap { margin-left:0; width:100%; }
+  .rosters, .groups { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <span class="brandbadge">26</span>
+      <div>
+        <h1>Nicky's World Cup Pool</h1>
+        <div class="sub" id="status">Draft pending — picks to be added.</div>
+      </div>
+    </div>
+    <div>
+      <button class="refresh" id="refreshBtn">↻ Refresh now</button>
+      <div class="refresh-msg" id="refreshMsg"></div>
+    </div>
+  </div>
+
+  <div class="hero" id="hero"></div>
+  <div class="stamp" id="stamp"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="standings">Standings</button>
+    <button class="tab" data-tab="groups">Groups</button>
+    <button class="tab" data-tab="games">Games</button>
+    <button class="tab" data-tab="h2h">H2H</button>
+    <button class="tab" data-tab="audit">Audit</button>
+  </div>
+
+  <!-- STANDINGS -->
+  <div class="panel active" id="tab-standings">
+    <h2>Standings</h2>
+    <div class="card"><table>
+      <thead><tr><th class="rank">#</th><th>Player</th><th>Teams in</th><th>Since last</th><th style="text-align:right">Points</th></tr></thead>
+      <tbody id="standings"></tbody>
+    </table></div>
+
+    <h2>Points Over Time</h2>
+    <div class="chartwrap"><canvas id="ptsChart"></canvas><div class="chart-empty" id="chartEmpty"></div></div>
+
+    <h2>Still Alive &amp; Ceiling</h2>
+    <div class="daterange">Points banked now and the most each manager could still reach if their surviving teams won out. Greyed = mathematically out.</div>
+    <div class="card"><table>
+      <thead><tr><th>Manager</th><th>Teams alive</th><th>Banked</th><th style="text-align:right">Max possible</th></tr></thead>
+      <tbody id="projection"></tbody>
+    </table></div>
+
+    <h2>Rosters</h2>
+    <div class="rosters" id="rosters"></div>
+
+    <h2>Scoring</h2>
+    <div class="legend">
+      <div class="card">
+        <h4>Standard</h4>
+        <div class="row"><span>Group stage win / draw</span><b>2 / 1</b></div>
+        <div class="row"><span>Round of 32 win</span><b>2</b></div>
+        <div class="row"><span>Round of 16 win</span><b>3</b></div>
+        <div class="row"><span>Quarterfinal win</span><b>3</b></div>
+        <div class="row"><span>Semifinal win</span><b>3</b></div>
+        <div class="row"><span>3rd-place match win</span><b>1</b></div>
+        <div class="row"><span>Final win</span><b>4</b></div>
+      </div>
+      <div class="card">
+        <h4>Bonus</h4>
+        <div class="row"><span>1st place in group</span><b>3</b></div>
+        <div class="row"><span>2nd place in group</span><b>2</b></div>
+        <div class="row"><span>3rd & advance to knockout</span><b>1</b></div>
+        <div class="row"><span>All your teams reach knockout</span><b>3</b></div>
+        <div class="row"><span>A team wins all 3 group games</span><b>1</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUPS -->
+  <div class="panel" id="tab-groups">
+    <h2>Group Tables</h2>
+    <div class="daterange">Live standings computed from match results. <span style="color:#059669">▍</span> top two advance · <span style="color:#d97706">▍</span> 3rd (possible via best-third). Owned teams in each owner's color.</div>
+    <div class="groups" id="grouptables"></div>
+  </div>
+
+  <!-- GAMES -->
+  <div class="panel" id="tab-games">
+    <h2>Next Up</h2>
+    <div class="nextup-card" id="nextup"></div>
+    <h2>Group Stage</h2>
+    <div class="daterange">All times US Eastern (ET). Matchday 1: Jun 11–17 · Matchday 2: Jun 18–23 · Matchday 3: Jun 24–27. Owned teams shown in each owner's color.</div>
+    <div class="groups" id="groups"></div>
+    <h2>Knockout Stage</h2>
+    <div class="ko" id="knockout"></div>
+  </div>
+
+  <!-- H2H -->
+  <div class="panel" id="tab-h2h">
+    <h2>Head to Head</h2>
+    <div class="daterange">Record between managers whenever their teams meet (W–D–L, from the row manager's view). Updates as those matchups are played.</div>
+    <div class="card" style="overflow-x:auto"><table class="h2h" id="h2h"></table></div>
+  </div>
+
+  <!-- AUDIT -->
+  <div class="panel" id="tab-audit">
+    <h2>Scoring Breakdown</h2>
+    <div class="daterange">Every point shown with its source. Auto-computed from recorded results.</div>
+    <div id="audit-breakdown"></div>
+    <h2>Scoring Log</h2>
+    <div class="daterange">Chronological record of each scoring update.</div>
+    <div class="card" id="audit-log"></div>
+  </div>
+
+  <div class="note" id="updated"></div>
+</div>
+
+<script>
+/* =========================================================================
+   POOL DATA — edit this block only.
+   ========================================================================= */
+
+const SCORING = {
+  groupWin:2, groupDraw:1, r32:2, r16:3, qf:3, sf:3, third:1, final:4,
+  bonus1st:3, bonus2nd:2, bonus3rdAdvance:1, bonusAllAdvance:3, bonusSweep:1
+};
+
+// Player colors (used across all tabs).
+const COLORS = {
+  "Nicky":"#ea580c", "Gary":"#eab308", "Gabey":"#059669",
+  "Diccy":"#db2777", "Lee":"#7c3aed", "Reilly":"#d97706"
+};
+
+// Each player drafts 6 teams (use exact names from GROUPS). Leave [] until the draft.
+const PICKS = {
+  "Nicky":[], "Gary":[], "Gabey":[], "Diccy":[], "Lee":[], "Reilly":[]
+};
+
+/* Per-team running record. Add an entry per drafted team as results come in.
+   "Brazil": { gw:0, gd:0, r32:0, r16:0, qf:0, sf:0, third:0, final:0,
+               groupPlace:null, advanced:false, sweep:false } */
+const TEAMS = {};
+
+/* Per-match scores for the Games tab, keyed by group-match id (e.g. "A-1": {hs:2,as:1,status:"FT"}). */
+const RESULTS = {};
+
+/* Chronological scoring log for the Audit tab; the update routine appends newest last.
+   { when:"Jun 11", text:"Group A — Mexico 2–1 South Africa: Mexico (Nicky) +3 group win" } */
+const AUDIT = [];
+
+/* Standings snapshot from BEFORE the most recent update, for the "Since last" movement column.
+   The update routine overwrites this with the pre-update standings at the start of each run.
+   { "Nicky": { rank:1, pts:10 }, ... } */
+const SNAPSHOT = {};
+
+/* Daily standings history for the Points Over Time chart. The update routine appends one
+   entry per day (after scoring), newest last:
+   { label:"Jun 17", pts:{ Nicky:22, Gary:15, Gabey:19, Diccy:12, Lee:10, Reilly:8 } } */
+const HISTORY = [];
+
+/* Final group draw (position order = FIFA schedule slot 1–4). */
+const GROUPS = {
+  A:["Mexico","South Africa","South Korea","Czech Republic"],
+  B:["Canada","Bosnia and Herzegovina","Qatar","Switzerland"],
+  C:["Brazil","Morocco","Haiti","Scotland"],
+  D:["United States","Paraguay","Australia","Turkey"],
+  E:["Germany","Curaçao","Ivory Coast","Ecuador"],
+  F:["Netherlands","Japan","Sweden","Tunisia"],
+  G:["Belgium","Egypt","Iran","New Zealand"],
+  H:["Spain","Cape Verde","Saudi Arabia","Uruguay"],
+  I:["France","Senegal","Iraq","Norway"],
+  J:["Argentina","Algeria","Austria","Jordan"],
+  K:["Portugal","DR Congo","Uzbekistan","Colombia"],
+  L:["England","Croatia","Ghana","Panama"]
+};
+
+/* Confirmed kickoff date + time (US Eastern) per group-match id. Source: NBC Sports, Dec 2025 schedule. */
+const SCHED = {
+  "A-1":"Thu Jun 11 · 3:00 PM ET","A-2":"Thu Jun 11 · 10:00 PM ET","A-3":"Thu Jun 18 · 9:00 PM ET","A-4":"Thu Jun 18 · 12:00 PM ET","A-5":"Wed Jun 24 · 9:00 PM ET","A-6":"Wed Jun 24 · 9:00 PM ET",
+  "B-1":"Fri Jun 12 · 3:00 PM ET","B-2":"Sat Jun 13 · 3:00 PM ET","B-3":"Thu Jun 18 · 6:00 PM ET","B-4":"Thu Jun 18 · 3:00 PM ET","B-5":"Wed Jun 24 · 3:00 PM ET","B-6":"Wed Jun 24 · 3:00 PM ET",
+  "C-1":"Sat Jun 13 · 6:00 PM ET","C-2":"Sat Jun 13 · 9:00 PM ET","C-3":"Fri Jun 19 · 9:00 PM ET","C-4":"Fri Jun 19 · 6:00 PM ET","C-5":"Wed Jun 24 · 6:00 PM ET","C-6":"Wed Jun 24 · 6:00 PM ET",
+  "D-1":"Fri Jun 12 · 9:00 PM ET","D-2":"Sat Jun 13 · 12:00 AM ET","D-3":"Fri Jun 19 · 3:00 PM ET","D-4":"Fri Jun 19 · 12:00 AM ET","D-5":"Thu Jun 25 · 10:00 PM ET","D-6":"Thu Jun 25 · 10:00 PM ET",
+  "E-1":"Sun Jun 14 · 1:00 PM ET","E-2":"Sun Jun 14 · 7:00 PM ET","E-3":"Sat Jun 20 · 4:00 PM ET","E-4":"Sat Jun 20 · 8:00 PM ET","E-5":"Thu Jun 25 · 4:00 PM ET","E-6":"Thu Jun 25 · 4:00 PM ET",
+  "F-1":"Sun Jun 14 · 4:00 PM ET","F-2":"Sun Jun 14 · 10:00 PM ET","F-3":"Sat Jun 20 · 1:00 PM ET","F-4":"Sat Jun 20 · 12:00 AM ET","F-5":"Thu Jun 25 · 7:00 PM ET","F-6":"Thu Jun 25 · 7:00 PM ET",
+  "G-1":"Mon Jun 15 · 3:00 PM ET","G-2":"Mon Jun 15 · 9:00 PM ET","G-3":"Sun Jun 21 · 3:00 PM ET","G-4":"Sun Jun 21 · 9:00 PM ET","G-5":"Fri Jun 26 · 11:00 PM ET","G-6":"Fri Jun 26 · 11:00 PM ET",
+  "H-1":"Mon Jun 15 · 12:00 PM ET","H-2":"Mon Jun 15 · 6:00 PM ET","H-3":"Sun Jun 21 · 12:00 PM ET","H-4":"Sun Jun 21 · 6:00 PM ET","H-5":"Fri Jun 26 · 8:00 PM ET","H-6":"Fri Jun 26 · 8:00 PM ET",
+  "I-1":"Tue Jun 16 · 3:00 PM ET","I-2":"Tue Jun 16 · 6:00 PM ET","I-3":"Mon Jun 22 · 5:00 PM ET","I-4":"Mon Jun 22 · 8:00 PM ET","I-5":"Fri Jun 26 · 3:00 PM ET","I-6":"Fri Jun 26 · 3:00 PM ET",
+  "J-1":"Tue Jun 16 · 9:00 PM ET","J-2":"Tue Jun 16 · 12:00 AM ET","J-3":"Mon Jun 22 · 1:00 PM ET","J-4":"Mon Jun 22 · 11:00 PM ET","J-5":"Sat Jun 27 · 10:00 PM ET","J-6":"Sat Jun 27 · 10:00 PM ET",
+  "K-1":"Wed Jun 17 · 1:00 PM ET","K-2":"Wed Jun 17 · 10:00 PM ET","K-3":"Tue Jun 23 · 1:00 PM ET","K-4":"Tue Jun 23 · 10:00 PM ET","K-5":"Sat Jun 27 · 7:30 PM ET","K-6":"Sat Jun 27 · 7:30 PM ET",
+  "L-1":"Wed Jun 17 · 4:00 PM ET","L-2":"Wed Jun 17 · 7:00 PM ET","L-3":"Tue Jun 23 · 4:00 PM ET","L-4":"Tue Jun 23 · 7:00 PM ET","L-5":"Sat Jun 27 · 5:00 PM ET","L-6":"Sat Jun 27 · 5:00 PM ET"
+};
+
+const LAST_UPDATED = "Set up " + new Date().toLocaleDateString();
+
+/* ===================== computation (do not edit) ===================== */
+function teamPoints(t) {
+  if (!t) return 0;
+  let p = 0;
+  p += (t.gw||0)*SCORING.groupWin + (t.gd||0)*SCORING.groupDraw;
+  p += (t.r32||0)*SCORING.r32 + (t.r16||0)*SCORING.r16 + (t.qf||0)*SCORING.qf;
+  p += (t.sf||0)*SCORING.sf + (t.third||0)*SCORING.third + (t.final||0)*SCORING.final;
+  if (t.groupPlace === 1) p += SCORING.bonus1st;
+  else if (t.groupPlace === 2) p += SCORING.bonus2nd;
+  else if (t.groupPlace === "3adv") p += SCORING.bonus3rdAdvance;
+  if (t.sweep) p += SCORING.bonusSweep;
+  return p;
+}
+function ownerOf(team){ for (const p in PICKS) if (PICKS[p].includes(team)) return p; return null; }
+function colorOf(name){ return COLORS[name] || "#9ca3af"; }
+const CODES = {
+  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czech Republic":"CZE",
+  "Canada":"CAN","Bosnia and Herzegovina":"BIH","Qatar":"QAT","Switzerland":"SUI",
+  "Brazil":"BRA","Morocco":"MAR","Haiti":"HAI","Scotland":"SCO",
+  "United States":"USA","Paraguay":"PAR","Australia":"AUS","Turkey":"TUR",
+  "Germany":"GER","Curaçao":"CUW","Ivory Coast":"CIV","Ecuador":"ECU",
+  "Netherlands":"NED","Japan":"JPN","Sweden":"SWE","Tunisia":"TUN",
+  "Belgium":"BEL","Egypt":"EGY","Iran":"IRN","New Zealand":"NZL",
+  "Spain":"ESP","Cape Verde":"CPV","Saudi Arabia":"KSA","Uruguay":"URU",
+  "France":"FRA","Senegal":"SEN","Iraq":"IRQ","Norway":"NOR",
+  "Argentina":"ARG","Algeria":"ALG","Austria":"AUT","Jordan":"JOR",
+  "Portugal":"POR","DR Congo":"COD","Uzbekistan":"UZB","Colombia":"COL",
+  "England":"ENG","Croatia":"CRO","Ghana":"GHA","Panama":"PAN"
+};
+function flag(name){ return CODES[name] ? `<span class="cc">${CODES[name]}</span>` : ""; }
+function teamSpan(name){ const o = ownerOf(name); const f = flag(name); return o ? f + `<span style="color:${colorOf(o)};font-weight:600">${name}</span>` : f + name; }
+
+const MONTHS = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6 };
+function schedDate(id){
+  const s = SCHED[id]; if (!s) return null;
+  const m = s.match(/([A-Z][a-z]{2}) (\d+) · (\d+):(\d+) (AM|PM)/);
+  if (!m) return null;
+  let hr = (+m[3]) % 12; if (m[5] === "PM") hr += 12;
+  return new Date(2026, MONTHS[m[1]], +m[2], hr, +m[4]);
+}
+
+/* All 72 group fixtures with id, group, teams, datetime. */
+function allFixtures(){
+  const out = [];
+  Object.keys(GROUPS).forEach(g => {
+    const t = GROUPS[g]; let n = 0;
+    PATTERN.forEach((md, mi) => md.forEach(([a,b]) => {
+      n++; const id = g + "-" + n;
+      out.push({ id, g, mi, home: t[a], away: t[b], d: schedDate(id) });
+    }));
+  });
+  return out;
+}
+
+/* Live group table computed from RESULTS scores. */
+function groupTable(g){
+  const teams = GROUPS[g];
+  const st = {}; teams.forEach(t => st[t] = { t, pld:0, w:0, d:0, l:0, gf:0, ga:0 });
+  let n = 0;
+  PATTERN.forEach(md => md.forEach(([a,b]) => {
+    n++; const r = RESULTS[g + "-" + n];
+    if (!r || r.hs == null || r.as == null) return;
+    const h = teams[a], aw = teams[b];
+    st[h].pld++; st[aw].pld++;
+    st[h].gf += r.hs; st[h].ga += r.as; st[aw].gf += r.as; st[aw].ga += r.hs;
+    if (r.hs > r.as) { st[h].w++; st[aw].l++; }
+    else if (r.hs < r.as) { st[aw].w++; st[h].l++; }
+    else { st[h].d++; st[aw].d++; }
+  }));
+  return Object.values(st).map(x => ({ ...x, gd: x.gf - x.ga, pts: x.w*3 + x.d }))
+    .sort((p,q) => q.pts - p.pts || q.gd - p.gd || q.gf - p.gf || p.t.localeCompare(q.t));
+}
+
+/* Completed group matches played by a team (from RESULTS). */
+function groupGP(team){
+  const g = Object.keys(GROUPS).find(k => GROUPS[k].includes(team));
+  if (!g) return 0;
+  const teams = GROUPS[g]; let n = 0, played = 0;
+  PATTERN.forEach(md => md.forEach(([a,b]) => { n++; const r = RESULTS[g+"-"+n];
+    if (r && r.hs != null && (teams[a] === team || teams[b] === team)) played++; }));
+  return played;
+}
+
+/* Maximum additional points a team can still earn (an upper bound). 0 if eliminated (out:true). */
+const KO_ALL = () => SCORING.r32 + SCORING.r16 + SCORING.qf + SCORING.sf + SCORING.final;
+function maxFuture(team){
+  const t = TEAMS[team];
+  if (t && t.out) return 0;
+  if (!t) return 3*SCORING.groupWin + SCORING.bonus1st + SCORING.bonusSweep + KO_ALL();
+  if (t.final) return 0;
+  if (t.sf) return SCORING.final;
+  if (t.qf) return SCORING.sf + SCORING.final;
+  if (t.r16) return SCORING.qf + SCORING.sf + SCORING.final;
+  if (t.r32) return SCORING.r16 + SCORING.qf + SCORING.sf + SCORING.final;
+  if (t.advanced) return KO_ALL();
+  const gp = groupGP(team), losses = Math.max(0, gp - (t.gw||0) - (t.gd||0));
+  const rem = Math.max(0, 3 - gp);
+  const placeUp = t.groupPlace ? 0 : SCORING.bonus1st;
+  const sweepUp = (losses === 0 && (t.gd||0) === 0 && !t.sweep) ? SCORING.bonusSweep : 0;
+  return rem*SCORING.groupWin + placeUp + sweepUp + KO_ALL();
+}
+function isAlive(team){ const t = TEAMS[team]; return !(t && t.out); }
+
+/* Head-to-head W-D-L between managers, from completed group matches with opposing owners. */
+function h2hMatrix(){
+  const players = Object.keys(PICKS);
+  const M = {}; players.forEach(a => { M[a] = {}; players.forEach(b => M[a][b] = [0,0,0]); });
+  Object.keys(GROUPS).forEach(g => { const teams = GROUPS[g]; let n = 0;
+    PATTERN.forEach(md => md.forEach(([a,b]) => { n++; const r = RESULTS[g+"-"+n];
+      if (!r || r.hs == null) return;
+      const ho = ownerOf(teams[a]), ao = ownerOf(teams[b]);
+      if (!ho || !ao || ho === ao) return;
+      if (r.hs > r.as) { M[ho][ao][0]++; M[ao][ho][2]++; }
+      else if (r.hs < r.as) { M[ao][ho][0]++; M[ho][ao][2]++; }
+      else { M[ho][ao][1]++; M[ao][ho][1]++; }
+    }));
+  });
+  return M;
+}
+
+function teamBreakdown(t) {
+  const out = [];
+  if (!t) return out;
+  if (t.gw) out.push([`${t.gw} group win${t.gw>1?'s':''} × ${SCORING.groupWin}`, t.gw*SCORING.groupWin]);
+  if (t.gd) out.push([`${t.gd} draw${t.gd>1?'s':''} × ${SCORING.groupDraw}`, t.gd*SCORING.groupDraw]);
+  if (t.groupPlace === 1) out.push([`1st in group`, SCORING.bonus1st]);
+  else if (t.groupPlace === 2) out.push([`2nd in group`, SCORING.bonus2nd]);
+  else if (t.groupPlace === "3adv") out.push([`3rd & advanced`, SCORING.bonus3rdAdvance]);
+  if (t.sweep) out.push([`Won all 3 group games`, SCORING.bonusSweep]);
+  if (t.r32) out.push([`Round of 32 win`, t.r32*SCORING.r32]);
+  if (t.r16) out.push([`Round of 16 win`, t.r16*SCORING.r16]);
+  if (t.qf) out.push([`Quarterfinal win`, t.qf*SCORING.qf]);
+  if (t.sf) out.push([`Semifinal win`, t.sf*SCORING.sf]);
+  if (t.third) out.push([`3rd-place match win`, t.third*SCORING.third]);
+  if (t.final) out.push([`Final win`, t.final*SCORING.final]);
+  return out;
+}
+
+function playerRows() {
+  return Object.keys(PICKS).map(name => {
+    const teams = PICKS[name];
+    let total = 0, advanced = 0, drafted = teams.length;
+    const detail = teams.map(tn => {
+      const t = TEAMS[tn];
+      const pts = teamPoints(t);
+      total += pts;
+      if (t && t.advanced) advanced++;
+      return { name: tn, pts, advanced: !!(t && t.advanced) };
+    });
+    let allAdvanceBonus = 0;
+    if (drafted === 6 && advanced === 6) { allAdvanceBonus = SCORING.bonusAllAdvance; total += allAdvanceBonus; }
+    return { name, total, advanced, drafted, detail, allAdvanceBonus };
+  }).sort((a,b) => b.total - a.total || a.name.localeCompare(b.name));
+}
+
+/* round-robin pattern by schedule slot: MD1 0v1,2v3 · MD2 0v2,3v1 · MD3 3v0,1v2 */
+const PATTERN = [ [[0,1],[2,3]], [[0,2],[3,1]], [[3,0],[1,2]] ];
+
+function render() {
+  const rows = playerRows();
+  const medals = ["🥇","🥈","🥉"];
+  const anyTeams = rows.some(r => r.drafted > 0);
+  const anyPoints = rows.some(r => r.total > 0);
+
+  // Hero strip — leader callout
+  const hero = document.getElementById("hero");
+  if (anyPoints) {
+    const top = rows[0];
+    const gap = rows.length > 1 ? top.total - rows[1].total : 0;
+    const gapTxt = gap > 0 ? `${gap} pt${gap>1?'s':''} clear of ${rows[1].name}` : `tied with ${rows[1].name}`;
+    hero.className = "hero";
+    hero.innerHTML = `<span class="hero-medal">🥇</span><span class="hero-name" style="color:${colorOf(top.name)}"><span class="dot" style="background:${colorOf(top.name)}"></span>${top.name}</span><span class="hero-pts">${top.total} pts</span><span class="hero-gap">${gapTxt}</span>`;
+  } else {
+    hero.className = "hero pre";
+    hero.innerHTML = `<span class="hero-medal">🏆</span><span class="hero-pre">${anyTeams ? "Tournament not started — standings begin once matches kick off." : "Draft pending — add each player's six teams to get started."}</span>`;
+  }
+
+  const leaderTotal = rows.length ? rows[0].total : 0;
+  document.getElementById("standings").innerHTML = rows.map((r,i) => {
+    const medal = (anyPoints && i < 3 && r.total > 0) ? `<span class="medal">${medals[i]}</span> ` : "";
+    const cls = (anyPoints && i === 0 && r.total > 0) ? "lead" : "";
+    const pct = leaderTotal > 0 ? Math.round(r.total/leaderTotal*100) : 0;
+    const prev = SNAPSHOT[r.name];
+    let move = `<span class="move-flat">—</span>`;
+    if (prev) {
+      const rd = prev.rank - (i+1);
+      const arrow = rd>0 ? `<span class="move-up">▲${rd}</span>` : rd<0 ? `<span class="move-down">▼${-rd}</span>` : `<span class="move-flat">–</span>`;
+      const gained = r.total - (prev.pts||0);
+      move = arrow + (gained>0 ? `<span class="gain">+${gained}</span>` : "");
+    }
+    return `<tr class="${cls}"><td class="rank">${i+1}</td><td class="player"><span class="player-cell"><span class="dot" style="background:${colorOf(r.name)}"></span>${medal}${r.name}</span><div class="ptbar"><span style="width:${pct}%;background:${colorOf(r.name)}"></span></div></td><td>${r.advanced}/${r.drafted || 6}</td><td>${move}</td><td class="pts">${r.total}</td></tr>`;
+  }).join("");
+
+  document.getElementById("rosters").innerHTML = rows.map(r => {
+    const items = r.drafted === 0
+      ? `<li><span class="team-name tbd">6 picks TBD</span></li>`
+      : r.detail.map(d => `<li><span class="team-name">${flag(d.name)}${d.name}${d.advanced?' <span class="flag">▶ KO</span>':''}</span><span class="team-pts">${d.pts}</span></li>`).join("");
+    const bonus = r.allAdvanceBonus ? `<span class="badge">+3 all advanced</span>` : "";
+    return `<div class="roster" style="border-top:4px solid ${colorOf(r.name)}"><h3><span><span class="dot" style="background:${colorOf(r.name)}"></span>${r.name}${bonus}</span><span class="tot">${r.total} pts</span></h3><ul>${items}</ul></div>`;
+  }).join("");
+
+  // Games — group fixtures
+  document.getElementById("groups").innerHTML = Object.keys(GROUPS).map(g => {
+    const t = GROUPS[g];
+    let matchNo = 0;
+    const matches = PATTERN.map((md, mi) => md.map(([a,b]) => {
+      matchNo++;
+      const id = g + "-" + matchNo;
+      const home = t[a], away = t[b];
+      const res = RESULTS[id];
+      const score = res ? `<span class="score">${res.hs}–${res.as}</span>` : `<span class="score tbd">vs</span>`;
+      const ho = ownerOf(home), ao = ownerOf(away);
+      const hs = ho ? `style="color:${colorOf(ho)};font-weight:600"` : "";
+      const as = ao ? `style="color:${colorOf(ao)};font-weight:600"` : "";
+      const when = SCHED[id] || "";
+      return `<div class="match"><span class="mt">MD${mi+1}</span><span class="body"><span class="pair"><span ${hs}>${flag(home)}${home}</span> ${score} <span ${as}>${flag(away)}${away}</span></span><span class="when">${when}</span></span></div>`;
+    }).join("")).join("");
+    return `<div class="grp"><h3>Group ${g}</h3><div class="teams">${t.join(" · ")}</div>${matches}</div>`;
+  }).join("");
+
+  const KO = [
+    ["Round of 32","Jun 28 – Jul 3","16 matches"],
+    ["Round of 16","Jul 4 – 7","8 matches"],
+    ["Quarterfinals","Jul 9 – 11","4 matches"],
+    ["Semifinals","Jul 14 – 15","2 matches"],
+    ["Third-place match","Jul 18","1 match"],
+    ["Final","Jul 19 · MetLife Stadium","1 match"]
+  ];
+  document.getElementById("knockout").innerHTML = KO.map(k =>
+    `<div class="kr"><b>${k[0]}</b><span>${k[1]} · ${k[2]}</span></div>`).join("");
+
+  // Games — Next Up (today's matches, else the next match day)
+  const fixtures = allFixtures().filter(f => f.d);
+  const now = new Date(); const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const upcoming = fixtures.filter(f => new Date(f.d.getFullYear(), f.d.getMonth(), f.d.getDate()) >= today0).sort((a,b)=>a.d-b.d);
+  const nu = document.getElementById("nextup");
+  if (!upcoming.length) {
+    nu.innerHTML = `<div class="nu-empty">Group stage complete — check the Groups and Standings tabs.</div>`;
+  } else {
+    const tKey = upcoming[0].d.toDateString();
+    const day = upcoming.filter(f => f.d.toDateString() === tKey);
+    const isToday = tKey === today0.toDateString();
+    const dlabel = SCHED[day[0].id].split(" · ")[0];
+    const rowsHtml = day.map(f => {
+      const time = (SCHED[f.id].split("· ")[1] || "").trim();
+      const res = RESULTS[f.id];
+      const score = res ? `<span class="score">${res.hs}–${res.as}</span>` : `<span class="score tbd">vs</span>`;
+      const owned = ownerOf(f.home) || ownerOf(f.away);
+      return `<div class="nu-row${owned?' owned':''}"><span class="t">${time}</span><span class="g">${f.g}</span><span class="p">${teamSpan(f.home)} ${score} ${teamSpan(f.away)}</span></div>`;
+    }).join("");
+    nu.innerHTML = `<div class="nextup-head">${isToday ? "Today" : "Next up"} — ${dlabel}</div>${rowsHtml}`;
+  }
+
+  // Groups tab — live tables from RESULTS
+  document.getElementById("grouptables").innerHTML = Object.keys(GROUPS).map(g => {
+    const tbl = groupTable(g);
+    const anyPlayed = tbl.some(x => x.pld > 0);
+    const body = tbl.map((x, idx) => {
+      const cls = idx < 2 ? "adv" : idx === 2 ? "poss" : "";
+      const od = ownerOf(x.t) ? ` <span class="odot" style="background:${colorOf(ownerOf(x.t))}" title="${ownerOf(x.t)}"></span>` : "";
+      return `<tr class="${cls}"><td>${teamSpan(x.t)}${od}</td><td>${x.pld}</td><td${x.w?' class="gw"':''}>${x.w}</td><td${x.d?' class="gdr"':''}>${x.d}</td><td${x.l?' class="gl"':''}>${x.l}</td><td>${x.gd>0?'+':''}${x.gd}</td><td class="gpts">${x.pts}</td></tr>`;
+    }).join("");
+    return `<div class="grp"><h3>Group ${g}</h3><table class="gt"><thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody>${body}</tbody></table>${anyPlayed ? '' : '<div class="teams" style="margin-top:8px">No matches played yet</div>'}</div>`;
+  }).join("");
+
+  // Audit — per-player itemized breakdown
+  document.getElementById("audit-breakdown").innerHTML = rows.map(r => {
+    const teams = r.detail.map(d => {
+      const lines = teamBreakdown(TEAMS[d.name]);
+      const body = lines.length
+        ? `<ul class="lines">${lines.map(l => `<li><span>${l[0]}</span><b>+${l[1]}</b></li>`).join("")}</ul>`
+        : `<div class="none">No points yet</div>`;
+      return `<div class="audit-team"><div class="tn"><span>${flag(d.name)}${d.name}</span><span class="sub">${d.pts} pts</span></div>${body}</div>`;
+    }).join("");
+    const teamsBlock = r.drafted === 0 ? `<div class="audit-team"><div class="none">No teams drafted yet</div></div>` : teams;
+    const bonus = r.allAdvanceBonus ? `<div class="audit-bonus"><span>Bonus — all 6 teams advanced</span><b>+${r.allAdvanceBonus}</b></div>` : "";
+    return `<div class="audit-player" style="border-left-color:${colorOf(r.name)}"><h3><span><span class="dot" style="background:${colorOf(r.name)}"></span>${r.name}</span><span class="tot">${r.total} pts</span></h3>${teamsBlock}${bonus}</div>`;
+  }).join("");
+
+  const log = document.getElementById("audit-log");
+  log.innerHTML = AUDIT.length
+    ? AUDIT.slice().reverse().map(e => `<div class="log-row"><span class="lw">${e.when||""}</span><span>${e.text||""}</span></div>`).join("")
+    : `<div class="log-empty">No scoring events logged yet — entries appear here as matches are played.</div>`;
+
+  // Standings tab — Still Alive & Ceiling
+  const topBanked = rows.length ? rows[0].total : 0;
+  const proj = rows.map(r => {
+    const drafted = PICKS[r.name].length;
+    const alive = PICKS[r.name].filter(isAlive).length;
+    const future = PICKS[r.name].reduce((s,tn) => s + maxFuture(tn), 0);
+    let allAdv = 0;
+    if (drafted === 6 && !r.allAdvanceBonus && PICKS[r.name].every(tn => { const t = TEAMS[tn]; return !t || (!t.out && (t.advanced || groupGP(tn) < 3)); })) allAdv = SCORING.bonusAllAdvance;
+    return { name: r.name, alive, drafted, banked: r.total, ceil: r.total + future + allAdv };
+  }).sort((a,b) => b.ceil - a.ceil || b.banked - a.banked);
+  document.getElementById("projection").innerHTML = proj.map(p => {
+    const elim = topBanked > 0 && p.ceil < topBanked;
+    const tag = elim ? ` <span class="badge" style="background:#fee2e2;color:#b91c1c">OUT</span>` : "";
+    return `<tr class="${elim?'elim':''}"><td class="player"><span class="player-cell"><span class="dot" style="background:${colorOf(p.name)}"></span>${p.name}${tag}</span></td><td>${p.alive}/${p.drafted||6}</td><td>${p.banked}</td><td class="pts">${p.ceil}</td></tr>`;
+  }).join("");
+
+  // H2H matrix
+  const players = Object.keys(PICKS);
+  const M = h2hMatrix();
+  const head = `<thead><tr><th>vs →</th>${players.map(p => `<th style="text-align:center"><span class="dot" style="background:${colorOf(p)}"></span>${p}</th>`).join("")}</tr></thead>`;
+  const bodyH = players.map(a => `<tr><td class="player"><span class="player-cell"><span class="dot" style="background:${colorOf(a)}"></span>${a}</span></td>${players.map(b => {
+    if (a === b) return `<td class="diag">—</td>`;
+    const w = M[a][b]; const any = w[0]+w[1]+w[2] > 0;
+    return `<td style="text-align:center">${any ? `${w[0]}-${w[1]}-${w[2]}` : '<span style="color:#cbd5e1">·</span>'}</td>`;
+  }).join("")}</tr>`).join("");
+  document.getElementById("h2h").innerHTML = head + `<tbody>${bodyH}</tbody>`;
+
+  document.getElementById("stamp").textContent = "Last updated: " + LAST_UPDATED;
+
+  document.getElementById("status").textContent = anyTeams
+    ? "Tracking " + rows.reduce((s,r)=>s+r.drafted,0) + " drafted teams across 6 players."
+    : "Draft pending — add each player's 6 picks to start scoring.";
+  document.getElementById("updated").textContent = "Last updated: " + LAST_UPDATED;
+}
+render();
+
+/* Points Over Time chart (Chart.js loads async; retry until ready) */
+let ptsChartInstance = null;
+function renderChart(){
+  const canvas = document.getElementById("ptsChart");
+  const empty = document.getElementById("chartEmpty");
+  if (!canvas) return;
+  if (HISTORY.length < 1) {
+    canvas.style.display = "none";
+    empty.textContent = "The chart fills in here as daily results are recorded.";
+    return;
+  }
+  if (typeof Chart === "undefined") { setTimeout(renderChart, 250); return; }
+  canvas.style.display = "block"; empty.textContent = "";
+  const labels = HISTORY.map(h => h.label);
+  const datasets = Object.keys(PICKS).map(name => ({
+    label: name,
+    data: HISTORY.map(h => (h.pts && h.pts[name] != null) ? h.pts[name] : null),
+    borderColor: colorOf(name), backgroundColor: colorOf(name),
+    borderWidth: 2.5, tension: 0.25, pointRadius: 2, pointHoverRadius: 5, spanGaps: true
+  }));
+  if (ptsChartInstance) ptsChartInstance.destroy();
+  ptsChartInstance = new Chart(canvas.getContext("2d"), {
+    type: "line",
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 12 } } } },
+      scales: { y: { beginAtZero: true, title: { display: true, text: "Total points" } } }
+    }
+  });
+}
+renderChart();
+
+/* Tabs */
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  document.getElementById("tab-" + b.dataset.tab).classList.add("active");
+}));
+
+/* Refresh button — triggers the daily update task to fetch latest results. */
+const btn = document.getElementById("refreshBtn");
+const msg = document.getElementById("refreshMsg");
+btn.addEventListener("click", async () => {
+  if (!window.cowork || !window.cowork.runScheduledTask) { msg.textContent = "Refresh runs inside the Claude app."; return; }
+  btn.disabled = true; btn.textContent = "↻ Refreshing…";
+  msg.textContent = "Fetching latest results — check the chat for the breakdown.";
+  try {
+    await window.cowork.runScheduledTask("wc2026-pool-daily-update");
+    msg.textContent = "Update started. Reload this page in a moment to see new points.";
+  } catch (e) {
+    msg.textContent = "Couldn't start the update: " + (e && e.message ? e.message : e);
+  } finally {
+    setTimeout(() => { btn.disabled = false; btn.textContent = "↻ Refresh now"; }, 4000);
+  }
+});
+</script>
+</body>
+</html>

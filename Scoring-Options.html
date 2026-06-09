@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicky's World Cup Pool — Scoring Options</title>
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --blue:#1d4ed8; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; --green:#059669; --red:#dc2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--dark);
+        background:#0b1430; scroll-snap-type:y mandatory; overflow-y:scroll; scroll-behavior:smooth; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .slide{ height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:center; padding:6vh 8vw; position:relative; background:#fff; }
+  .slide.dark{ background:var(--navy); color:#fff; }
+  .kicker{ font-size:13px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+  .slide.dark .kicker{ color:#9fb0e0; }
+  h1{ font-size:clamp(32px,5.5vw,68px); letter-spacing:-1px; line-height:1.04; }
+  h2{ font-size:clamp(22px,3.4vw,40px); letter-spacing:-.5px; margin-bottom:8px; }
+  .tagline{ font-size:clamp(13px,1.6vw,18px); color:var(--grey); margin-bottom:24px; }
+  .accent{ height:10px; width:120px; background:var(--orange); border-radius:6px; margin:24px 0; }
+  .sub{ font-size:clamp(12px,1.5vw,17px); font-weight:700; letter-spacing:2px; color:#9fb0e0; }
+  .badge{ position:absolute; top:6vh; right:8vw; width:64px; height:64px; border-radius:50%; background:var(--orange); color:#fff; font-weight:800; font-size:25px; display:flex; align-items:center; justify-content:center; }
+  /* scoring pills */
+  .ladder{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .step{ background:#f3f4f6; border:1px solid var(--line); border-radius:10px; padding:8px 12px; text-align:center; min-width:74px; }
+  .step .r{ font-size:10px; color:var(--grey); text-transform:uppercase; letter-spacing:.5px; }
+  .step .v{ font-size:20px; font-weight:800; color:var(--blue); }
+  .step.fin .v{ color:var(--orange); }
+  /* stats */
+  .stats{ display:flex; gap:26px; flex-wrap:wrap; margin:6px 0 20px; }
+  .stat .v{ font-size:26px; font-weight:800; }
+  .stat .v.hl{ color:var(--orange); }
+  .stat .l{ font-size:11px; color:var(--grey); text-transform:uppercase; letter-spacing:.5px; }
+  /* pros cons */
+  .pc{ display:flex; gap:26px; flex-wrap:wrap; }
+  .pc .col{ flex:1; min-width:280px; }
+  .pc h4{ font-size:13px; text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px; }
+  .pc .pros h4{ color:var(--green); } .pc .cons h4{ color:var(--red); }
+  .pc li{ list-style:none; display:flex; gap:10px; align-items:flex-start; font-size:clamp(13px,1.5vw,17px); line-height:1.45; margin-bottom:10px; }
+  .pc .mark{ flex:none; font-weight:800; }
+  .pros .mark{ color:var(--green); } .cons .mark{ color:var(--red); }
+  /* comparison table */
+  table{ width:100%; border-collapse:collapse; font-size:clamp(13px,1.6vw,18px); }
+  th,td{ padding:11px 12px; text-align:left; }
+  thead th{ font-size:.62em; text-transform:uppercase; letter-spacing:.6px; color:var(--grey); border-bottom:2px solid var(--line); }
+  tbody tr{ border-bottom:1px solid #f1f2f4; }
+  td.a{ color:var(--orange); font-weight:700; } td.b{ color:var(--blue); font-weight:700; } td.c{ color:#b45309; font-weight:700; }
+  th.a{ color:var(--orange);} th.b{ color:var(--blue);} th.c{ color:#b45309;}
+  .note{ font-size:clamp(12px,1.4vw,15px); color:#374151; margin-top:18px; line-height:1.5; }
+  .foot{ position:absolute; bottom:4.5vh; left:8vw; right:8vw; font-size:12px; color:var(--grey); display:flex; justify-content:space-between; }
+  .nav{ position:fixed; bottom:18px; right:20px; background:rgba(16,32,78,.85); color:#fff; font-size:12px; padding:7px 12px; border-radius:20px; z-index:10; }
+  @media print{ body{ background:#fff; overflow:visible; } .slide{ height:auto; min-height:100vh; page-break-after:always; } .nav{ display:none; } @page{ size:landscape; margin:0; } }
+</style>
+</head>
+<body>
+
+  <section class="slide dark">
+    <div class="badge">26</div>
+    <div class="kicker">Scoring Decision</div>
+    <h1>Two Options<br>for the Knockout</h1>
+    <div class="accent"></div>
+    <div class="sub">NICKY'S WORLD CUP POOL &nbsp;•&nbsp; HOW MUCH SHOULD ONE CHAMPION SWING IT?</div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The Question</div>
+    <h2>How much should owning the champion matter?</h2>
+    <div class="tagline">Both options keep the group stage identical — only the knockout values differ.</div>
+    <div class="stats">
+      <div class="stat"><div class="v">60%</div><div class="l">Today — owner of champ wins pool</div></div>
+      <div class="stat"><div class="v hl">52% / 48%</div><div class="l">Option A / Option B</div></div>
+      <div class="stat"><div class="v">17%</div><div class="l">Floor (no KO points)</div></div>
+    </div>
+    <div class="note">
+      Shared by both options — <b>Group:</b> win 2 · draw 1 &nbsp;|&nbsp; <b>Bonuses:</b> 1st in group +3 · 2nd +2 · 3rd &amp; advance +1 · all six advance +3 · win all 3 group games +1.
+      Figures from a 20,000-tournament simulation with a strength-based draft.
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Current Scoring</div>
+    <h2>3 / 3 / 4 / 5 / 6 &nbsp;<span style="color:var(--grey);font-size:.6em;font-weight:600">— what's live today</span></h2>
+    <div class="ladder">
+      <div class="step"><div class="r">R32</div><div class="v">3</div></div>
+      <div class="step"><div class="r">R16</div><div class="v">3</div></div>
+      <div class="step"><div class="r">QF</div><div class="v">4</div></div>
+      <div class="step"><div class="r">SF</div><div class="v">5</div></div>
+      <div class="step fin"><div class="r">Final</div><div class="v">6</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v hl">60%</div><div class="l">Champ owner wins pool</div></div>
+      <div class="stat"><div class="v">28.6</div><div class="l">Champion's avg points</div></div>
+      <div class="stat"><div class="v">10.0</div><div class="l">Avg winning margin</div></div>
+    </div>
+    <div class="pc">
+      <div class="col pros"><h4>Pros</h4><ul>
+        <li><span class="mark">✓</span><span>Steepest ladder — every round past the R16 is worth more, so going deep pays the most.</span></li>
+        <li><span class="mark">✓</span><span>Final at 6 is the grand prize: maximum drama at the business end.</span></li>
+        <li><span class="mark">✓</span><span>Backing the eventual champion is hugely rewarded.</span></li>
+      </ul></div>
+      <div class="col cons"><h4>Cons</h4><ul>
+        <li><span class="mark">✕</span><span>Highest swing — owning the winner takes the pool 60% of the time.</span></li>
+        <li><span class="mark">✕</span><span>One hot team can decide the whole pool; your other five picks matter least.</span></li>
+        <li><span class="mark">✕</span><span>Widest margins (10 pts) — races are less close down the stretch.</span></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Option A</div>
+    <h2>2 / 3 / 3 / 3 / 4 &nbsp;<span style="color:var(--grey);font-size:.6em;font-weight:600">— the exciting back half</span></h2>
+    <div class="ladder">
+      <div class="step"><div class="r">R32</div><div class="v">2</div></div>
+      <div class="step"><div class="r">R16</div><div class="v">3</div></div>
+      <div class="step"><div class="r">QF</div><div class="v">3</div></div>
+      <div class="step"><div class="r">SF</div><div class="v">3</div></div>
+      <div class="step fin"><div class="r">Final</div><div class="v">4</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v hl">52%</div><div class="l">Champ owner wins pool</div></div>
+      <div class="stat"><div class="v">22.6</div><div class="l">Champion's avg points</div></div>
+      <div class="stat"><div class="v">7.6</div><div class="l">Avg winning margin</div></div>
+    </div>
+    <div class="pc">
+      <div class="col pros"><h4>Pros</h4><ul>
+        <li><span class="mark">✓</span><span>The Final is the clear top prize — the title game feels like the biggest moment.</span></li>
+        <li><span class="mark">✓</span><span>Rewards deep runs the most; backing a contender genuinely pays off.</span></li>
+        <li><span class="mark">✓</span><span>Still cuts the champion swing from 60% to 52%.</span></li>
+      </ul></div>
+      <div class="col cons"><h4>Cons</h4><ul>
+        <li><span class="mark">✕</span><span>Highest swing of the two — owning the winner still takes the pool just over half the time.</span></li>
+        <li><span class="mark">✕</span><span>Middle rounds are flat (R16 = QF = SF = 3).</span></li>
+        <li><span class="mark">✕</span><span>One hot team carries the most influence over the result.</span></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Option B</div>
+    <h2>2 / 2 / 2 / 3 / 3 &nbsp;<span style="color:var(--grey);font-size:.6em;font-weight:600">— the balanced field</span></h2>
+    <div class="ladder">
+      <div class="step"><div class="r">R32</div><div class="v">2</div></div>
+      <div class="step"><div class="r">R16</div><div class="v">2</div></div>
+      <div class="step"><div class="r">QF</div><div class="v">2</div></div>
+      <div class="step"><div class="r">SF</div><div class="v">3</div></div>
+      <div class="step fin"><div class="r">Final</div><div class="v">3</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v hl">48%</div><div class="l">Champ owner wins pool</div></div>
+      <div class="stat"><div class="v">19.6</div><div class="l">Champion's avg points</div></div>
+      <div class="stat"><div class="v">6.4</div><div class="l">Avg winning margin</div></div>
+    </div>
+    <div class="pc">
+      <div class="col pros"><h4>Pros</h4><ul>
+        <li><span class="mark">✓</span><span>Lowest swing — your other five picks matter more, and the table stays tighter.</span></li>
+        <li><span class="mark">✓</span><span>Rewards smart, broad drafting over one lucky run.</span></li>
+        <li><span class="mark">✓</span><span>Still rewards depth past the quarterfinals (SF &amp; Final = 3).</span></li>
+      </ul></div>
+      <div class="col cons"><h4>Cons</h4><ul>
+        <li><span class="mark">✕</span><span>The Final (3) barely tops earlier rounds — winning it all feels less climactic.</span></li>
+        <li><span class="mark">✕</span><span>Deep runs are worth less; backing the champion is less decisive.</span></li>
+        <li><span class="mark">✕</span><span>Early knockout rounds are flat (R32 = R16 = QF = 2).</span></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Side by Side</div>
+    <h2>At a glance</h2>
+    <table>
+      <thead><tr><th>Metric</th><th class="c">Current · 3/3/4/5/6</th><th class="a">Option A · 2/3/3/3/4</th><th class="b">Option B · 2/2/2/3/3</th></tr></thead>
+      <tbody>
+        <tr><td>Champion owner wins the pool</td><td class="c">60%</td><td class="a">52%</td><td class="b">48%</td></tr>
+        <tr><td>Champion's average points</td><td class="c">28.6</td><td class="a">22.6</td><td class="b">19.6</td></tr>
+        <tr><td>Win it all (knockout points)</td><td class="c">21</td><td class="a">15</td><td class="b">12</td></tr>
+        <tr><td>Avg winning margin</td><td class="c">10.0</td><td class="a">7.6</td><td class="b">6.4</td></tr>
+        <tr><td>Feel</td><td class="c">Max drama, one team can decide it</td><td class="a">Climactic final, depth rewarded</td><td class="b">Tighter race, breadth rewarded</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>The trade in one line:</b> Option A keeps the back half of the tournament exciting and lets a great pick pay off; Option B spreads the pool across all six of your teams and keeps it closer. Both are big improvements on today's 60%. There's no wrong answer — it's a taste call between "the final is the big moment" and "the whole roster decides it."
+    </div>
+    <div class="foot"><span>Nicky's World Cup Pool — Scoring Options</span><span>Sim: 20,000 tournaments</span></div>
+  </section>
+
+  <div class="nav" id="nav">1 / 6 &nbsp;·&nbsp; use ↑ ↓ arrows</div>
+<script>
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const nav = document.getElementById("nav");
+  let i = 0;
+  function go(n){ i = Math.max(0, Math.min(slides.length-1, n)); slides[i].scrollIntoView({behavior:"smooth"}); }
+  document.addEventListener("keydown", e => {
+    if(["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(i+1); }
+    else if(["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(i-1); }
+  });
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ i = slides.indexOf(en.target); nav.innerHTML = (i+1)+" / "+slides.length+" &nbsp;·&nbsp; use ↑ ↓ arrows"; }
+  }), {threshold:0.6});
+  slides.forEach(s => io.observe(s));
+</script>
+</body>
+</html>

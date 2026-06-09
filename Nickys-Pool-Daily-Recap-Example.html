@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicky's World Cup Pool — Daily Recap (Example)</title>
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --blue:#1d4ed8; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; --up:#059669; --down:#dc2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--dark);
+        background:#0b1430; scroll-snap-type:y mandatory; overflow-y:scroll; scroll-behavior:smooth; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .slide{ height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:center; padding:6vh 8vw; position:relative; background:#fff; }
+  .slide.dark{ background:var(--navy); color:#fff; }
+  .kicker{ font-size:13px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+  .slide.dark .kicker{ color:#9fb0e0; }
+  h1{ font-size:clamp(34px,6vw,72px); letter-spacing:-1px; line-height:1.03; }
+  h2{ font-size:clamp(22px,3.4vw,40px); letter-spacing:-.5px; margin-bottom:22px; }
+  .accent{ height:10px; width:120px; background:var(--orange); border-radius:6px; margin:24px 0; }
+  .sub{ font-size:clamp(12px,1.5vw,17px); font-weight:700; letter-spacing:2px; color:#9fb0e0; }
+  .badge{ position:absolute; top:6vh; right:8vw; width:64px; height:64px; border-radius:50%; background:var(--orange); color:#fff; font-weight:800; font-size:25px; display:flex; align-items:center; justify-content:center; }
+  .extag{ display:inline-block; margin-top:24px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3); color:#dce4fb; font-size:12px; font-weight:700; letter-spacing:1px; padding:5px 12px; border-radius:20px; }
+  .result{ border:1px solid var(--line); border-radius:13px; padding:11px 18px; margin-bottom:10px; }
+  .rtop{ display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .matchline{ font-size:clamp(14px,1.8vw,21px); font-weight:600; }
+  .matchline .sc{ color:var(--navy); font-weight:800; margin:0 6px; }
+  .matchline .grp{ color:#9ca3af; font-size:.7em; font-weight:600; margin-left:8px; }
+  .tags{ display:flex; gap:7px; flex-wrap:wrap; }
+  .tag{ font-size:clamp(10px,1.1vw,13px); font-weight:700; border-radius:20px; padding:3px 10px; border:1.5px solid; }
+  .scorers{ margin-top:8px; padding-top:7px; border-top:1px solid #f1f2f4; font-size:clamp(11px,1.25vw,14px); color:#4b5563; }
+  .scorers b{ color:var(--navy); margin-right:4px; }
+  .scorers .ass{ color:#9ca3af; }
+  table{ width:100%; border-collapse:collapse; font-size:clamp(13px,1.6vw,19px); }
+  th,td{ text-align:left; padding:11px 14px; }
+  thead th{ font-size:.62em; text-transform:uppercase; letter-spacing:.8px; color:var(--grey); border-bottom:2px solid var(--line); }
+  tbody tr{ border-bottom:1px solid #f1f2f4; }
+  .lead{ background:#fff7ed; }
+  .pdot{ width:13px;height:13px;border-radius:50%;display:inline-block;margin-right:10px;vertical-align:middle; }
+  td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  td.pts{ text-align:right; font-weight:800; font-variant-numeric:tabular-nums; }
+  .mv-up{ color:var(--up); font-weight:700; } .mv-down{ color:var(--down); font-weight:700; } .mv-flat{ color:#cbd0d6; }
+  .h2card{ border:1px solid var(--line); border-radius:13px; padding:14px 18px; margin-bottom:12px; font-size:clamp(14px,1.7vw,20px); }
+  .h2card .res{ font-weight:700; }
+  .h2card .lead-note{ color:var(--grey); font-size:.8em; margin-top:4px; }
+  .gcols{ display:flex; gap:26px; flex-wrap:wrap; }
+  .gcol{ flex:1; min-width:300px; }
+  .gcol h3{ font-size:clamp(15px,1.8vw,20px); margin-bottom:6px; }
+  .gt{ width:100%; border-collapse:collapse; font-size:clamp(12px,1.4vw,16px); }
+  .gt th,.gt td{ padding:6px 6px; text-align:right; }
+  .gt th:first-child,.gt td:first-child{ text-align:left; }
+  .gt thead th{ font-size:.7em; text-transform:uppercase; color:var(--grey); border-bottom:1px solid var(--line); letter-spacing:.5px; }
+  .gt tbody tr{ border-top:1px solid #f4f5f6; }
+  .gt .adv td:first-child{ box-shadow:inset 4px 0 0 var(--up); padding-left:10px; }
+  .gt td.gp{ font-weight:800; }
+  .fixture{ display:flex; align-items:center; gap:16px; border:1px solid var(--line); border-radius:13px; padding:12px 18px; margin-bottom:10px; }
+  .timechip{ background:var(--navy); color:#fff; font-weight:800; font-size:clamp(12px,1.3vw,15px); padding:7px 12px; border-radius:10px; white-space:nowrap; flex:none; min-width:96px; text-align:center; }
+  .fx{ flex:1; font-size:clamp(14px,1.8vw,21px); font-weight:600; }
+  .fx .grp{ color:#9ca3af; font-size:.7em; font-weight:600; margin-left:8px; }
+  .own{ font-weight:800; }
+  .foot{ position:absolute; bottom:4.5vh; left:8vw; right:8vw; font-size:12px; color:var(--grey); display:flex; justify-content:space-between; }
+  .nav{ position:fixed; bottom:18px; right:20px; background:rgba(16,32,78,.85); color:#fff; font-size:12px; padding:7px 12px; border-radius:20px; z-index:10; }
+  @media print{ body{ background:#fff; overflow:visible; } .slide{ height:auto; min-height:100vh; page-break-after:always; } .nav{ display:none; } @page{ size:landscape; margin:0; } }
+</style>
+</head>
+<body>
+
+  <section class="slide dark">
+    <div class="badge">26</div>
+    <div class="kicker">Daily Recap</div>
+    <h1>Thursday<br>June 18</h1>
+    <div class="accent"></div>
+    <div class="sub">NICKY'S WORLD CUP POOL &nbsp;•&nbsp; 2026 FIFA WORLD CUP</div>
+    <span class="extag">EXAMPLE — sample data until the draft &amp; kickoff</span>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">1 · Yesterday · June 17</div>
+    <h2>Results &amp; scorers</h2>
+    <div class="result">
+      <div class="rtop">
+        <span class="matchline">England <span class="sc">2–1</span> Croatia <span class="grp">Group L</span></span>
+        <span class="tags"><span class="tag" style="color:#ea580c;border-color:#ea580c">England · Nicky +2</span><span class="tag" style="color:#ea580c;border-color:#f3c3a3">Croatia · Nicky +0</span></span>
+      </div>
+      <div class="scorers"><b>ENG</b> Kane 23' <span class="ass">(A: Saka)</span>, Bellingham 67' <span class="ass">(A: Foden)</span> &nbsp;•&nbsp; <b>CRO</b> Modrić 80' <span class="ass">(A: Kovačić)</span></div>
+    </div>
+    <div class="result">
+      <div class="rtop">
+        <span class="matchline">Portugal <span class="sc">3–0</span> DR Congo <span class="grp">Group K</span></span>
+        <span class="tags"><span class="tag" style="color:#eab308;border-color:#eab308">Portugal · Gary +2</span><span class="tag" style="color:#d97706;border-color:#eccfa3">DR Congo · Reilly +0</span></span>
+      </div>
+      <div class="scorers"><b>POR</b> B. Fernandes 12' <span class="ass">(A: Mendes)</span>, R. Leão 54', Ramos 88' <span class="ass">(A: B. Fernandes)</span></div>
+    </div>
+    <div class="result">
+      <div class="rtop">
+        <span class="matchline">Ghana <span class="sc">1–1</span> Panama <span class="grp">Group L</span></span>
+        <span class="tags"><span class="tag" style="color:#db2777;border-color:#db2777">Ghana · Diccy +1</span><span class="tag" style="color:#ea580c;border-color:#ea580c">Panama · Nicky +1</span></span>
+      </div>
+      <div class="scorers"><b>GHA</b> Kudus 38' <span class="ass">(A: J. Ayew)</span> &nbsp;•&nbsp; <b>PAN</b> Carrasquilla 71' <span class="ass">(A: Murillo)</span></div>
+    </div>
+    <div class="result">
+      <div class="rtop">
+        <span class="matchline">Uzbekistan <span class="sc">0–2</span> Colombia <span class="grp">Group K</span></span>
+        <span class="tags"><span class="tag" style="color:#ea580c;border-color:#ea580c">Colombia · Nicky +2</span><span class="tag" style="color:#9ca3af;border-color:#e5e7eb">Uzbekistan · unowned</span></span>
+      </div>
+      <div class="scorers"><b>COL</b> L. Díaz 30' <span class="ass">(A: J. Rodríguez)</span>, Córdoba 75' <span class="ass">(A: Lerma)</span></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">2 · Pool Standings</div>
+    <h2>The managers' table</h2>
+    <table>
+      <thead><tr><th>#</th><th>Manager</th><th>Since last</th><th style="text-align:right">Pts</th></tr></thead>
+      <tbody>
+        <tr class="lead"><td>1</td><td><span class="pdot" style="background:#ea580c"></span>Nicky</td><td><span class="mv-up">▲1</span> &nbsp;+5</td><td class="pts">18</td></tr>
+        <tr><td>2</td><td><span class="pdot" style="background:#059669"></span>Gabey</td><td><span class="mv-down">▼1</span></td><td class="pts">16</td></tr>
+        <tr><td>3</td><td><span class="pdot" style="background:#eab308"></span>Gary</td><td><span class="mv-flat">–</span> &nbsp;+2</td><td class="pts">13</td></tr>
+        <tr><td>4</td><td><span class="pdot" style="background:#db2777"></span>Diccy</td><td><span class="mv-up">▲1</span> &nbsp;+1</td><td class="pts">10</td></tr>
+        <tr><td>5</td><td><span class="pdot" style="background:#7c3aed"></span>Lee</td><td><span class="mv-down">▼1</span></td><td class="pts">9</td></tr>
+        <tr><td>6</td><td><span class="pdot" style="background:#d97706"></span>Reilly</td><td><span class="mv-flat">–</span></td><td class="pts">7</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">3 · Still Alive &amp; Ceiling</div>
+    <h2>Who's still in it</h2>
+    <table>
+      <thead><tr><th>Manager</th><th>Teams alive</th><th style="text-align:right">Banked</th><th style="text-align:right">Max possible</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pdot" style="background:#ea580c"></span>Nicky</td><td>6/6</td><td class="num">18</td><td class="pts">152</td></tr>
+        <tr><td><span class="pdot" style="background:#059669"></span>Gabey</td><td>6/6</td><td class="num">16</td><td class="pts">150</td></tr>
+        <tr><td><span class="pdot" style="background:#eab308"></span>Gary</td><td>6/6</td><td class="num">13</td><td class="pts">147</td></tr>
+        <tr><td><span class="pdot" style="background:#db2777"></span>Diccy</td><td>6/6</td><td class="num">10</td><td class="pts">144</td></tr>
+        <tr><td><span class="pdot" style="background:#d97706"></span>Reilly</td><td>6/6</td><td class="num">7</td><td class="pts">141</td></tr>
+        <tr><td><span class="pdot" style="background:#7c3aed"></span>Lee</td><td>5/6</td><td class="num">9</td><td class="pts">121</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px; font-size:13px; color:#9ca3af">No one's mathematically out yet. Lee lost a team (Senegal), so his ceiling has slipped.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">4 · Head to Head</div>
+    <h2>When managers' teams meet</h2>
+    <div class="h2card">
+      <div class="res"><span style="color:#eab308;font-weight:800">Gary</span>'s Portugal beat <span style="color:#d97706;font-weight:800">Reilly</span>'s DR Congo, 3–0</div>
+      <div class="lead-note">Gary leads that head-to-head 1–0–0.</div>
+    </div>
+    <div class="h2card">
+      <div class="res"><span style="color:#db2777;font-weight:800">Diccy</span>'s Ghana drew <span style="color:#ea580c;font-weight:800">Nicky</span>'s Panama, 1–1</div>
+      <div class="lead-note">All square, 0–1–0.</div>
+    </div>
+    <p style="margin-top:8px; font-size:13px; color:#9ca3af">The full manager-vs-manager grid lives on the tracker's H2H tab.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">5 · Actual Standings</div>
+    <h2>Tournament group tables <span style="font-size:.5em;color:#9ca3af;font-weight:600">(green = advancing)</span></h2>
+    <div class="gcols">
+      <div class="gcol">
+        <h3>Group K</h3>
+        <table class="gt">
+          <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>
+            <tr class="adv"><td>Portugal</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+3</td><td class="gp">3</td></tr>
+            <tr class="adv"><td>Colombia</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="gp">3</td></tr>
+            <tr><td>Uzbekistan</td><td>1</td><td>0</td><td>0</td><td>1</td><td>−2</td><td class="gp">0</td></tr>
+            <tr><td>DR Congo</td><td>1</td><td>0</td><td>0</td><td>1</td><td>−3</td><td class="gp">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="gcol">
+        <h3>Group L</h3>
+        <table class="gt">
+          <thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>
+            <tr class="adv"><td>England</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+1</td><td class="gp">3</td></tr>
+            <tr class="adv"><td>Ghana</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="gp">1</td></tr>
+            <tr><td>Panama</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="gp">1</td></tr>
+            <tr><td>Croatia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>−1</td><td class="gp">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">6 · Today · June 18</div>
+    <h2>On the slate <span style="font-size:.5em;color:#9ca3af;font-weight:600">(all times ET)</span></h2>
+    <div class="fixture">
+      <span class="timechip">12:00 PM</span>
+      <span class="fx">Czech Republic vs South Africa <span class="grp">Group A</span> — <span style="color:#9ca3af">both unowned</span></span>
+    </div>
+    <div class="fixture">
+      <span class="timechip">3:00 PM</span>
+      <span class="fx">Switzerland <span class="own" style="color:#eab308">(Gary)</span> vs Bosnia &amp; Herzegovina <span class="grp">Group B</span></span>
+    </div>
+    <div class="fixture">
+      <span class="timechip">6:00 PM</span>
+      <span class="fx">Canada <span class="own" style="color:#7c3aed">(Lee)</span> vs Qatar <span class="own" style="color:#d97706">(Reilly)</span> <span class="grp">Group B</span></span>
+    </div>
+    <div class="fixture">
+      <span class="timechip">9:00 PM</span>
+      <span class="fx">Mexico <span class="own" style="color:#ea580c">(Nicky)</span> vs South Korea <span class="own" style="color:#7c3aed">(Lee)</span> <span class="grp">Group A</span></span>
+    </div>
+    <div class="foot"><span>Nicky's World Cup Pool — Daily Recap</span><span>Example</span></div>
+  </section>
+
+  <div class="nav" id="nav">1 / 7 &nbsp;·&nbsp; use ↑ ↓ arrows</div>
+<script>
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const nav = document.getElementById("nav");
+  let i = 0;
+  function go(n){ i = Math.max(0, Math.min(slides.length-1, n)); slides[i].scrollIntoView({behavior:"smooth"}); }
+  document.addEventListener("keydown", e => {
+    if(["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(i+1); }
+    else if(["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(i-1); }
+  });
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ i = slides.indexOf(en.target); nav.innerHTML = (i+1)+" / "+slides.length+" &nbsp;·&nbsp; use ↑ ↓ arrows"; }
+  }), {threshold:0.6});
+  slides.forEach(s => io.observe(s));
+</script>
+</body>
+</html>

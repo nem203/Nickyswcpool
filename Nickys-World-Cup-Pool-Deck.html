@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicky's World Cup Pool — Deck</title>
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --blue:#1d4ed8; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--dark);
+        background:#0b1430; scroll-snap-type:y mandatory; overflow-y:scroll; scroll-behavior:smooth; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .slide{ height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:center; padding:7vh 9vw; position:relative; background:#fff; }
+  .slide.dark{ background:var(--navy); color:#fff; }
+  .kicker{ font-size:13px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--blue); margin-bottom:18px; }
+  .slide.dark .kicker{ color:#9fb0e0; }
+  h1{ font-size:clamp(34px,6vw,76px); letter-spacing:-1px; line-height:1.02; }
+  h2{ font-size:clamp(26px,4vw,46px); letter-spacing:-.5px; margin-bottom:30px; }
+  .accent{ height:10px; width:120px; background:var(--orange); border-radius:6px; margin:26px 0; }
+  .sub{ font-size:clamp(13px,1.6vw,18px); font-weight:700; letter-spacing:2px; color:#9fb0e0; }
+  .badge{ position:absolute; top:6vh; right:9vw; width:66px; height:66px; border-radius:50%; background:var(--orange); color:#fff; font-weight:800; font-size:26px; display:flex; align-items:center; justify-content:center; }
+  .players{ display:flex; flex-wrap:wrap; gap:16px; }
+  .chip{ display:flex; align-items:center; gap:13px; border:2px solid var(--line); border-radius:14px; padding:16px 24px; font-size:clamp(16px,2vw,24px); font-weight:700; }
+  .chip .dot{ width:18px; height:18px; border-radius:50%; }
+  .cards{ display:flex; gap:30px; flex-wrap:wrap; }
+  .card{ flex:1; min-width:280px; border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:0 4px 18px rgba(16,32,78,.06); }
+  .chead{ color:#fff; font-weight:800; font-size:20px; padding:14px 20px; }
+  .row{ display:flex; justify-content:space-between; align-items:center; padding:11px 20px; font-size:clamp(13px,1.5vw,17px); border-top:1px solid #f1f2f4; }
+  .row:first-of-type{ border-top:none; }
+  .pt{ min-width:30px; height:30px; padding:0 9px; border-radius:15px; color:#fff; font-weight:800; font-size:14px; display:inline-flex; align-items:center; justify-content:center; }
+  ul{ list-style:none; }
+  .how li{ font-size:clamp(15px,2vw,24px); line-height:1.5; margin-bottom:20px; display:flex; gap:16px; align-items:flex-start; }
+  .how li .b{ color:var(--orange); font-size:1.3em; line-height:1; }
+  .panels{ display:flex; gap:26px; flex-wrap:wrap; }
+  .panel{ flex:1; min-width:280px; background:#f8fafc; border:1px solid var(--line); border-left-width:6px; border-radius:14px; padding:22px 24px; }
+  .panel h3{ font-size:22px; margin-bottom:10px; }
+  .panel p{ font-size:clamp(13px,1.5vw,17px); color:#374151; line-height:1.55; }
+  .roster-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .rcard{ border:1px solid var(--line); border-top-width:5px; border-radius:14px; padding:14px 18px; }
+  .rcard h3{ font-size:clamp(15px,1.8vw,21px); display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .rcard h3 .dot{ width:13px; height:13px; border-radius:50%; flex:none; }
+  .rcard ol{ list-style:none; counter-reset:p; }
+  .rcard li{ counter-increment:p; font-size:clamp(12px,1.3vw,15px); color:#9aa1ab; padding:4px 0; border-top:1px solid #f4f5f6; }
+  .rcard li:first-child{ border-top:none; }
+  .rcard li::before{ content:counter(p) ". "; color:#c7ccd3; font-weight:700; }
+  @media (max-width:760px){ .roster-grid{ grid-template-columns:repeat(2,1fr); } }
+  .foot{ position:absolute; bottom:5vh; left:9vw; right:9vw; font-size:12px; color:var(--grey); display:flex; justify-content:space-between; }
+  .nav{ position:fixed; bottom:18px; right:20px; background:rgba(16,32,78,.85); color:#fff; font-size:12px; padding:7px 12px; border-radius:20px; z-index:10; }
+  @media print{
+    body{ background:#fff; overflow:visible; }
+    .slide{ height:auto; min-height:100vh; page-break-after:always; }
+    .nav{ display:none; }
+    @page{ size:landscape; margin:0; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="slide dark">
+    <div class="badge">26</div>
+    <div class="kicker">Official Rules</div>
+    <h1>Nicky's<br>World Cup Pool</h1>
+    <div class="accent"></div>
+    <div class="sub">2026 FIFA WORLD CUP &nbsp;•&nbsp; JUNE 11 – JULY 19</div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The Players</div>
+    <h2>Six managers, six teams each</h2>
+    <div class="players">
+      <span class="chip"><span class="dot" style="background:#ea580c"></span>Nicky</span>
+      <span class="chip"><span class="dot" style="background:#eab308"></span>Gary</span>
+      <span class="chip"><span class="dot" style="background:#059669"></span>Gabey</span>
+      <span class="chip"><span class="dot" style="background:#db2777"></span>Diccy</span>
+      <span class="chip"><span class="dot" style="background:#7c3aed"></span>Lee</span>
+      <span class="chip"><span class="dot" style="background:#d97706"></span>Reilly</span>
+    </div>
+    <p style="margin-top:30px; font-size:clamp(14px,1.7vw,20px); color:#374151; line-height:1.55; max-width:60ch">
+      Each manager drafts six national teams before kickoff. 48 teams, 12 groups of four; the top two of each
+      group plus the eight best third-placed teams reach the Round of 32. Your score is the sum of points your
+      six teams earn all tournament long.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Draft Results</div>
+    <h2>Who picked whom</h2>
+    <div class="roster-grid">
+      <div class="rcard" style="border-top-color:#ea580c"><h3><span class="dot" style="background:#ea580c"></span>Nicky</h3><ol><li>Spain</li><li>Netherlands</li><li>Morocco</li><li>South Korea</li><li>Austria</li><li>Australia</li></ol></div>
+      <div class="rcard" style="border-top-color:#eab308"><h3><span class="dot" style="background:#eab308"></span>Gary</h3><ol><li>Portugal</li><li>Germany</li><li>Uruguay</li><li>Japan</li><li>Sweden</li><li>Paraguay</li></ol></div>
+      <div class="rcard" style="border-top-color:#059669"><h3><span class="dot" style="background:#059669"></span>Gabey</h3><ol><li>Brazil</li><li>Norway</li><li>Ecuador</li><li>Switzerland</li><li>Algeria</li><li>Ghana</li></ol></div>
+      <div class="rcard" style="border-top-color:#db2777"><h3><span class="dot" style="background:#db2777"></span>Diccy</h3><ol><li>England</li><li>USA</li><li>Mexico</li><li>Egypt</li><li>Bosnia &amp; Herz.</li><li>DR Congo</li></ol></div>
+      <div class="rcard" style="border-top-color:#7c3aed"><h3><span class="dot" style="background:#7c3aed"></span>Lee</h3><ol><li>Belgium</li><li>Argentina</li><li>Turkey</li><li>Ivory Coast</li><li>Czech Republic</li><li>Scotland</li></ol></div>
+      <div class="rcard" style="border-top-color:#d97706"><h3><span class="dot" style="background:#d97706"></span>Reilly</h3><ol><li>France</li><li>Colombia</li><li>Croatia</li><li>Senegal</li><li>Canada</li><li>Iran</li></ol></div>
+    </div>
+    <p style="margin-top:22px; font-size:13px; color:#9ca3af">Final rosters — drafted snake-style over six rounds.</p>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Scoring</div>
+    <h2>How points are earned</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="chead" style="background:#1d4ed8">Standard</div>
+        <div class="row"><span>Group stage win</span><span class="pt" style="background:#1d4ed8">2</span></div>
+        <div class="row"><span>Group stage draw</span><span class="pt" style="background:#1d4ed8">1</span></div>
+        <div class="row"><span>Round of 32 win</span><span class="pt" style="background:#1d4ed8">3</span></div>
+        <div class="row"><span>Round of 16 win</span><span class="pt" style="background:#1d4ed8">3</span></div>
+        <div class="row"><span>Quarterfinal win</span><span class="pt" style="background:#1d4ed8">4</span></div>
+        <div class="row"><span>Semifinal win</span><span class="pt" style="background:#1d4ed8">5</span></div>
+        <div class="row"><span>3rd-place match win</span><span class="pt" style="background:#1d4ed8">1</span></div>
+        <div class="row"><span>Final win</span><span class="pt" style="background:#1d4ed8">6</span></div>
+      </div>
+      <div class="card">
+        <div class="chead" style="background:#ea580c">Bonus</div>
+        <div class="row"><span>1st place in group</span><span class="pt" style="background:#ea580c">3</span></div>
+        <div class="row"><span>2nd place in group</span><span class="pt" style="background:#ea580c">2</span></div>
+        <div class="row"><span>3rd place &amp; advance to KO</span><span class="pt" style="background:#ea580c">1</span></div>
+        <div class="row"><span>All your teams advance</span><span class="pt" style="background:#ea580c">3</span></div>
+        <div class="row"><span>Team wins all 3 group games</span><span class="pt" style="background:#ea580c">1</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">How It Works</div>
+    <h2>The fine print</h2>
+    <ul class="how">
+      <li><span class="b">•</span><span>Each of your six teams scores on its own — add them up for your running total.</span></li>
+      <li><span class="b">•</span><span>Group placement bonuses are awarded once each group concludes.</span></li>
+      <li><span class="b">•</span><span>Knockout matches decided on penalties count as a win for the side that advances.</span></li>
+      <li><span class="b">•</span><span>The "all teams advance" bonus (+3) needs all six of your teams to reach the Round of 32.</span></li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">The Details</div>
+    <h2>Standings &amp; daily briefing</h2>
+    <div class="panels">
+      <div class="panel" style="border-left-color:#1d4ed8">
+        <h3>Standings &amp; Tiebreakers</h3>
+        <p>Ranked by total points. Ties are broken at the commissioner's discretion (suggested: whose teams reached the furthest stage). Nicky is commissioner.</p>
+      </div>
+      <div class="panel" style="border-left-color:#ea580c">
+        <h3>Daily Briefing</h3>
+        <p>Every morning, all managers get a recap: yesterday's results and points, the updated standings, and the day's fixtures with each team's owner — plus a live tracker kept current all day.</p>
+      </div>
+    </div>
+    <div class="foot"><span>Nicky's World Cup Pool</span><span>2026 FIFA World Cup</span></div>
+  </section>
+
+  <div class="nav" id="nav">1 / 6 &nbsp;·&nbsp; use ↑ ↓ arrows</div>
+<script>
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const nav = document.getElementById("nav");
+  let i = 0;
+  function go(n){ i = Math.max(0, Math.min(slides.length-1, n)); slides[i].scrollIntoView({behavior:"smooth"}); }
+  document.addEventListener("keydown", e => {
+    if(["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(i+1); }
+    else if(["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(i-1); }
+  });
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ i = slides.indexOf(en.target); nav.innerHTML = (i+1)+" / "+slides.length+" &nbsp;·&nbsp; use ↑ ↓ arrows"; }
+  }), {threshold:0.6});
+  slides.forEach(s => io.observe(s));
+</script>
+</body>
+</html>

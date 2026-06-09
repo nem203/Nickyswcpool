@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicky's Draft Helper</title>
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --blue:#1d4ed8; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; --green:#059669; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#eceef1; color:var(--dark); }
+  .wrap{ max-width:880px; margin:0 auto; padding:0 16px 60px; }
+  .top{ background:var(--navy); color:#fff; border-bottom:6px solid var(--orange); padding:20px 24px; display:flex; align-items:center; gap:14px; border-radius:0 0 14px 14px; }
+  .badge{ width:44px;height:44px;border-radius:50%;background:var(--orange);font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;flex:none; }
+  .top h1{ font-size:22px; }
+  .top .sub{ color:#9fb0e0; font-size:12px; margin-top:2px; }
+  .priv{ margin-left:auto; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3); color:#dce4fb; font-size:11px; font-weight:700; letter-spacing:1px; padding:5px 11px; border-radius:20px; }
+  .picks{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:18px 0; box-shadow:0 4px 18px rgba(16,32,78,.06); }
+  .picks h2{ font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--blue); margin-bottom:12px; display:flex; justify-content:space-between; }
+  .slots{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .slot{ border:1.5px dashed #d3d8df; border-radius:10px; padding:10px 12px; min-height:52px; display:flex; flex-direction:column; justify-content:center; }
+  .slot.full{ border-style:solid; border-color:var(--orange); background:#fff7ed; }
+  .slot .nm{ font-weight:700; font-size:14px; display:flex; justify-content:space-between; align-items:center; }
+  .slot .nm button{ border:none; background:none; color:#c2410c; cursor:pointer; font-size:15px; line-height:1; }
+  .slot .meta{ font-size:11px; color:var(--grey); margin-top:2px; }
+  .slot.empty .nm{ color:#b4b8bf; font-weight:600; font-size:13px; }
+  .summary{ display:flex; gap:22px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid #f1f2f4; }
+  .stat .v{ font-size:22px; font-weight:800; }
+  .stat .l{ font-size:11px; color:var(--grey); text-transform:uppercase; letter-spacing:.5px; }
+  .stat .v.warn{ color:var(--orange); }
+  .controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:14px 2px; font-size:13px; color:var(--grey); }
+  .controls button{ border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 12px; font-size:13px; font-weight:600; cursor:pointer; color:var(--dark); }
+  .controls button.on{ background:var(--navy); color:#fff; border-color:var(--navy); }
+  .board{ background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .grphead{ background:#f3f4f6; font-size:11px; font-weight:800; letter-spacing:1px; color:#6b7280; padding:7px 16px; text-transform:uppercase; }
+  .trow{ display:flex; align-items:center; gap:12px; padding:10px 16px; border-top:1px solid #f1f2f4; }
+  .trow.mine{ background:#fff7ed; } .trow.taken{ opacity:.45; }
+  .rank{ width:26px; color:#c7ccd3; font-weight:700; font-size:12px; flex:none; text-align:right; }
+  .tn{ flex:1; min-width:0; }
+  .tn .name{ font-weight:700; font-size:15px; }
+  .tn .gg{ color:#9ca3af; font-size:11px; }
+  .xp{ text-align:right; flex:none; width:64px; }
+  .xp .num{ font-weight:800; font-size:18px; }
+  .xp .lab{ font-size:9px; color:#9ca3af; text-transform:uppercase; }
+  .meter{ flex:none; width:90px; height:7px; background:#eef0f2; border-radius:4px; overflow:hidden; }
+  .meter span{ display:block; height:100%; background:var(--blue); }
+  .adv{ flex:none; width:54px; text-align:right; font-size:12px; color:var(--grey); }
+  .btns{ flex:none; display:flex; gap:6px; }
+  .btns button{ border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; }
+  .btns .pick{ color:var(--orange); border-color:#f3c6a8; } .btns .pick:hover{ background:#fff2e8; }
+  .btns .take{ color:#6b7280; } .btns .take:hover{ background:#f3f4f6; }
+  .btns .undo{ color:var(--blue); }
+  .note{ font-size:11px; color:#9ca3af; margin:16px 4px 0; line-height:1.5; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--navy); color:#fff; padding:10px 18px; border-radius:24px; font-size:13px; opacity:0; transition:opacity .25s; pointer-events:none; }
+  .toast.show{ opacity:1; }
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="badge">26</span>
+  <div><h1>Draft Helper</h1><div class="sub">Nicky's World Cup Pool · expected pool points per team</div></div>
+  <span class="priv">PRIVATE — JUST FOR NICKY</span>
+</div>
+<div class="wrap">
+
+  <div class="picks">
+    <h2><span>My Picks</span><span id="pickcount">0 / 6</span></h2>
+    <div class="slots" id="slots"></div>
+    <div class="summary">
+      <div class="stat"><div class="v" id="sumxp">0.0</div><div class="l">Projected pts (xP)</div></div>
+      <div class="stat"><div class="v" id="alladv">—</div><div class="l">Chance all 6 advance (+3)</div></div>
+      <div class="stat"><div class="v" id="ceil">—</div><div class="l">Title contenders picked</div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <span>Sort:</span>
+    <button id="sortVal" class="on">By value</button>
+    <button id="sortGrp">By group</button>
+    <span style="margin-left:auto"></span>
+    <button id="hideOut">Hide taken</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="note">
+    <b>xP</b> = expected points this team scores under your pool's <b>current</b> scoring (group win 2 / draw 1; R32 3, R16 3, QF 4, SF 5, Final 6; plus bonuses),
+    from a 20,000-run tournament simulation. It's a model, not a guarantee — use it as a guide.
+    The bar shows relative value; <b>adv</b> is the team's chance of reaching the Round of 32. Your picks save in this browser.
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {"Mexico": {"xp": 8.77, "padv": 87, "champ": 1.3, "group": "A"}, "South Africa": {"xp": 3.25, "padv": 42, "champ": 0.0, "group": "A"}, "South Korea": {"xp": 6.4, "padv": 76, "champ": 0.4, "group": "A"}, "Czech Republic": {"xp": 5.46, "padv": 70, "champ": 0.2, "group": "A"}, "Canada": {"xp": 4.94, "padv": 66, "champ": 0.1, "group": "B"}, "Bosnia and Herzegovina": {"xp": 5.28, "padv": 69, "champ": 0.1, "group": "B"}, "Qatar": {"xp": 3.67, "padv": 49, "champ": 0.0, "group": "B"}, "Switzerland": {"xp": 8.64, "padv": 87, "champ": 1.3, "group": "B"}, "Brazil": {"xp": 13.53, "padv": 98, "champ": 7.7, "group": "C"}, "Morocco": {"xp": 9.76, "padv": 92, "champ": 2.9, "group": "C"}, "Haiti": {"xp": 1.58, "padv": 16, "champ": 0.0, "group": "C"}, "Scotland": {"xp": 3.7, "padv": 56, "champ": 0.1, "group": "C"}, "USA": {"xp": 8.81, "padv": 86, "champ": 1.3, "group": "D"}, "Paraguay": {"xp": 3.85, "padv": 51, "champ": 0.0, "group": "D"}, "Australia": {"xp": 4.8, "padv": 64, "champ": 0.1, "group": "D"}, "Turkey": {"xp": 6.47, "padv": 75, "champ": 0.5, "group": "D"}, "Germany": {"xp": 12.78, "padv": 97, "champ": 5.4, "group": "E"}, "Curacao": {"xp": 1.89, "padv": 21, "champ": 0.0, "group": "E"}, "Ivory Coast": {"xp": 5.12, "padv": 71, "champ": 0.2, "group": "E"}, "Ecuador": {"xp": 6.16, "padv": 79, "champ": 0.4, "group": "E"}, "Netherlands": {"xp": 12.44, "padv": 96, "champ": 5.2, "group": "F"}, "Japan": {"xp": 7.79, "padv": 81, "champ": 1.6, "group": "F"}, "Sweden": {"xp": 4.64, "padv": 62, "champ": 0.2, "group": "F"}, "Tunisia": {"xp": 2.78, "padv": 36, "champ": 0.0, "group": "F"}, "Belgium": {"xp": 12.36, "padv": 97, "champ": 4.5, "group": "G"}, "Egypt": {"xp": 5.02, "padv": 69, "champ": 0.2, "group": "G"}, "IR Iran": {"xp": 6.18, "padv": 77, "champ": 0.5, "group": "G"}, "New Zealand": {"xp": 2.19, "padv": 26, "champ": 0.0, "group": "G"}, "Spain": {"xp": 16.24, "padv": 100, "champ": 16.5, "group": "H"}, "Cape Verde": {"xp": 1.77, "padv": 19, "champ": 0.0, "group": "H"}, "Saudi Arabia": {"xp": 2.73, "padv": 37, "champ": 0.0, "group": "H"}, "Uruguay": {"xp": 8.93, "padv": 90, "champ": 2.3, "group": "H"}, "France": {"xp": 14.64, "padv": 99, "champ": 10.8, "group": "I"}, "Senegal": {"xp": 6.62, "padv": 77, "champ": 1.0, "group": "I"}, "Iraq": {"xp": 1.87, "padv": 22, "champ": 0.0, "group": "I"}, "Norway": {"xp": 6.28, "padv": 74, "champ": 0.9, "group": "I"}, "Argentina": {"xp": 15.22, "padv": 99, "champ": 12.7, "group": "J"}, "Algeria": {"xp": 4.78, "padv": 67, "champ": 0.3, "group": "J"}, "Austria": {"xp": 6.16, "padv": 76, "champ": 0.7, "group": "J"}, "Jordan": {"xp": 1.98, "padv": 23, "champ": 0.0, "group": "J"}, "Portugal": {"xp": 13.33, "padv": 98, "champ": 7.0, "group": "K"}, "DR Congo": {"xp": 3.13, "padv": 45, "champ": 0.0, "group": "K"}, "Uzbekistan": {"xp": 2.23, "padv": 28, "champ": 0.0, "group": "K"}, "Colombia": {"xp": 9.21, "padv": 89, "champ": 2.6, "group": "K"}, "England": {"xp": 13.28, "padv": 98, "champ": 7.8, "group": "L"}, "Croatia": {"xp": 9.47, "padv": 89, "champ": 3.2, "group": "L"}, "Ghana": {"xp": 3.06, "padv": 44, "champ": 0.1, "group": "L"}, "Panama": {"xp": 2.42, "padv": 31, "champ": 0.0, "group": "L"}};
+const MAXXP = Math.max(...Object.values(DATA).map(d=>d.xp));
+const KEY = "nicky-draft-v1";
+let state = {}; let order = [];
+try { const s = JSON.parse(localStorage.getItem(KEY)); if(s){ state=s.state||{}; order=s.order||[]; } } catch(e){}
+let sortMode = "val", hideOut = false;
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({state,order})); }catch(e){} }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1800); }
+
+function setState(team, val){
+  if(val==="mine"){
+    if((state[team]!=="mine") && order.length>=6){ toast("You already have 6 picks — remove one first."); return; }
+    state[team]="mine"; if(!order.includes(team)) order.push(team);
+  } else if(val==="taken"){
+    state[team]="taken"; order=order.filter(t=>t!==team);
+  } else {
+    delete state[team]; order=order.filter(t=>t!==team);
+  }
+  save(); render();
+}
+
+function render(){
+  const slots=document.getElementById("slots"); slots.innerHTML="";
+  for(let i=0;i<6;i++){
+    const team=order[i];
+    if(team){
+      const d=DATA[team];
+      slots.innerHTML += `<div class="slot full"><div class="nm">${team}<button title="remove" onclick="setState('${team.replace(/'/g,"\\'")}','avail')">✕</button></div><div class="meta">G${d.group} · ${d.xp} xP · adv ${d.padv}%</div></div>`;
+    } else {
+      slots.innerHTML += `<div class="slot empty"><div class="nm">Pick ${i+1}</div></div>`;
+    }
+  }
+  document.getElementById("pickcount").textContent = order.length+" / 6";
+  const sum = order.reduce((s,t)=>s+DATA[t].xp,0);
+  document.getElementById("sumxp").textContent = sum.toFixed(1);
+  if(order.length===6){
+    const p = order.reduce((s,t)=>s*(DATA[t].padv/100),1)*100;
+    const el=document.getElementById("alladv"); el.textContent=p.toFixed(0)+"%"; el.className="v"+(p<35?" warn":"");
+  } else { document.getElementById("alladv").textContent="—"; document.getElementById("alladv").className="v"; }
+  const cont = order.filter(t=>DATA[t].champ>=4).length;
+  document.getElementById("ceil").textContent = order.length? cont : "—";
+
+  let teams=Object.keys(DATA);
+  if(hideOut) teams=teams.filter(t=>state[t]!=="taken");
+  const board=document.getElementById("board"); board.innerHTML="";
+  if(sortMode==="val"){
+    teams.sort((a,b)=>DATA[b].xp-DATA[a].xp);
+    teams.forEach((t,idx)=> board.innerHTML += rowHTML(t, idx+1));
+  } else {
+    const byg={}; teams.forEach(t=>{ (byg[DATA[t].group]=byg[DATA[t].group]||[]).push(t); });
+    Object.keys(byg).sort().forEach(g=>{
+      board.innerHTML += `<div class="grphead">Group ${g}</div>`;
+      byg[g].sort((a,b)=>DATA[b].xp-DATA[a].xp).forEach(t=> board.innerHTML += rowHTML(t,null));
+    });
+  }
+}
+
+function rowHTML(t, rank){
+  const d=DATA[t]; const st=state[t]||"avail";
+  const cls = st==="mine"?"mine":st==="taken"?"taken":"";
+  const te = t.replace(/'/g,"\\'");
+  let btns;
+  if(st==="mine") btns=`<button class="undo" onclick="setState('${te}','avail')">Undo</button>`;
+  else if(st==="taken") btns=`<button class="undo" onclick="setState('${te}','avail')">Undo</button>`;
+  else btns=`<button class="pick" onclick="setState('${te}','mine')">+ Pick</button><button class="take" onclick="setState('${te}','taken')">Taken</button>`;
+  const w=Math.round(100*d.xp/MAXXP);
+  return `<div class="trow ${cls}">
+    <div class="rank">${rank!==null?rank:""}</div>
+    <div class="tn"><div class="name">${t}${st==="mine"?' ★':''}</div><div class="gg">Group ${d.group} · ${d.champ}% to win it all</div></div>
+    <div class="meter"><span style="width:${w}%"></span></div>
+    <div class="adv">${d.padv}%</div>
+    <div class="xp"><div class="num">${d.xp}</div><div class="lab">xP</div></div>
+    <div class="btns">${btns}</div>
+  </div>`;
+}
+
+document.getElementById("sortVal").onclick=()=>{ sortMode="val"; document.getElementById("sortVal").classList.add("on"); document.getElementById("sortGrp").classList.remove("on"); render(); };
+document.getElementById("sortGrp").onclick=()=>{ sortMode="grp"; document.getElementById("sortGrp").classList.add("on"); document.getElementById("sortVal").classList.remove("on"); render(); };
+document.getElementById("hideOut").onclick=(e)=>{ hideOut=!hideOut; e.target.classList.toggle("on",hideOut); render(); };
+document.getElementById("reset").onclick=()=>{ if(confirm("Clear all picks and marks?")){ state={}; order=[]; save(); render(); } };
+render();
+</script>
+</body>
+</html>
