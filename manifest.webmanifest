@@ -1,0 +1,14 @@
+{
+  "name": "Nicky's World Cup Pool",
+  "short_name": "WC Pool",
+  "description": "Standings, schedule, live draft and daily recaps for Nicky's World Cup 2026 pool.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#10204e",
+  "theme_color": "#10204e",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
