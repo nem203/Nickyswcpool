@@ -84,9 +84,10 @@ module.exports = async (req, res) => {
     const pool = await getPool();
     if (!pool || pool.uninitialized) return res.status(400).json({ error: "pool not initialized" });
 
-    const r = await fetch("https://api.football-data.org/v4/competitions/WC/matches?status=FINISHED", { headers: { "X-Auth-Token": token } });
-    if (!r.ok) return res.status(502).json({ error: "football-data.org responded " + r.status });
-    const data = await r.json();
+    const r = await fetch("https://api.football-data.org/v4/competitions/WC/matches", { headers: { "X-Auth-Token": token } });
+    const rawText = await r.text();
+    let data; try { data = JSON.parse(rawText); } catch (e) { return res.status(502).json({ error: "non-JSON from football-data.org", httpStatus: r.status, body: rawText.slice(0, 400) }); }
+    if (!r.ok) return res.status(502).json({ error: "football-data.org responded " + r.status, body: data });
     const matches = data.matches || [];
 
     const results = Object.assign({}, pool.results || {});
@@ -114,7 +115,11 @@ module.exports = async (req, res) => {
       }
     }
 
-    if (added === 0) return res.status(200).json({ updated: false, message: "no new finished matches", skipped });
+    if (added === 0) {
+      const statuses = {}; matches.forEach(m => { statuses[m.status] = (statuses[m.status]||0)+1; });
+      const sample = matches.slice(0, 4).map(m => ({ status: m.status, home: m.homeTeam && m.homeTeam.name, away: m.awayTeam && m.awayTeam.name, score: m.score && m.score.fullTime, utcDate: m.utcDate, group: m.group }));
+      return res.status(200).json({ updated: false, message: "no new finished matches", apiTotal: matches.length, statuses, sample, skipped });
+    }
 
     pool.results = results;
     pool.teams = recomputeTeams(pool);
