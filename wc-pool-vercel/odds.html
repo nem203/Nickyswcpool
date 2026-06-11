@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Odds — Nicky's World Cup Pool</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#10204e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="WC Pool">
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; --green:#059669; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#eceef1; color:var(--dark); }
+  .wrap{ max-width:820px; margin:0 auto; padding:0 14px 60px; }
+  .top{ background:var(--navy); color:#fff; border-bottom:6px solid var(--orange); padding:16px 22px; display:flex; align-items:center; gap:12px; }
+  .badge{ width:40px;height:40px;border-radius:50%;background:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none; }
+  .top h1{ font-size:18px; } .top a{ color:#9fb0e0; font-size:12px; text-decoration:none; }
+  .intro{ font-size:13px; color:var(--grey); margin:16px 2px; line-height:1.5; }
+  .src{ display:inline-block; background:#1d4ed8; color:#fff; font-size:10px; font-weight:800; letter-spacing:.5px; padding:2px 7px; border-radius:6px; vertical-align:middle; }
+  h2{ font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--navy); margin:26px 0 10px; display:flex; align-items:center; gap:8px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ text-align:left; padding:10px 14px; font-size:14px; } thead th{ font-size:11px; text-transform:uppercase; color:var(--grey); border-bottom:1px solid #eef0f2; }
+  tbody tr{ border-bottom:1px solid #f1f2f4; } tbody tr:last-child{ border-bottom:none; }
+  td.r,th.r{ text-align:right; font-variant-numeric:tabular-nums; }
+  .pdot{ width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle; }
+  .cc{ display:inline-block; background:#eef1f5; color:#10204e; font-weight:800; padding:2px 5px; border-radius:4px; font-size:8px; font-family:ui-monospace,Menlo,Consolas,monospace; margin-right:6px; }
+  .am{ font-weight:800; color:var(--navy); font-variant-numeric:tabular-nums; }
+  .pct{ color:var(--grey); font-size:12px; }
+  .game{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:14px; }
+  .game .gmeta{ font-size:12px; color:var(--grey); margin-bottom:8px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+  .game .matchup{ font-size:16px; font-weight:800; margin-bottom:12px; }
+  .mkts{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  @media(max-width:600px){ .mkts{ grid-template-columns:1fr; } }
+  .mkt{ border:1px solid var(--line); border-radius:9px; padding:10px 12px; }
+  .mkt .ml{ font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--grey); margin-bottom:7px; display:flex; justify-content:space-between; }
+  .mkt .tag{ font-size:9px; color:#9aa3af; font-weight:700; }
+  .line{ display:flex; justify-content:space-between; font-size:13px; padding:3px 0; }
+  .line .am2{ font-weight:700; font-variant-numeric:tabular-nums; }
+  .disclaim{ font-size:11px; color:#9ca3af; margin-top:18px; line-height:1.5; }
+  .msg{ color:var(--grey); font-size:14px; padding:18px 2px; }
+  .stamp{ text-align:right; font-size:11px; color:#9ca3af; margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="top"><span class="badge">26</span><h1>Betting Odds</h1><span style="margin-left:auto"></span><a href="/">Standings</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/draft.html" style="margin-left:14px">Draft →</a></div>
+<div class="wrap">
+  <div class="intro"><span class="src">FANDUEL</span> Moneyline, total goals and World Cup futures are FanDuel's published lines. Draw-no-bet and double chance are computed from FanDuel's moneyline; the spread shows the goal handicap. American odds (e.g. <b>+450</b> = stake 100 to win 450; <b>-150</b> = stake 150 to win 100). Refreshed each morning with the day's slate.</div>
+  <div id="out"><div class="msg">Loading odds…</div></div>
+  <div class="disclaim">For entertainment only — not betting advice. Lines are point-in-time snapshots from FanDuel and move constantly; check the FanDuel app for live prices before wagering.</div>
+  <div class="stamp" id="stamp"></div>
+</div>
+<script>
+let P=null, byPlayer={};
+const colorOf=n=>(P.colors&&P.colors[n])||"#94a3b8";
+const cc=t=>`<span class="cc">${(P.codes&&P.codes[t])||""}</span>`;
+const ownerOf=t=>{ for(const pl in byPlayer) if(byPlayer[pl].includes(t)) return pl; return null; };
+function ownerDot(t){ const o=ownerOf(t); return o?`<span class="pdot" style="background:${colorOf(o)}" title="${o}"></span>`:""; }
+function amerPct(a){ if(a==null) return ""; const n=parseInt(String(a).replace(/\s/g,''),10); if(isNaN(n))return ""; const p=n>0?100/(n+100):(-n)/((-n)+100); return Math.round(p*100)+"%"; }
+
+async function load(){
+  try{ const r=await fetch("/api/state",{cache:"no-store"}); P=await r.json(); render(); }
+  catch(e){ document.getElementById("out").innerHTML=`<div class="msg">Connection issue — retrying…</div>`; }
+}
+function render(){
+  byPlayer={}; (P.order||[]).forEach(p=>byPlayer[p]=[]); (P.picks||[]).forEach(x=>{ if(byPlayer[x.player]) byPlayer[x.player].push(x.team); });
+  const O=P.odds||{};
+  let h="";
+
+  // Title futures (FanDuel)
+  if(O.title && O.title.length){
+    h+=`<h2>🏆 Odds to win the World Cup <span class="src">FANDUEL</span></h2><div class="card"><table><thead><tr><th>Team</th><th>Owner</th><th class="r">Implied</th><th class="r">Odds</th></tr></thead><tbody>`;
+    h+=O.title.map(t=>{ const o=ownerOf(t.team); return `<tr><td>${cc(t.team)}${t.team}</td><td>${o?`<span class="pdot" style="background:${colorOf(o)}"></span>${o}`:'<span class="pct">—</span>'}</td><td class="r pct">${amerPct(t.american)}</td><td class="r am">${t.american||""}</td></tr>`; }).join("");
+    h+=`</tbody></table></div>`;
+    if(O.longshots){ h+=`<div class="disclaim" style="margin-top:8px">Longer shots (triple-digit prices): ${O.longshots}</div>`; }
+  }
+
+  // Today's games — 5 markets each
+  h+=`<h2>📅 ${O.gamesLabel||"Today's games"}</h2>`;
+  if(O.games && O.games.length){
+    h+=O.games.map(g=>{
+      const ml=g.ml||{}, dnb=g.dnb||{}, dc=g.dc||{}, tot=g.total||{}, sp=g.spread||{};
+      return `<div class="game">
+        <div class="gmeta"><span>${g.time||""}</span><span>${g.venue||""}</span></div>
+        <div class="matchup">${ownerDot(g.home)}${g.home} <span style="color:#9ca3af">v</span> ${ownerDot(g.away)}${g.away}</div>
+        <div class="mkts">
+          <div class="mkt"><div class="ml"><span>Moneyline</span><span class="tag">FANDUEL</span></div>
+            <div class="line"><span>${g.home}</span><span class="am2">${ml.home||"—"}</span></div>
+            <div class="line"><span>Draw</span><span class="am2">${ml.draw||"—"}</span></div>
+            <div class="line"><span>${g.away}</span><span class="am2">${ml.away||"—"}</span></div>
+          </div>
+          <div class="mkt"><div class="ml"><span>Draw no bet</span><span class="tag">from ML</span></div>
+            <div class="line"><span>${g.home}</span><span class="am2">${dnb.home||"—"}</span></div>
+            <div class="line"><span>${g.away}</span><span class="am2">${dnb.away||"—"}</span></div>
+          </div>
+          <div class="mkt"><div class="ml"><span>Total goals</span><span class="tag">FANDUEL</span></div>
+            <div class="line"><span>Over ${tot.line||""}</span><span class="am2">${tot.over||"—"}</span></div>
+            <div class="line"><span>Under ${tot.line||""}</span><span class="am2">${tot.under||"—"}</span></div>
+          </div>
+          <div class="mkt"><div class="ml"><span>Spread (goal handicap)</span><span class="tag">approx</span></div>
+            <div class="line"><span>${sp.homeLine||g.home}</span><span class="am2">${sp.home||"—"}</span></div>
+            <div class="line"><span>${sp.awayLine||g.away}</span><span class="am2">${sp.away||"—"}</span></div>
+          </div>
+          <div class="mkt" style="grid-column:1/-1"><div class="ml"><span>Double chance</span><span class="tag">from ML</span></div>
+            <div class="line"><span>${g.home} or Draw (1X)</span><span class="am2">${dc.hd||"—"}</span></div>
+            <div class="line"><span>${g.home} or ${g.away} (12)</span><span class="am2">${dc.ha||"—"}</span></div>
+            <div class="line"><span>Draw or ${g.away} (X2)</span><span class="am2">${dc.da||"—"}</span></div>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+  } else {
+    h+=`<div class="msg">The day's match lines post each morning with the daily update.</div>`;
+  }
+
+  document.getElementById("out").innerHTML=h || `<div class="msg">Odds post each morning once the tournament is underway.</div>`;
+  document.getElementById("stamp").textContent=O.updated?("Odds updated "+O.updated):"";
+}
+load(); setInterval(load, 60000);
+</script>
+</body>
+</html>

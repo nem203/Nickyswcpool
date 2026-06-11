@@ -32,7 +32,43 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: null,   // { date:"Jun 17", html:"<...>" } latest daily report (pushed by the morning task)
-  ntfyTopic: "nickys-wcpool-draft-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on every pick
+  ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [],   // [{label,pts:{...}}] daily standings, drives the Points Over Time chart
-  stats: {}      // cumulative scorers/assists (future stats page)
+  stats: {},     // cumulative scorers/assists (future stats page)
+  // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
+  // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
+  odds: {
+    updated: "Jun 11, 2026",
+    gamesLabel: "Thu Jun 11 — Group A",
+    title: [
+      { team: "Spain", american: "+450" }, { team: "France", american: "+500" },
+      { team: "England", american: "+700" }, { team: "Brazil", american: "+850" },
+      { team: "Portugal", american: "+850" }, { team: "Argentina", american: "+1000" },
+      { team: "Germany", american: "+1300" }, { team: "Netherlands", american: "+1600" },
+      { team: "Belgium", american: "+2200" }, { team: "Colombia", american: "+4000" },
+      { team: "Morocco", american: "+5000" }, { team: "Uruguay", american: "+5500" },
+      { team: "Croatia", american: "+7500" }
+    ],
+    longshots: "all other drafted teams sit at +10000 or longer — the morning update refreshes the full board.",
+    games: [
+      {
+        id: "A-1", time: "Thu Jun 11 · 3:00 PM ET", venue: "Estadio Azteca, Mexico City",
+        home: "Mexico", away: "South Africa",
+        ml: { home: "-260", draw: "+360", away: "+700" },
+        dnb: { home: "-580", away: "+575" },
+        dc: { hd: "-750", ha: "-390", da: "+210" },
+        total: { line: "2.5", over: "+116", under: "-148" },
+        spread: { homeLine: "Mexico -1", home: "-115", awayLine: "South Africa +1", away: "-105" }
+      },
+      {
+        id: "A-2", time: "Thu Jun 11 · 10:00 PM ET", venue: "Estadio Akron, Guadalajara",
+        home: "South Korea", away: "Czech Republic",
+        ml: { home: "+160", draw: "+200", away: "+195" },
+        dnb: { home: "-115", away: "+105" },
+        dc: { hd: "-210", ha: "-215", da: "-175" },
+        total: { line: "2.5", over: "+130", under: "-141" },
+        spread: { homeLine: "South Korea -0.5", home: "+125", awayLine: "Czech Republic +0.5", away: "-155" }
+      }
+    ]
+  }
 };
