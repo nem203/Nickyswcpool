@@ -9,6 +9,8 @@ module.exports = async (req, res) => {
       pool = JSON.parse(JSON.stringify(SEED));
       await setPool(pool);
     }
+    // Backfill odds for pools initialized before the field existed, so the Odds page isn't blank pre-token; the daily task overwrites it with live data.
+    if (pool && !pool.odds && SEED.odds) pool.odds = SEED.odds;
     res.setHeader("Cache-Control", "no-store");
     res.status(200).json(pool);
   } catch (e) {

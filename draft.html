@@ -47,7 +47,7 @@
 </style>
 </head>
 <body>
-<div class="top"><span class="badge">26</span><h1>Live Draft</h1><a href="/" style="margin-left:auto">Standings</a><a href="/rules.html" style="margin-left:14px">Rules</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/recap.html" style="margin-left:14px">Recap →</a></div>
+<div class="top"><span class="badge">26</span><h1>Live Draft</h1><a href="/" style="margin-left:auto">Standings</a><a href="/rules.html" style="margin-left:14px">Rules</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/odds.html" style="margin-left:14px">Odds</a><a href="/recap.html" style="margin-left:14px">Recap →</a></div>
 <div class="wrap">
   <div class="me">You are: <select id="meSel"><option value="">— pick your name —</option></select><span id="meHint" class="msg" style="padding:0"></span></div>
   <div id="pushbar" style="display:none; background:#fff7ed; border:1px solid #f3c6a8; border-radius:12px; padding:11px 16px; margin:0 0 14px; font-size:13px; color:#9a3412; line-height:1.5"></div>
@@ -95,7 +95,7 @@ function render(){
   const pb = document.getElementById("pushbar");
   if (POOL.ntfyTopic) {
     pb.style.display = "block";
-    pb.innerHTML = `📲 <b>Get phone alerts:</b> install the free <b>ntfy</b> app, then subscribe to topic <b>${POOL.ntfyTopic}</b> — or open <a href="https://ntfy.sh/${POOL.ntfyTopic}" target="_blank" rel="noopener" style="color:#9a3412">ntfy.sh/${POOL.ntfyTopic}</a>. Buzzes your phone on every pick, even when locked.`;
+    pb.innerHTML = `📲 <b>Get phone alerts:</b> install the free <b>ntfy</b> app, then subscribe to topic <b>${POOL.ntfyTopic}</b> — or open <a href="https://ntfy.sh/${POOL.ntfyTopic}" target="_blank" rel="noopener" style="color:#9a3412">ntfy.sh/${POOL.ntfyTopic}</a>. Buzzes your phone on standings updates &amp; the daily report, even when locked.`;
   }
 
   const total = POOL.order.length * (POOL.rounds||6);
