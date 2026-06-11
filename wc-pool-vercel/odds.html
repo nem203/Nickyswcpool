@@ -67,6 +67,7 @@ const colorOf=n=>(P.colors&&P.colors[n])||"#94a3b8";
 const cc=t=>`<span class="cc">${(P.codes&&P.codes[t])||""}</span>`;
 const ownerOf=t=>{ for(const pl in byPlayer) if(byPlayer[pl].includes(t)) return pl; return null; };
 function ownerDot(t){ const o=ownerOf(t); return o?`<span class="pdot" style="background:${colorOf(o)}" title="${o}"></span>`:""; }
+function ownerName(t){ const o=ownerOf(t); return o?` <span class="sub">(${o})</span>`:""; }
 function amerPct(a){ if(a==null) return ""; const n=parseInt(String(a).replace(/\s/g,''),10); if(isNaN(n))return ""; const p=n>0?100/(n+100):(-n)/((-n)+100); return Math.round(p*100)+"%"; }
 
 async function load(){
@@ -85,7 +86,7 @@ function render(){
       const ml=g.ml||{}, dnb=g.dnb||{}, dc=g.dc||{}, tot=g.total||{}, sp=g.spread||{};
       return `<div class="game">
         <div class="gmeta"><span>${g.time||""}</span><span>${g.venue||""}</span></div>
-        <div class="matchup">${ownerDot(g.home)}${g.home} <span style="color:#9ca3af">v</span> ${ownerDot(g.away)}${g.away}</div>
+        <div class="matchup">${ownerDot(g.home)}${g.home}${ownerName(g.home)} <span style="color:#9ca3af">v</span> ${ownerDot(g.away)}${g.away}${ownerName(g.away)}</div>
         <div class="mkts">
           <div class="mkt"><div class="ml"><span>Moneyline</span><span class="tag">FANDUEL</span></div>
             <div class="line"><span>${g.home}</span><span class="am2">${ml.home||"—"}</span></div>
