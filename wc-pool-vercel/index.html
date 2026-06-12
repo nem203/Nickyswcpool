@@ -29,6 +29,7 @@
   th,td{ text-align:left; padding:11px 14px; font-size:14px; } thead th{ font-size:11px; text-transform:uppercase; color:var(--grey); border-bottom:1px solid #eef0f2; }
   tbody tr{ border-bottom:1px solid #f1f2f4; } tbody tr:last-child{ border-bottom:none; } .lead td{ background:#fff7ed; }
   .pdot{ width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle; }
+  .pdot[style*="#ffffff"], .odot[style*="#ffffff"], .ptbar span[style*="#ffffff"]{ border:1.5px solid #2563eb; box-sizing:border-box; }
   .pts{ text-align:right; font-weight:800; }
   .rosters{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
   .roster{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px 15px; }
@@ -155,7 +156,7 @@ function renderChart(){
   if(typeof Chart==="undefined"){ setTimeout(renderChart,250); return; }
   cv.style.display="block"; if(emp)emp.textContent="";
   const labels=H.map(x=>x.label);
-  const ds=P.order.map(n=>({ label:n, data:H.map(x=>x.pts&&x.pts[n]!=null?x.pts[n]:null), borderColor:colorOf(n), backgroundColor:colorOf(n), borderWidth:2.5, tension:.25, pointRadius:2, spanGaps:true }));
+  const ds=P.order.map(n=>({ label:n, data:H.map(x=>x.pts&&x.pts[n]!=null?x.pts[n]:null), borderColor:colorOf(n)==="#ffffff"?"#2563eb":colorOf(n), backgroundColor:colorOf(n)==="#ffffff"?"#2563eb":colorOf(n), borderWidth:2.5, tension:.25, pointRadius:2, spanGaps:true }));
   if(chartInst)chartInst.destroy();
   chartInst=new Chart(cv.getContext("2d"),{ type:"line", data:{labels,datasets:ds}, options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:"index",intersect:false}, plugins:{legend:{position:"bottom",labels:{boxWidth:12,font:{size:12}}}}, scales:{y:{beginAtZero:true,title:{display:true,text:"Total points"}}} } });
 }

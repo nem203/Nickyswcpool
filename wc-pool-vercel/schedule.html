@@ -100,7 +100,8 @@ const VENUES = {
 };
 const PATTERN = [[[0,1],[2,3]],[[0,2],[3,1]],[[3,0],[1,2]]];
 const MONTHS = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6 };
-const FALLBACK_COLORS = { "Nicky":"#ea580c","Reilly":"#d97706","Diccy":"#db2777","Gary":"#eab308","Gabey":"#059669","Lee":"#7c3aed" };
+const FALLBACK_COLORS = { "Nicky":"#ea580c","Reilly":"#d97706","Diccy":"#db2777","Gary":"#ffffff","Gabey":"#059669","Lee":"#7c3aed" };
+const txtCol = c => (String(c).toLowerCase()==="#ffffff" ? "#2563eb" : c);
 
 function schedDate(id){ const s=SCHED[id]; const m=s.match(/([A-Z][a-z]{2}) (\d+) · (\d+):(\d+) (AM|PM)/); let hr=(+m[3])%12; if(m[5]==="PM")hr+=12; return new Date(2026,MONTHS[m[1]],+m[2],hr,+m[4]); }
 function engChannel(time){ return (/^12:00 PM|^1:00 PM/.test(time)) ? "FS1" : "FOX"; } // mid-day games tend to be FS1
@@ -111,12 +112,12 @@ function renderFilters(){
   const players=Object.keys(PICKS).length?Object.keys(PICKS):Object.keys(FALLBACK_COLORS);
   let html=`<button class="fchip${filterMgr===null?' on':''}" onclick="setFilter(null)">All teams</button>`;
   players.forEach(p=>{ const c=COLORS[p]||FALLBACK_COLORS[p]||'#999'; const on=filterMgr===p;
-    html+=`<button class="fchip${on?' on':''}" style="${on?`background:${c};border-color:${c};color:#fff`:''}" onclick="setFilter('${p}')"><span class="fdot" style="background:${c}"></span>${p}</button>`; });
+    html+=`<button class="fchip${on?' on':''}" style="${on?`background:${txtCol(c)};border-color:${txtCol(c)};color:#fff`:''}" onclick="setFilter('${p}')"><span class="fdot" style="background:${txtCol(c)}"></span>${p}</button>`; });
   el.innerHTML=html;
 }
 function setFilter(m){ filterMgr=m; build(); }
 function ownerOf(t){ for(const p in PICKS) if((PICKS[p]||[]).includes(t)) return p; return null; }
-function teamHTML(t){ const o=ownerOf(t); const c=`<span class="cc">${CODES[t]||""}</span>${t}`; return o?`<span style="color:${COLORS[o]||'#999'};font-weight:700">${c} <span style="font-weight:600;opacity:.8">(${o})</span></span>`:c; }
+function teamHTML(t){ const o=ownerOf(t); const c=`<span class="cc">${CODES[t]||""}</span>${t}`; return o?`<span style="color:${txtCol(COLORS[o]||'#999')};font-weight:700">${c} <span style="font-weight:600;opacity:.8">(${o})</span></span>`:c; }
 
 function build(){
   const out=[];
