@@ -4,7 +4,7 @@ module.exports = {
   order: ["Nicky", "Reilly", "Diccy", "Gary", "Gabey", "Lee"],
   colors: {
     "Nicky": "#ea580c", "Reilly": "#d97706", "Diccy": "#db2777",
-    "Gary": "#eab308", "Gabey": "#059669", "Lee": "#7c3aed"
+    "Gary": "#ffffff", "Gabey": "#059669", "Lee": "#7c3aed"
   },
   rounds: 6,
   scoring: {
