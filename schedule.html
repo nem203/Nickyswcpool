@@ -126,7 +126,9 @@ function build(){
       out.push({ id, g, home:ts[a], away:ts[b], d:schedDate(id), date:SCHED[id].split(" · ")[0], time, venue:VENUES[id]||"", ch:engChannel(time) }); })); });
   out.sort((x,y)=>x.d-y.d);
   renderFilters();
-  const fixtures = filterMgr ? out.filter(m=>ownerOf(m.home)===filterMgr||ownerOf(m.away)===filterMgr) : out;
+  const now=new Date(); const today0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const upcoming = out.filter(m=> m.d && new Date(m.d.getFullYear(),m.d.getMonth(),m.d.getDate()) >= today0);
+  const fixtures = filterMgr ? upcoming.filter(m=>ownerOf(m.home)===filterMgr||ownerOf(m.away)===filterMgr) : upcoming;
   let html=""; let curDay="";
   fixtures.forEach(m=>{
     if(m.date!==curDay){ if(curDay) html+="</div>"; curDay=m.date; html+=`<div class="day">${m.date}</div><div class="card">`; }

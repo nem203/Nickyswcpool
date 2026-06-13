@@ -38,8 +38,8 @@ module.exports = {
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
   odds: {
-    updated: "Jun 11, 2026",
-    gamesLabel: "Thu Jun 11 — Group A",
+    updated: "Jun 13, 2026",
+    gamesLabel: "Sat Jun 13 — Groups B & C",
     title: [
       { team: "Spain", american: "+450" }, { team: "France", american: "+500" },
       { team: "England", american: "+700" }, { team: "Brazil", american: "+850" },
@@ -52,22 +52,31 @@ module.exports = {
     longshots: "all other drafted teams sit at +10000 or longer — the morning update refreshes the full board.",
     games: [
       {
-        id: "A-1", time: "Thu Jun 11 · 3:00 PM ET", venue: "Estadio Azteca, Mexico City",
-        home: "Mexico", away: "South Africa",
-        ml: { home: "-260", draw: "+360", away: "+700" },
-        dnb: { home: "-580", away: "+575" },
-        dc: { hd: "-750", ha: "-390", da: "+210" },
-        total: { line: "2.5", over: "+116", under: "-148" },
-        spread: { homeLine: "Mexico -1", home: "-115", awayLine: "South Africa +1", away: "-105" }
+        id: "B-2", time: "Sat Jun 13 · 3:00 PM ET", venue: "Levi's Stadium, Santa Clara",
+        home: "Qatar", away: "Switzerland",
+        ml: { home: "+1400", draw: "+550", away: "-550" },
+        dnb: { home: "+1300", away: "-1300" },
+        dc: { hd: "+380", ha: "-600", da: "-1500" },
+        total: { line: "2.5", over: "+110", under: "-135" },
+        spread: { homeLine: "Qatar +1.5", home: "+100", awayLine: "Switzerland -1.5", away: "-120" }
       },
       {
-        id: "A-2", time: "Thu Jun 11 · 10:00 PM ET", venue: "Estadio Akron, Guadalajara",
-        home: "South Korea", away: "Czech Republic",
-        ml: { home: "+160", draw: "+200", away: "+195" },
-        dnb: { home: "-115", away: "+105" },
-        dc: { hd: "-210", ha: "-215", da: "-175" },
-        total: { line: "2.5", over: "+130", under: "-141" },
-        spread: { homeLine: "South Korea -0.5", home: "+125", awayLine: "Czech Republic +0.5", away: "-155" }
+        id: "C-1", time: "Sat Jun 13 · 6:00 PM ET", venue: "MetLife Stadium, NY/NJ",
+        home: "Brazil", away: "Morocco",
+        ml: { home: "-155", draw: "+300", away: "+450" },
+        dnb: { home: "-340", away: "+340" },
+        dc: { hd: "-470", ha: "-320", da: "+141" },
+        total: { line: "2.5", over: "-138", under: "+110" },
+        spread: { homeLine: "Brazil -1", home: "+135", awayLine: "Morocco +1", away: "-165" }
+      },
+      {
+        id: "C-2", time: "Sat Jun 13 · 9:00 PM ET", venue: "Gillette Stadium, Foxborough",
+        home: "Haiti", away: "Scotland",
+        ml: { home: "+525", draw: "+350", away: "-225" },
+        dnb: { home: "+430", away: "-430" },
+        dc: { hd: "+181", ha: "-380", da: "-580" },
+        total: { line: "2.5", over: "-105", under: "-115" },
+        spread: { homeLine: "Haiti +1", home: "-135", awayLine: "Scotland -1", away: "+110" }
       }
     ],
     goldenBoot: [
