@@ -1,4 +1,5 @@
 const { getPool, setPool } = require("./_kv");
+const SEED = require("./_seed");
 
 // Auto-updater: runs on Vercel's servers (not the sandbox), fetches finished
 // World Cup matches from football-data.org, maps them to the pool's group-match
@@ -124,6 +125,16 @@ module.exports = async (req, res) => {
     pool.results = results;
     pool.teams = recomputeTeams(pool);
     if (pool.ntfyTopic === "nickys-wcpool-draft-9k4m2") pool.ntfyTopic = "nickys-wcpool-alerts-9k4m2";
+    // maintain daily standings history for the Points Over Time chart
+    if (!Array.isArray(pool.history) || !pool.history.length) { try { pool.history = JSON.parse(JSON.stringify(SEED.history || [])); } catch (e) { pool.history = []; } }
+    { const S = pool.scoring;
+      const tp = t => { if(!t) return 0; let p=(t.gw||0)*S.groupWin+(t.gd||0)*S.groupDraw+(t.r32||0)*S.r32+(t.r16||0)*S.r16+(t.qf||0)*S.qf+(t.sf||0)*S.sf+(t.third||0)*S.third+(t.final||0)*S.final; if(t.groupPlace===1)p+=S.bonus1st; else if(t.groupPlace===2)p+=S.bonus2nd; else if(t.groupPlace==="3adv")p+=S.bonus3rdAdvance; if(t.sweep)p+=S.bonusSweep; return p; };
+      const byP={}; (pool.order||[]).forEach(n=>byP[n]=[]); (pool.picks||[]).forEach(x=>{ if(byP[x.player]) byP[x.player].push(x.team); });
+      const pts={}; (pool.order||[]).forEach(n=>{ let tot=0,adv=0; (byP[n]||[]).forEach(tn=>{ const t=pool.teams[tn]; tot+=tp(t); if(t&&t.advanced)adv++; }); if((byP[n]||[]).length===(pool.rounds||6)&&adv===(pool.rounds||6))tot+=S.bonusAllAdvance; pts[n]=tot; });
+      const label = new Date().toLocaleDateString("en-US",{ timeZone:"America/New_York", month:"short", day:"numeric" });
+      const ex = pool.history.find(h=>h.label===label);
+      if (ex) ex.pts = pts; else pool.history.push({ label, pts });
+    }
     await setPool(pool);
 
     if (pool.ntfyTopic){

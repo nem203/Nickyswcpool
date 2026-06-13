@@ -33,7 +33,10 @@ module.exports = {
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: null,   // { date:"Jun 17", html:"<...>" } latest daily report (pushed by the morning task)
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
-  history: [],   // [{label,pts:{...}}] daily standings, drives the Points Over Time chart
+  history: [
+    { label: "Jun 11", pts: { Nicky:2, Reilly:0, Diccy:2, Gary:0, Gabey:0, Lee:0 } },
+    { label: "Jun 12", pts: { Nicky:2, Reilly:1, Diccy:5, Gary:0, Gabey:0, Lee:0 } }
+  ],   // [{label,pts:{...}}] daily standings, drives the Points Over Time chart
   stats: {},     // cumulative scorers/assists (future stats page)
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
