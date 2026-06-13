@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
     if (pool && !pool.odds && SEED.odds) pool.odds = SEED.odds;
     if (pool && SEED.colors) pool.colors = Object.assign({}, pool.colors, SEED.colors);
     if (pool && (!pool.history || !pool.history.length) && SEED.history) pool.history = SEED.history;
+    if (pool && !pool.recap && SEED.recap) pool.recap = SEED.recap;
     res.setHeader("Cache-Control", "no-store");
     res.status(200).json(pool);
   } catch (e) {

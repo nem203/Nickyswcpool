@@ -31,7 +31,34 @@ module.exports = {
   picks: [],     // [{team, player}] in draft order
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
-  recap: null,   // { date:"Jun 17", html:"<...>" } latest daily report (pushed by the morning task)
+  recap: {
+    date: "Matchday 1 — through Jun 12",
+    html: `<h3>The story so far</h3>
+<p>Four matches in and the table already sorts the contenders from the cardboard cutouts. Grades below. No curve, no therapist, no apologies.</p>
+<h3>Results so far</h3>
+<ul>
+<li>Mexico 2–0 South Africa</li>
+<li>South Korea 2–1 Czech Republic</li>
+<li>Canada 1–1 Bosnia &amp; Herzegovina</li>
+<li>United States 4–1 Paraguay</li>
+</ul>
+<h3>Report card</h3>
+<p><b>Diccy — A.</b> Five points, top of the table, and not one earned against a team that actually wanted to be there. You drafted both host nations <i>and</i> Mexico — the stat-padding equivalent of beating up your little brother and demanding a trophy. It's not a roster, it's a participation-trophy scheme. The second a team with a pulse shows up, this whole house of tortillas comes down.</p>
+<p><b>Nicky — B−.</b> South Korea did the heavy lifting while Spain and Netherlands sit in the locker room charging their phones. Your entire strategy is the guy at the bar swearing his band "just hasn't peaked yet." Two points and a mouth writing checks your bench can't cash.</p>
+<p><b>Reilly — C+.</b> Canada scraped a draw and you celebrated like the moon landing. France hasn't kicked a ball and is already carrying a team that, frankly, doesn't exist yet. Your roster is a group project where France does everything and you still turn it in late.</p>
+<p><b>Lee — D.</b> Czech Republic got bodied by South Korea and that's somehow your headliner. Let's call this roster what it is: a dumpster fire that someone keeps lobbing tires onto. Argentina and Belgium are "still loading" — the same energy as the kid who didn't study insisting he "tests well." Right now you're contributing to this pool like a screen door on a submarine.</p>
+<p><b>Gary — F.</b> Paraguay got hauled out back and beaten 4–1, and your team color is white, so congrats on the rare double: invisible on the scoreboard <i>and</i> the chart. Zero points. We checked twice to confirm you actually drafted. If apathy were a manager, it'd have more goals than you.</p>
+<p><b>Gabey — Incomplete.</b> Zero points, not one team that's bothered to take the field — you're not a manager, you're a guy who bought a ticket and stayed in the parking lot. Real talk, my friend: skip the rest of the World Cup entirely, save yourself the embarrassment, and go pour your heart into the Knicks. This roster is so bad that even Brazil is going to need a minute alone after dragging the rest of this dead weight around for a month.</p>
+<h3>Standings</h3>
+<table><thead><tr><th>#</th><th>Manager</th><th>Pts</th></tr></thead><tbody>
+<tr><td>1</td><td>Diccy</td><td>5</td></tr>
+<tr><td>2</td><td>Nicky</td><td>2</td></tr>
+<tr><td>3</td><td>Reilly</td><td>1</td></tr>
+<tr><td>4</td><td>Gary</td><td>0</td></tr>
+<tr><td>4</td><td>Gabey</td><td>0</td></tr>
+<tr><td>4</td><td>Lee</td><td>0</td></tr>
+</tbody></table>`
+  },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
     { label: "Jun 11", pts: { Nicky:2, Reilly:0, Diccy:2, Gary:0, Gabey:0, Lee:0 } },
