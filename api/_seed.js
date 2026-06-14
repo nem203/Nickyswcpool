@@ -32,31 +32,31 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Matchday 1 — through Jun 12",
+    date: "Matchday 2 — Sat Jun 13",
     html: `<h3>The story so far</h3>
-<p>Four matches in and the table already sorts the contenders from the cardboard cutouts. Grades below. No curve, no therapist, no apologies.</p>
-<h3>Results so far</h3>
+<p>Matchday 2 is done and the table just got spicy — your co-leaders are deadlocked at the top, the bottom is a genuine knife fight, and, far more importantly: Gabey's New York Knicks just won the NBA Championship. Saturday grades below (and yes, we're going easy on the new champ).</p>
+<h3>Saturday's results</h3>
 <ul>
-<li>Mexico 2–0 South Africa</li>
-<li>South Korea 2–1 Czech Republic</li>
-<li>Canada 1–1 Bosnia &amp; Herzegovina</li>
-<li>United States 4–1 Paraguay</li>
+<li>Qatar 1–1 Switzerland</li>
+<li>Brazil 1–1 Morocco</li>
+<li>Scotland 1–0 Haiti</li>
+<li>Australia 2–0 Türkiye</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A.</b> Five points, top of the table, and not one earned against a team that actually wanted to be there. You drafted both host nations <i>and</i> Mexico — the stat-padding equivalent of beating up your little brother and demanding a trophy. It's not a roster, it's a participation-trophy scheme. The second a team with a pulse shows up, this whole house of tortillas comes down.</p>
-<p><b>Nicky — B−.</b> South Korea did the heavy lifting while Spain and Netherlands sit in the locker room charging their phones. Your entire strategy is the guy at the bar swearing his band "just hasn't peaked yet." Two points and a mouth writing checks your bench can't cash.</p>
-<p><b>Reilly — C+.</b> Canada scraped a draw and you celebrated like the moon landing. France hasn't kicked a ball and is already carrying a team that, frankly, doesn't exist yet. Your roster is a group project where France does everything and you still turn it in late.</p>
-<p><b>Lee — D.</b> Czech Republic got bodied by South Korea and that's somehow your headliner. Let's call this roster what it is: a dumpster fire that someone keeps lobbing tires onto. Argentina and Belgium are "still loading" — the same energy as the kid who didn't study insisting he "tests well." Right now you're contributing to this pool like a screen door on a submarine.</p>
-<p><b>Gary — F.</b> Paraguay got hauled out back and beaten 4–1, and your team color is white, so congrats on the rare double: invisible on the scoreboard <i>and</i> the chart. Zero points. We checked twice to confirm you actually drafted. If apathy were a manager, it'd have more goals than you.</p>
-<p><b>Gabey — Incomplete.</b> Zero points, not one team that's bothered to take the field — you're not a manager, you're a guy who bought a ticket and stayed in the parking lot. Real talk, my friend: skip the rest of the World Cup entirely, save yourself the embarrassment, and go pour your heart into the Knicks. This roster is so bad that even Brazil is going to need a minute alone after dragging the rest of this dead weight around for a month.</p>
+<p><b>Diccy — A−.</b> Still tied for the lead — by doing absolutely nothing, because none of your teams even played Saturday and Nicky reeled you in anyway. The host-nation gravy train is idling in the station and the whole field just caught up to it. Five points built entirely on home cooking, and with the lead suddenly under siege, it might just be time to hit the Ravine and clear the head. The kitchen's about to get a lot more crowded.</p>
+<p><b>Nicky — A.</b> Australia and Morocco did the dirty work to barge you into a share of first place — and the best part lands today: your sweet, sweet <b>Netherlands finally take the field</b>, with Spain not far behind. The role players hauled you to the top; now the headliners get their turn, and the Oranje are about to make a statement. Tied for first, mouth fully licensed. Look out.</p>
+<p><b>Reilly — C−.</b> Another day, another zero stapled to your lonely little point. France remains less a soccer team and more a rumor you keep repeating to feel something. Canada is your entire portfolio, and Canada drew. Diversify, my guy.</p>
+<p><b>Lee — C.</b> Stop the presses: Scotland — <i>Scotland</i> — won a World Cup match and yanked you off the bottom. The dumpster fire found one working sprinkler. Savor it, because Turkey got bulldozed 2–0 the same night, so the fire is very much still roaring. Argentina and Belgium remain "still loading," same energy as the kid who didn't study but swears he "tests well."</p>
+<p><b>Gary — Incomplete (but vibing).</b> Sure, the scoreboard says zero and the color's still white — but we'll let it slide today. Word is Gary's back in Boston, posted up at the bars with the Tartan Army after Scotland's win just up the road in Foxborough. And let's be honest: Portugal and Germany haven't even kicked off yet, so the points are coming. Enjoy the pints, big fella — the standings can wait.</p>
+<p><b>Gabey — Champion.</b> We're calling off the dogs today, for the best reasons imaginable: your <b>New York Knicks are NBA CHAMPIONS</b> — and to top it off, your guy <b>Lewis Hamilton just scored his first win in Ferrari red</b>. A title banner and a maiden Ferrari victory in the same weekend? After everything those two have put you through, the victory lap is earned, so the World Cup grades can wait a day. Sure, Brazil and Switzerland both drew, but who's counting? You're a champion twice over by association and nobody can take that away. Soak it in, you legend. Normal service (and the roast) resumes tomorrow.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th></tr></thead><tbody>
 <tr><td>1</td><td>Diccy</td><td>5</td></tr>
-<tr><td>2</td><td>Nicky</td><td>2</td></tr>
-<tr><td>3</td><td>Reilly</td><td>1</td></tr>
-<tr><td>4</td><td>Gary</td><td>0</td></tr>
-<tr><td>4</td><td>Gabey</td><td>0</td></tr>
-<tr><td>4</td><td>Lee</td><td>0</td></tr>
+<tr><td>1</td><td>Nicky</td><td>5</td></tr>
+<tr><td>3</td><td>Gabey</td><td>2</td></tr>
+<tr><td>3</td><td>Lee</td><td>2</td></tr>
+<tr><td>5</td><td>Reilly</td><td>1</td></tr>
+<tr><td>6</td><td>Gary</td><td>0</td></tr>
 </tbody></table>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
