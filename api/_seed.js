@@ -32,32 +32,40 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Matchday 2 — Sat Jun 13",
+    date: "Morning Report — Mon Jun 15",
     html: `<h3>The story so far</h3>
-<p>Matchday 2 is done and the table just got spicy — your co-leaders are deadlocked at the top, the bottom is a genuine knife fight, and, far more importantly: Gabey's New York Knicks just won the NBA Championship. Saturday grades below (and yes, we're going easy on the new champ).</p>
-<h3>Saturday's results</h3>
+<p>Sunday was a goal-fest — 23 of them across four games — and the table got shaken like a snow globe. Gary went from dead last to genuine contender in one afternoon, Nicky's alone at the top, and the Knicks honeymoon is officially over. Movement column added so you can see exactly who's rising and who's sinking. Grades below.</p>
+<h3>Sunday's results</h3>
 <ul>
-<li>Qatar 1–1 Switzerland</li>
-<li>Brazil 1–1 Morocco</li>
-<li>Scotland 1–0 Haiti</li>
-<li>Australia 2–0 Türkiye</li>
+<li>Germany 7–1 Curaçao</li>
+<li>Netherlands 2–2 Japan</li>
+<li>Ivory Coast 1–0 Ecuador</li>
+<li>Sweden 5–1 Tunisia</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A−.</b> Still tied for the lead — by doing absolutely nothing, because none of your teams even played Saturday and Nicky reeled you in anyway. The host-nation gravy train is idling in the station and the whole field just caught up to it. Five points built entirely on home cooking, and with the lead suddenly under siege, it might just be time to hit the Ravine and clear the head. The kitchen's about to get a lot more crowded.</p>
-<p><b>Nicky — A.</b> Australia and Morocco did the dirty work to barge you into a share of first place — and the best part lands today: your sweet, sweet <b>Netherlands finally take the field</b>, with Spain not far behind. The role players hauled you to the top; now the headliners get their turn, and the Oranje are about to make a statement. Tied for first, mouth fully licensed. Look out.</p>
-<p><b>Reilly — C−.</b> Another day, another zero stapled to your lonely little point. France remains less a soccer team and more a rumor you keep repeating to feel something. Canada is your entire portfolio, and Canada drew. Diversify, my guy.</p>
-<p><b>Lee — C.</b> Stop the presses: Scotland — <i>Scotland</i> — won a World Cup match and yanked you off the bottom. The dumpster fire found one working sprinkler. Savor it, because Turkey got bulldozed 2–0 the same night, so the fire is very much still roaring. Argentina and Belgium remain "still loading," same energy as the kid who didn't study but swears he "tests well."</p>
-<p><b>Gary — Incomplete (but vibing).</b> Sure, the scoreboard says zero and the color's still white — but we'll let it slide today. Word is Gary's back in Boston, posted up at the bars with the Tartan Army after Scotland's win just up the road in Foxborough. And let's be honest: Portugal and Germany haven't even kicked off yet, so the points are coming. Enjoy the pints, big fella — the standings can wait.</p>
-<p><b>Gabey — Champion.</b> We're calling off the dogs today, for the best reasons imaginable: your <b>New York Knicks are NBA CHAMPIONS</b> — and to top it off, your guy <b>Lewis Hamilton just scored his first win in Ferrari red</b>. A title banner and a maiden Ferrari victory in the same weekend? After everything those two have put you through, the victory lap is earned, so the World Cup grades can wait a day. Sure, Brazil and Switzerland both drew, but who's counting? You're a champion twice over by association and nobody can take that away. Soak it in, you legend. Normal service (and the roast) resumes tomorrow.</p>
+<p><b>Diccy — B.</b> Another quiet Sunday on the couch and you got leapfrogged — Nicky's clear of you now and Gary sprinted right up your back. None of your teams played. Again. Still nursing the hangover from Friday night's 4–1 USA romp, apparently — and while you slept it off, the host-nation lead you built quietly started shrinking.</p>
+<p><b>Nicky — A.</b> The sweet, sweet Netherlands you hyped all weekend… drew 2–2 with Japan. Bit of an anticlimax for the headline act. But the role players keep covering for you, and you've backed into <i>sole</i> first place anyway. The luckiest man in the pool stays on top — for now.</p>
+<p><b>Reilly — D.</b> Didn't play, got passed by everyone who did, and now sits dead last all by yourself. France remains a rumor you whisper to feel something. The entire portfolio is one drawn Canada and a prayer — and the prayer hasn't kicked off yet. But chin up, champ: at least Darien won the state championship. Cling to that one — it might be the only banner you raise all summer.</p>
+<p><b>Lee — B−.</b> Ivory Coast nicked a 90th-minute winner over Ecuador and suddenly the dumpster fire has two working sprinklers. Up to 4th and genuinely climbing. The catch? You're now stuck exactly one spot behind Gary — yes, <i>that</i> Gary, the guy who couldn't even be bothered to congratulate you on your Knicks winning it all, and he <i>still</i> ranks above you. Argentina and Belgium remain no-shows, but credit where it's due — the fire's finally pointed in the right direction.</p>
+<p><b>Gary — A+.</b> Stop everything: yesterday's milk-carton candidate just dropped <b>five points in one afternoon</b>. Germany hung a SEVEN on Curaçao, Sweden put five on Tunisia, and Japan chipped in a draw against Nicky's Dutch. Dead last to the podium in a single Sunday — the white jersey is suddenly the hottest brand in the pool. That Tartan Army hangover was clearly worth it.</p>
+<p><b>Gabey — C−.</b> The championship hangover hit hard. Ecuador went down to a last-gasp Ivory Coast goal, you banked nothing, and you slid to 5th. The Knicks banner and the Ferrari win were glorious, my friend — but the World Cup's gone cold again, and it's back to the parking lot. Brazil needs to actually win one of these.</p>
 <h3>Standings</h3>
-<table><thead><tr><th>#</th><th>Manager</th><th>Pts</th></tr></thead><tbody>
-<tr><td>1</td><td>Diccy</td><td>5</td></tr>
-<tr><td>1</td><td>Nicky</td><td>5</td></tr>
-<tr><td>3</td><td>Gabey</td><td>2</td></tr>
-<tr><td>3</td><td>Lee</td><td>2</td></tr>
-<tr><td>5</td><td>Reilly</td><td>1</td></tr>
-<tr><td>6</td><td>Gary</td><td>0</td></tr>
-</tbody></table>`
+<table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
+<tr><td>1</td><td>Nicky</td><td>6</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>2</td><td>Diccy</td><td>5</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>3</td><td>Gary</td><td>5</td><td><span style="color:#059669">▲ 3</span></td></tr>
+<tr><td>4</td><td>Lee</td><td>4</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>5</td><td>Gabey</td><td>2</td><td><span style="color:#dc2626">▼ 2</span></td></tr>
+<tr><td>6</td><td>Reilly</td><td>1</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+</tbody></table>
+<h3>Today's slate (Mon Jun 15)</h3>
+<ul>
+<li>12:00 PM ET — Spain <b>(Nicky)</b> v Cape Verde</li>
+<li>3:00 PM ET — Belgium <b>(Lee)</b> v Egypt <b>(Diccy)</b></li>
+<li>6:00 PM ET — Saudi Arabia v Uruguay <b>(Gary)</b></li>
+<li>9:00 PM ET — Iran <b>(Reilly)</b> v New Zealand</li>
+</ul>
+<p>The big guns are out at last: Spain finally plays, and Belgium v Egypt is a head-to-head — Lee and Diccy go to war directly. Gary can stretch his lead with Uruguay, and Reilly's lonely portfolio adds Iran. Gabey, with no team in action today, is free to keep polishing that Knicks banner.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
