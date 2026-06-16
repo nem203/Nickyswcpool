@@ -32,40 +32,40 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Morning Report — Mon Jun 15",
+    date: "Morning Report — Tue Jun 16",
     html: `<h3>The story so far</h3>
-<p>Sunday was a goal-fest — 23 of them across four games — and the table got shaken like a snow globe. Gary went from dead last to genuine contender in one afternoon, Nicky's alone at the top, and the Knicks honeymoon is officially over. Movement column added so you can see exactly who's rising and who's sinking. Grades below.</p>
-<h3>Sunday's results</h3>
+<p>Monday was the day the goals dried up — every single game ended level, so points trickled in but <i>nobody</i> moved an inch on the table. Five managers grabbed a point; Gabey sat it out. The Move column is a sea of dashes. Grades below.</p>
+<h3>Monday's results — all draws</h3>
 <ul>
-<li>Germany 7–1 Curaçao</li>
-<li>Netherlands 2–2 Japan</li>
-<li>Ivory Coast 1–0 Ecuador</li>
-<li>Sweden 5–1 Tunisia</li>
+<li>Spain 0–0 Cape Verde</li>
+<li>Belgium 1–1 Egypt</li>
+<li>Saudi Arabia 1–1 Uruguay</li>
+<li>Iran 2–2 New Zealand</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — B.</b> Another quiet Sunday on the couch and you got leapfrogged — Nicky's clear of you now and Gary sprinted right up your back. None of your teams played. Again. Still nursing the hangover from Friday night's 4–1 USA romp, apparently — and while you slept it off, the host-nation lead you built quietly started shrinking.</p>
-<p><b>Nicky — A.</b> The sweet, sweet Netherlands you hyped all weekend… drew 2–2 with Japan. Bit of an anticlimax for the headline act. But the role players keep covering for you, and you've backed into <i>sole</i> first place anyway. The luckiest man in the pool stays on top — for now.</p>
-<p><b>Reilly — D.</b> Didn't play, got passed by everyone who did, and now sits dead last all by yourself. France remains a rumor you whisper to feel something. The entire portfolio is one drawn Canada and a prayer — and the prayer hasn't kicked off yet. But chin up, champ: at least Darien won the state championship. Cling to that one — it might be the only banner you raise all summer.</p>
-<p><b>Lee — B−.</b> Ivory Coast nicked a 90th-minute winner over Ecuador and suddenly the dumpster fire has two working sprinklers. Up to 4th and genuinely climbing. The catch? You're now stuck exactly one spot behind Gary — yes, <i>that</i> Gary, the guy who couldn't even be bothered to congratulate you on your Knicks winning it all, and he <i>still</i> ranks above you. Argentina and Belgium remain no-shows, but credit where it's due — the fire's finally pointed in the right direction.</p>
-<p><b>Gary — A+.</b> Stop everything: yesterday's milk-carton candidate just dropped <b>five points in one afternoon</b>. Germany hung a SEVEN on Curaçao, Sweden put five on Tunisia, and Japan chipped in a draw against Nicky's Dutch. Dead last to the podium in a single Sunday — the white jersey is suddenly the hottest brand in the pool. That Tartan Army hangover was clearly worth it.</p>
-<p><b>Gabey — C−.</b> The championship hangover hit hard. Ecuador went down to a last-gasp Ivory Coast goal, you banked nothing, and you slid to 5th. The Knicks banner and the Ferrari win were glorious, my friend — but the World Cup's gone cold again, and it's back to the parking lot. Brazil needs to actually win one of these.</p>
+<p><b>Diccy — B.</b> Egypt nicked a point off Belgium to keep you in 2nd — but Gary's now dead level with you on points and climbing. The host nations have gone quiet and suddenly <i>Egypt</i> is the one holding your spot up, a sentence nobody expected to type. Lean on the Pharaohs any harder and you'll start walking like one — at this rate Diccy crowns himself pharaoh by the knockouts. The lead's gone; now it's a scrap.</p>
+<p><b>Nicky — B+.</b> Your tournament-favorite Spain got held scoreless by <i>Cape Verde</i> — genuinely embarrassing — but a point's a point and you're still clear at the top with 7. Your headliners keep finding new ways to underwhelm, and somehow it never costs you. Austria's up tonight to keep the gravy flowing.</p>
+<p><b>Reilly — C+.</b> A pulse! Iran snatched a point in a 2–2 thriller with New Zealand — though let's be clear, drafting <i>Iran</i> in the first place was a deeply unpatriotic move and the committee is watching you closely. Still tied for last, but no longer alone at one. And it's a big day: your France <i>and</i> Senegal finally play — against each other, somehow, which caps that entire fixture at a measly two points no matter what happens.</p>
+<p><b>Lee — B.</b> Belgium finally turned up… for a 1–1 draw. The stars keep sputtering, but a point nudges you to 5 — still stuck one rung below Gary, the man who couldn't be bothered to congratulate you on your Knicks title and somehow keeps finishing above you. Let's be honest, though — you probably have no idea any of this is even happening, because you're always on calls. Argentina makes its debut tonight; time to find out if the dumpster fire has a ceiling.</p>
+<p><b>Gary — B.</b> Uruguay could only manage a draw with Saudi Arabia, so Sunday's fireworks cooled to a single point — but it's enough to pull dead level with Diccy for 2nd. From milk carton to genuine title race in 72 hours. Don't let it go to the white-jerseyed head.</p>
+<p><b>Gabey — C.</b> Day off — no teams in action, no points, no movement — so you sat frozen in 5th while everyone around you quietly banked a point. At least the downtime let you focus on what really matters: mortgage rates stubbornly refusing to drop. Norway and Algeria are up today; the campaign could use a pulse.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Nicky</td><td>6</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>2</td><td>Diccy</td><td>5</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
-<tr><td>3</td><td>Gary</td><td>5</td><td><span style="color:#059669">▲ 3</span></td></tr>
-<tr><td>4</td><td>Lee</td><td>4</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>5</td><td>Gabey</td><td>2</td><td><span style="color:#dc2626">▼ 2</span></td></tr>
-<tr><td>6</td><td>Reilly</td><td>1</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>1</td><td>Nicky</td><td>7</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>2</td><td>Diccy</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>3</td><td>Gary</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>4</td><td>Lee</td><td>5</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>5</td><td>Gabey</td><td>2</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>6</td><td>Reilly</td><td>2</td><td><span style="color:#9ca3af">—</span></td></tr>
 </tbody></table>
-<h3>Today's slate (Mon Jun 15)</h3>
+<h3>Today's slate (Tue Jun 16)</h3>
 <ul>
-<li>12:00 PM ET — Spain <b>(Nicky)</b> v Cape Verde</li>
-<li>3:00 PM ET — Belgium <b>(Lee)</b> v Egypt <b>(Diccy)</b></li>
-<li>6:00 PM ET — Saudi Arabia v Uruguay <b>(Gary)</b></li>
-<li>9:00 PM ET — Iran <b>(Reilly)</b> v New Zealand</li>
+<li>3:00 PM ET — France <b>(Reilly)</b> v Senegal <b>(Reilly)</b></li>
+<li>6:00 PM ET — Iraq v Norway <b>(Gabey)</b></li>
+<li>9:00 PM ET — Argentina <b>(Lee)</b> v Algeria <b>(Gabey)</b></li>
+<li>12:00 AM ET — Austria <b>(Nicky)</b> v Jordan</li>
 </ul>
-<p>The big guns are out at last: Spain finally plays, and Belgium v Egypt is a head-to-head — Lee and Diccy go to war directly. Gary can stretch his lead with Uruguay, and Reilly's lonely portfolio adds Iran. Gabey, with no team in action today, is free to keep polishing that Knicks banner.</p>`
+<p>Groups I and J open up. Reilly's France and Senegal play <i>each other</i> — a guaranteed point either way, the rumor made real. Lee's Argentina makes its debut, Gabey's Norway and Algeria try to wake the campaign up, and Nicky pads the stat sheet with Austria.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
