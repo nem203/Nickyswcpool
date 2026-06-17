@@ -32,40 +32,40 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Morning Report — Tue Jun 16",
+    date: "Morning Report — Wed Jun 17",
     html: `<h3>The story so far</h3>
-<p>Monday was the day the goals dried up — every single game ended level, so points trickled in but <i>nobody</i> moved an inch on the table. Five managers grabbed a point; Gabey sat it out. The Move column is a sea of dashes. Grades below.</p>
-<h3>Monday's results — all draws</h3>
+<p>The stars finally clocked in. Argentina, France, Norway and Austria all won and won comfortably — 14 goals among them — and the table moved for real. Lee rocketed from 4th to 2nd, Nicky pulled clear at 9, and the couch-sitters (Diccy, Gary) got passed. Grades below.</p>
+<h3>Tuesday's results</h3>
 <ul>
-<li>Spain 0–0 Cape Verde</li>
-<li>Belgium 1–1 Egypt</li>
-<li>Saudi Arabia 1–1 Uruguay</li>
-<li>Iran 2–2 New Zealand</li>
+<li>France 3–1 Senegal</li>
+<li>Norway 4–1 Iraq</li>
+<li>Argentina 3–0 Algeria</li>
+<li>Austria 3–1 Jordan</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — B.</b> Egypt nicked a point off Belgium to keep you in 2nd — but Gary's now dead level with you on points and climbing. The host nations have gone quiet and suddenly <i>Egypt</i> is the one holding your spot up, a sentence nobody expected to type. Lean on the Pharaohs any harder and you'll start walking like one — at this rate Diccy crowns himself pharaoh by the knockouts. The lead's gone; now it's a scrap.</p>
-<p><b>Nicky — B+.</b> Your tournament-favorite Spain got held scoreless by <i>Cape Verde</i> — genuinely embarrassing — but a point's a point and you're still clear at the top with 7. Your headliners keep finding new ways to underwhelm, and somehow it never costs you. Austria's up tonight to keep the gravy flowing.</p>
-<p><b>Reilly — C+.</b> A pulse! Iran snatched a point in a 2–2 thriller with New Zealand — though let's be clear, drafting <i>Iran</i> in the first place was a deeply unpatriotic move and the committee is watching you closely. Still tied for last, but no longer alone at one. And it's a big day: your France <i>and</i> Senegal finally play — against each other, somehow, which caps that entire fixture at a measly two points no matter what happens.</p>
-<p><b>Lee — B.</b> Belgium finally turned up… for a 1–1 draw. The stars keep sputtering, but a point nudges you to 5 — still stuck one rung below Gary, the man who couldn't be bothered to congratulate you on your Knicks title and somehow keeps finishing above you. Let's be honest, though — you probably have no idea any of this is even happening, because you're always on calls. Argentina makes its debut tonight; time to find out if the dumpster fire has a ceiling.</p>
-<p><b>Gary — B.</b> Uruguay could only manage a draw with Saudi Arabia, so Sunday's fireworks cooled to a single point — but it's enough to pull dead level with Diccy for 2nd. From milk carton to genuine title race in 72 hours. Don't let it go to the white-jerseyed head.</p>
-<p><b>Gabey — C.</b> Day off — no teams in action, no points, no movement — so you sat frozen in 5th while everyone around you quietly banked a point. At least the downtime let you focus on what really matters: mortgage rates stubbornly refusing to drop. Norway and Algeria are up today; the campaign could use a pulse.</p>
+<p><b>Diccy — B−.</b> Another idle day on the couch and you slipped to 3rd as the field played on around you, and the crown got a good bit wobblier. England <i>and</i> DR Congo both play today — including a direct head-to-head with Reilly's Croatia — but rumor has it you're going dark and won't catch a single minute. No chance that is true.</p>
+<p><b>Nicky — A.</b> Austria rolled Jordan 3–1, you're out to <b>9 points</b>, and the lead is now commanding. The role-player machine simply does not stop — and the terrifying part for everyone else is that Spain and the Netherlands still haven't really gotten going.</p>
+<p><b>Reilly — B.</b> Exactly as foretold: your France–Senegal civil war paid out precisely two points, France handling business 3–1. You're up to 4 and finally climbing. And you've got <i>two</i> games on the slate today — Croatia and Colombia — so there's every chance you steamroll right past inevitable-last-place Gabey.</p>
+<p><b>Lee — A.</b> Argentina announced itself with a 3–0 demolition of Algeria and the dumpster fire is officially a bonfire — you've leapt from 4th all the way to <b>2nd</b>, the biggest jump of the day. Climbing out of that wreckage was always going to require a god-like intervention — and boy, did Messi deliver. The GOAT personally dragged you up the table while you were, presumably, on a call.</p>
+<p><b>Gary — B−.</b> Quiet Tuesday, no teams in action, and you slid to 4th as Lee blew past you. Portugal finally takes the field today — hopefully not having eyes on Austria last night won't jinx you.</p>
+<p><b>Gabey — B.</b> A pulse at last! Norway battered Iraq 4–1 for your first win of the tournament — though Algeria got steamrolled 3–0 by Argentina the same night, so call it a win-plus. Up to 4. Still no relief on those mortgage rates, but on the pitch, progress is progress. Just remember, though: you've played a full game more than Reilly for those same 4 points, so on the math you're actually still in last.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Nicky</td><td>7</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>2</td><td>Diccy</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>3</td><td>Gary</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>4</td><td>Lee</td><td>5</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>5</td><td>Gabey</td><td>2</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>6</td><td>Reilly</td><td>2</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>1</td><td>Nicky</td><td>9</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>2</td><td>Lee</td><td>7</td><td><span style="color:#059669">▲ 2</span></td></tr>
+<tr><td>3</td><td>Diccy</td><td>6</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>4</td><td>Gary</td><td>6</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>5</td><td>Gabey</td><td>4</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>6</td><td>Reilly</td><td>4</td><td><span style="color:#9ca3af">—</span></td></tr>
 </tbody></table>
-<h3>Today's slate (Tue Jun 16)</h3>
+<h3>Today's slate (Wed Jun 17)</h3>
 <ul>
-<li>3:00 PM ET — France <b>(Reilly)</b> v Senegal <b>(Reilly)</b></li>
-<li>6:00 PM ET — Iraq v Norway <b>(Gabey)</b></li>
-<li>9:00 PM ET — Argentina <b>(Lee)</b> v Algeria <b>(Gabey)</b></li>
-<li>12:00 AM ET — Austria <b>(Nicky)</b> v Jordan</li>
+<li>1:00 PM ET — Portugal <b>(Gary)</b> v DR Congo <b>(Diccy)</b></li>
+<li>4:00 PM ET — England <b>(Diccy)</b> v Croatia <b>(Reilly)</b></li>
+<li>7:00 PM ET — Ghana <b>(Gabey)</b> v Panama</li>
+<li>10:00 PM ET — Uzbekistan v Colombia <b>(Reilly)</b></li>
 </ul>
-<p>Groups I and J open up. Reilly's France and Senegal play <i>each other</i> — a guaranteed point either way, the rumor made real. Lee's Argentina makes its debut, Gabey's Norway and Algeria try to wake the campaign up, and Nicky pads the stat sheet with Austria.</p>`
+<p>Groups K and L close out the opening round with two manager duels: Gary's Portugal v Diccy's DR Congo, and Diccy's England v Reilly's Croatia. Gabey's Ghana and Reilly's Colombia round it out — only Nicky and Lee have the day off.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
