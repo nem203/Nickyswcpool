@@ -32,40 +32,40 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Morning Report — Thu Jun 18",
+    date: "Morning Report — Fri Jun 19",
     html: `<h3>The story so far</h3>
-<p>Plot twist of the tournament: Diccy "went dark," watched zero minutes, and his teams still hauled him from 3rd back to a tie for the lead — England battered Reilly's Croatia 4–2 and DR Congo nicked a point. It's a logjam now: 9–9 at the top, 7–7 in the middle, 6–6 at the back. Grades below.</p>
-<h3>Wednesday's results</h3>
+<p>Day 8 cracked the table open. Diccy's Mexico beat Nicky's South Korea 1–0 in the heavyweight clash to break clear at the top, Canada hammered Qatar 6–0 for Reilly, Switzerland routed Diccy's Bosnia for Gabey — and Gary, sitting idle, got passed by the entire field into dead last. Grades below.</p>
+<h3>Thursday's results</h3>
 <ul>
-<li>Portugal 1–1 DR Congo</li>
-<li>England 4–2 Croatia</li>
-<li>Ghana 1–0 Panama</li>
-<li>Colombia 3–1 Uzbekistan</li>
+<li>Czechia 1–1 South Africa</li>
+<li>Switzerland 4–1 Bosnia &amp; Herzegovina</li>
+<li>Canada 6–0 Qatar</li>
+<li>Mexico 1–0 South Korea</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A+.</b> Unbelievable. You "went dark," didn't watch a single minute, and your teams still dragged you from 3rd to a tie for <b>1st</b> — England bludgeoned Reilly's Croatia 4–2 and DR Congo grabbed a point off Portugal. Turns out the secret to this whole pool is simply refusing to acknowledge it exists. Back on top, somehow, without even looking.</p>
-<p><b>Nicky — B+.</b> The Commish sits tied for first place — and get this, his top three picks (Spain, Netherlands, Morocco) have done nothing but <i>draw</i>. Imagine the carnage when they actually start winning. The rest of the pool had better watch out for that handsome Dutch bastard. Tonight, his South Korea faces Diccy's Mexico in a genuine four-pointer.</p>
-<p><b>Reilly — C−.</b> Let's stop being polite about it: you are in <b>dead last</b>, and it is not a fluke. You loudly called your shot to steamroll past Gabey — then Croatia got carpet-bombed 4–2 by England the very same day and you faceplanted right back to the bottom. Colombia's 3–1 bailed you out — and let's be honest, it is certainly not the first time you've been saved by Colombia ;) — but one functioning team does not a roster make, and let's not forget you literally drafted <i>both sides</i> of a match to cap your own ceiling. The big talk keeps writing checks the squad cannot cash. Two games today to claw out of the basement; the bar is on the floor.</p>
-<p><b>Lee — C+.</b> A day off and the Messi magic wore off fast — you tumbled from 2nd all the way to 4th without kicking a ball. That's the danger of a quiet day when the pack is this tight: stand still and the field tramples you. You're also out here claiming you caught Ghana's fantastic late winner live — but we all know you were buried on a call and saw exactly none of it. Czech Republic plays today; maybe actually watch this one.</p>
-<p><b>Gary — C+.</b> Portugal fumbled what should've been an easy two points, drawing DR Congo — and they did it the full Penaldo way, with Ronaldo spurning one glaring chance after another up top. You and your captain make quite the pair. The point still nudges you to 7 and a share of 3rd, but the critics are circling with the obvious question: is Gary, like his striker, simply too old for this?</p>
-<p><b>Gabey — B.</b> Brutal week off the pitch — the Fed signaled a rate hike this year, so those mortgage rates aren't dropping any time soon — but you persevered and captured two key points, with Ghana edging Panama 1–0 for your second straight win. Up to 6 and still a nose ahead of Reilly. The campaign has a heartbeat. Switzerland faces Diccy's Bosnia today: a chance to climb and dent a co-leader in one go.</p>
+<p><b>Diccy — A.</b> The heavyweight bout went your way — Mexico knocked off Nicky's South Korea 1–0, clinched its spot, and you've broken clear at the top with <b>11</b>. A few days ago you were 5 back and "going dark"; now you're alone in front. Infuriating, frankly.</p>
+<p><b>Nicky — C+.</b> The four-pointer went the wrong way — South Korea fell to Diccy's Mexico, you banked nothing, and the handsome Dutch bastard suddenly sits two back in clear 2nd. Those vaunted top picks are <i>still</i> only drawing (or now losing). At some point the talent has to actually show up, Commish — Morocco and Australia get their shot today.</p>
+<p><b>Reilly — B.</b> CANADA 6–0! Your Canucks made genuine history with their first-ever World Cup win, and you finally clawed off the bottom — and guess who you passed on the way up? Inevitable-last-place… Gary. The prophecy half-delivered, just not the half you saw coming. Still drafted both sides of a match, mind you, but today we let it slide.</p>
+<p><b>Lee — B−.</b> Czech Republic could only draw South Africa, so it's a single point and you're treading water in the 8-point logjam at 4th. Whether you actually saw it is, as always, an open question — the calls wait for no man. Big chance today though: both Turkey and Scotland play, so there's real ground to make up.</p>
+<p><b>Gary — D.</b> A genuinely brutal day on the bench: you didn't kick a ball and the <i>entire field</i> leapfrogged you straight into dead last. Paraguay's your only runner today; please, anything.</p>
+<p><b>Gabey — A.</b> Oh, how the tides have turned. Switzerland battered Diccy's Bosnia 4–1 — you dented a co-leader <i>and</i> vaulted to 3rd, your best spot yet — and your odds to win the pool are now skyrocketing right alongside mortgage rates. The Fed can hike all it likes; on the pitch you are surging. Brazil finally tries to win one today against Haiti — do that and you're knocking on the door up top.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Diccy</td><td>9</td><td><span style="color:#059669">▲ 2</span></td></tr>
-<tr><td>2</td><td>Nicky</td><td>9</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
-<tr><td>3</td><td>Gary</td><td>7</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>4</td><td>Lee</td><td>7</td><td><span style="color:#dc2626">▼ 2</span></td></tr>
-<tr><td>5</td><td>Gabey</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>6</td><td>Reilly</td><td>6</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>1</td><td>Diccy</td><td>11</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>2</td><td>Nicky</td><td>9</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>3</td><td>Gabey</td><td>8</td><td><span style="color:#059669">▲ 2</span></td></tr>
+<tr><td>4</td><td>Lee</td><td>8</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>5</td><td>Reilly</td><td>8</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>6</td><td>Gary</td><td>7</td><td><span style="color:#dc2626">▼ 3</span></td></tr>
 </tbody></table>
-<h3>Today's slate (Thu Jun 18)</h3>
+<h3>Today's slate (Fri Jun 19)</h3>
 <ul>
-<li>12:00 PM ET — Czech Republic <b>(Lee)</b> v South Africa</li>
-<li>3:00 PM ET — Switzerland <b>(Gabey)</b> v Bosnia &amp; Herzegovina <b>(Diccy)</b></li>
-<li>6:00 PM ET — Canada <b>(Reilly)</b> v Qatar</li>
-<li>9:00 PM ET — Mexico <b>(Diccy)</b> v South Korea <b>(Nicky)</b></li>
+<li>3:00 PM ET — United States <b>(Diccy)</b> v Australia <b>(Nicky)</b></li>
+<li>6:00 PM ET — Scotland <b>(Lee)</b> v Morocco <b>(Nicky)</b></li>
+<li>9:00 PM ET — Brazil <b>(Gabey)</b> v Haiti</li>
+<li>12:00 AM ET — Turkey <b>(Lee)</b> v Paraguay <b>(Gary)</b></li>
 </ul>
-<p>Matchday 2 opens in Groups A and B, and the headliner is the co-leaders colliding: Diccy's Mexico v Nicky's South Korea. Gabey's Switzerland also draws Diccy's Bosnia. Gary's the only manager fully on the sidelines today.</p>`
+<p>Groups C and D, matchday 2 — and it's Diccy vs Nicky <i>again</i>: USA v Australia, a rematch of the title fight. Nicky's Morocco also draws Lee's Scotland, Gabey's Brazil chases a first win, and the nightcap pits Lee's Turkey against Gary's Paraguay. Reilly's the only one off today.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
