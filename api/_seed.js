@@ -32,40 +32,42 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Morning Report — Mon Jun 22",
+    date: "Morning Report — Wed Jun 24",
     html: `<h3>The story so far</h3>
-<p>Sunday reshuffled the summit. Diccy's Egypt ground out their first-ever World Cup win and Nicky's Spain dismantled Saudi Arabia 4–0 — both vault to 15 and a share of first, knocking Gary off the top after his Uruguay could only draw. Down in the basement, Belgium and Iran played out a goalless six-pointer, handing Lee and Reilly a point apiece. Grades below.</p>
-<h3>Sunday's results</h3>
+<p>The summit got crowded again. Gary's Portugal demolished Uzbekistan 5–0 (a Ronaldo brace) to surge back into a three-way tie for first at 16 with Diccy and Gabey, both of whom scraped draws to hold on. But the day belonged to Reilly: Colombia and Croatia both won 1–0, a +4 haul that finally delivered the long-promised second-half surge — and bounced idle Lee down to dead last. Grades below.</p>
+<h3>Tuesday's results</h3>
 <ul>
-<li>Spain 4–0 Saudi Arabia</li>
-<li>Uruguay 2–2 Cape Verde</li>
-<li>Belgium 0–0 Iran</li>
-<li>Egypt 3–1 New Zealand</li>
+<li>Portugal 5–0 Uzbekistan</li>
+<li>Colombia 1–0 DR Congo</li>
+<li>England 0–0 Ghana</li>
+<li>Croatia 1–0 Panama</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A.</b> Egypt did the work — a 3–1 over New Zealand, their first-ever World Cup win — and you sit tied for the lead at 15 — with a game in hand on the field. The lead you thought had slipped away is right back, and then some. Funny how that keeps happening for you. Off today, so kick back and watch the chasers sweat.</p>
-<p><b>Nicky — A+.</b> You asked the sleeping giant to wake and Spain ANSWERED — a 4–0 demolition of Saudi Arabia, Yamal pulling every string. You've stormed to 15 and a share of first. The pool is now well and truly yours to seize. Austria's out today against Lee's Argentina — keep the foot down. Great job, you handsome Dutch bastard.</p>
-<p><b>Reilly — C+.</b> The basement six-pointer ended even — Iran's 0–0 with Belgium banked you a point and nudged you to 9, though the alphabet still has you dead last. Notably, you were the lone American in the country rooting for the Iranians — and presumably the only one who disagrees with them being escorted out of the country seconds after the final whistle. But here comes the turn you keep promising: France <b>and</b> Senegal both play today. The great second-half Reilly surge has officially run out of excuses.</p>
-<p><b>Lee — C.</b> Belgium looked as listless as your chances in this pool — a goalless draw with Iran. You're tied with Reilly at 9, despite him having played three fewer games than you. Let that sink in. Argentina's out today against Nicky's Austria: win that head-to-head or the basement is your permanent address.</p>
-<p><b>Gary — B.</b> Splitting a point with a country nobody has ever heard of is not how you want your Sunday to go — Uruguay could only draw Cape Verde 2–2, two points left on the table, and you slip to 3rd as Diccy and Nicky pulled level at 15. Still very much alive on 14. Off today, so no damage to be done — and none to be undone. The lead is right there.</p>
-<p><b>Gabey — B−.</b> An idle Sunday while the top three feasted — you're holding at 11, but the gap to first ballooned to four. And it's house-closing week, a monumentous day in the lad's life — good luck with the logistics. You used to fret about the gap between renting and owning; your gap in this pool is now creeping dangerously close to those historic highs. The good news: Norway and Algeria both play today, with Norway drawn against Reilly's Senegal in a tasty head-to-head. A real chance to claw points back before the gap hardens.</p>
+<p><b>Diccy — B.</b> A mixed night across your two head-to-heads — England ground out a goalless draw with Gabey's Ghana, but DR Congo got nicked 1–0 by Reilly's Colombia. Just +1 on the day, and yet you're STILL atop a three-way tie at 16. The phenomenon endures. Two more in action today — Bosnia and Mexico close their groups — so the cushion-less lead gets another test.</p>
+<p><b>Nicky — C+.</b> An idle Tuesday and the table slid right past you — you're 4th now on 15, the only one of the top four who didn't move. The handsome Dutch bastard has gone quiet. Morocco and South Korea both close their groups today; you'll need points to climb back into the title picture.</p>
+<p><b>Reilly — A+.</b> THE SURGE IS REAL. Colombia edged DR Congo 1–0 and Croatia saw off Panama 1–0 — back-to-back wins, +4 on the day — and just like you swore for two weeks, the second-half Reilly has arrived. You've vaulted to 15 and, for the first time, climbed OUT of the basement. Canada plays today to keep the heater running.</p>
+<p><b>Lee — D.</b> You enjoyed the view from not-quite-last for exactly one day. Reilly's double-win surge sailed right past your idle side, and the basement is once again, fittingly, yours — dead last on 11. Scotland and Czech Republic both play today; time to actually show up, or last place becomes a long-term lease.</p>
+<p><b>Gary — A.</b> The big dog ROARED. Portugal battered Uzbekistan 5–0 with a Ronaldo brace, and you've surged right back into a three-way tie for first at 16 — exactly the statement the doubters needed. And you weren't even watching your own team: spotted at the England game having the time of your life with the lads. Off today, so plant the flag on your share of the summit and enjoy the view.</p>
+<p><b>Gabey — A−.</b> Ghana couldn't break down Diccy's England — a goalless draw — but a point keeps you locked in a three-way tie for first at 16. Not Monday's four-point fireworks, but holding station at the very top mid-house-closing week is no small feat. You're on a generational run — from laughing stock to outright leader in a matter of days. Switzerland and Brazil both play today for a real crack at the outright lead.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Diccy</td><td>15</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>2</td><td>Nicky</td><td>15</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>3</td><td>Gary</td><td>14</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
-<tr><td>4</td><td>Gabey</td><td>11</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>5</td><td>Lee</td><td>9</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>6</td><td>Reilly</td><td>9</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>1</td><td>Diccy</td><td>16</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>2</td><td>Gabey</td><td>16</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>3</td><td>Gary</td><td>16</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>4</td><td>Nicky</td><td>15</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>5</td><td>Reilly</td><td>15</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>6</td><td>Lee</td><td>11</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
 </tbody></table>
-<h3>Today's slate (Mon Jun 22)</h3>
+<h3>Today's slate (Wed Jun 24)</h3>
 <ul>
-<li>1:00 PM ET — Argentina <b>(Lee)</b> v Austria <b>(Nicky)</b></li>
-<li>5:00 PM ET — France <b>(Reilly)</b> v Iraq</li>
-<li>8:00 PM ET — Norway <b>(Gabey)</b> v Senegal <b>(Reilly)</b></li>
-<li>11:00 PM ET — Jordan v Algeria <b>(Gabey)</b></li>
+<li>3:00 PM ET — Switzerland <b>(Gabey)</b> v Canada <b>(Reilly)</b></li>
+<li>3:00 PM ET — Bosnia and Herzegovina <b>(Diccy)</b> v Qatar</li>
+<li>6:00 PM ET — Scotland <b>(Lee)</b> v Brazil <b>(Gabey)</b></li>
+<li>6:00 PM ET — Morocco <b>(Nicky)</b> v Haiti</li>
+<li>9:00 PM ET — Czech Republic <b>(Lee)</b> v Mexico <b>(Diccy)</b></li>
+<li>9:00 PM ET — South Africa v South Korea <b>(Nicky)</b></li>
 </ul>
-<p>Groups I and J, matchday 2 — and it's a bottom-half showcase. Two head-to-heads headline it: Lee's Argentina v Nicky's Austria, and Gabey's Norway v Reilly's Senegal. Reilly's France and Gabey's Algeria round out a huge day for the chasers, while Diccy and Gary sit back and watch their lead get tested.</p>`
+<p>Groups A, B and C wrap up — matchday 3, win-or-go-home for the teams and a points bonanza for the pool. Everyone's in action except Gary: two apiece for Diccy (Bosnia, Mexico), Lee (Scotland, Czech Republic), Nicky (Morocco, South Korea) and Gabey (Switzerland, Brazil), plus Reilly's Canada. Group-placement bonuses start landing tonight.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
