@@ -57,7 +57,7 @@
 <body>
 <div class="top"><span class="badge">26</span><h1>Betting Odds</h1><span style="margin-left:auto"></span><a href="/">Standings</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/analysis.html" style="margin-left:14px">Analysis</a><a href="/bracket.html" style="margin-left:14px">Bracket</a><a href="/draft.html" style="margin-left:14px">Draft →</a></div>
 <div class="wrap">
-  <div class="intro"><span class="src">FANDUEL</span> Moneyline, totals, futures, Golden Boot and group-winner lines are FanDuel's published odds. Draw-no-bet &amp; double chance are computed from FanDuel's moneyline; spread &amp; advance are estimates (FanDuel posts live handicap &amp; to-qualify markets). American odds: <b>+450</b> = stake 100 to win 450; <b>-150</b> = stake 150 to win 100. Refreshed each morning.</div>
+  <div class="intro"><span class="src">FANDUEL</span> Knockout stage. Each Round-of-32 tie shows FanDuel's 90-minute moneyline (win / draw / win) and the <b>to advance</b> price (includes extra time &amp; penalties), plus updated title &amp; Golden Boot futures. American odds: <b>+450</b> = stake 100 to win 450; <b>-150</b> = stake 150 to win 100. Refreshed each morning.</div>
   <div id="out"><div class="msg">Loading odds…</div></div>
   <div class="disclaim">For entertainment only — not betting advice. Lines are point-in-time snapshots from FanDuel and move constantly; check the FanDuel app for live prices before wagering.</div>
   <div class="stamp" id="stamp"></div>
@@ -88,33 +88,24 @@ function render(){
   h+=`<h2>📅 ${O.gamesLabel||"Today's games"}</h2>`;
   if(games.length){
     h+=games.map(g=>{
-      const ml=g.ml||{}, dnb=g.dnb||{}, dc=g.dc||{}, tot=g.total||{}, sp=g.spread||{};
+      const ml=g.ml||{}, ta=g.toadv||{}, tot=g.total||{};
       return `<div class="game">
         <div class="gmeta"><span>${g.time||""}</span><span>${g.venue||""}</span></div>
         <div class="matchup">${ownerDot(g.home)}${g.home}${ownerName(g.home)} <span style="color:#9ca3af">v</span> ${ownerDot(g.away)}${g.away}${ownerName(g.away)}</div>
         <div class="mkts">
-          <div class="mkt"><div class="ml"><span>Moneyline</span><span class="tag">FANDUEL</span></div>
+          <div class="mkt"><div class="ml"><span>Moneyline (90 min)</span><span class="tag">FANDUEL</span></div>
             <div class="line"><span>${g.home}</span><span class="am2">${ml.home||"—"}</span></div>
             <div class="line"><span>Draw</span><span class="am2">${ml.draw||"—"}</span></div>
             <div class="line"><span>${g.away}</span><span class="am2">${ml.away||"—"}</span></div>
           </div>
-          <div class="mkt"><div class="ml"><span>Draw no bet</span><span class="tag">from ML</span></div>
-            <div class="line"><span>${g.home}</span><span class="am2">${dnb.home||"—"}</span></div>
-            <div class="line"><span>${g.away}</span><span class="am2">${dnb.away||"—"}</span></div>
+          <div class="mkt"><div class="ml"><span>To advance</span><span class="tag">FANDUEL</span></div>
+            <div class="line"><span>${g.home}</span><span class="am2">${ta.home||"—"}</span></div>
+            <div class="line"><span>${g.away}</span><span class="am2">${ta.away||"—"}</span></div>
           </div>
-          <div class="mkt"><div class="ml"><span>Total goals</span><span class="tag">FANDUEL</span></div>
+          ${(tot.over||tot.under)?`<div class="mkt" style="grid-column:1/-1"><div class="ml"><span>Total goals</span><span class="tag">FANDUEL</span></div>
             <div class="line"><span>Over ${tot.line||""}</span><span class="am2">${tot.over||"—"}</span></div>
             <div class="line"><span>Under ${tot.line||""}</span><span class="am2">${tot.under||"—"}</span></div>
-          </div>
-          <div class="mkt"><div class="ml"><span>Spread (goal handicap)</span><span class="tag">approx</span></div>
-            <div class="line"><span>${sp.homeLine||g.home}</span><span class="am2">${sp.home||"—"}</span></div>
-            <div class="line"><span>${sp.awayLine||g.away}</span><span class="am2">${sp.away||"—"}</span></div>
-          </div>
-          <div class="mkt" style="grid-column:1/-1"><div class="ml"><span>Double chance</span><span class="tag">from ML</span></div>
-            <div class="line"><span>${g.home} or Draw (1X)</span><span class="am2">${dc.hd||"—"}</span></div>
-            <div class="line"><span>${g.home} or ${g.away} (12)</span><span class="am2">${dc.ha||"—"}</span></div>
-            <div class="line"><span>Draw or ${g.away} (X2)</span><span class="am2">${dc.da||"—"}</span></div>
-          </div>
+          </div>`:""}
         </div>
       </div>`;
     }).join("");

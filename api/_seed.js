@@ -77,46 +77,47 @@ module.exports = {
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
   odds: {
-    updated: "Jun 13, 2026",
-    gamesLabel: "Sat Jun 13 — Groups B & C",
+    updated: "Jun 28, 2026",
+    gamesLabel: "Round of 32 — moneyline & to advance",
     title: [
-      { team: "Spain", american: "+450" }, { team: "France", american: "+500" },
-      { team: "England", american: "+700" }, { team: "Brazil", american: "+850" },
-      { team: "Portugal", american: "+850" }, { team: "Argentina", american: "+1000" },
-      { team: "Germany", american: "+1300" }, { team: "Netherlands", american: "+1600" },
-      { team: "Belgium", american: "+2200" }, { team: "Colombia", american: "+4000" },
-      { team: "Morocco", american: "+5000" }, { team: "Uruguay", american: "+5500" },
-      { team: "Croatia", american: "+7500" }
+      { team: "France", american: "+360" }, { team: "Argentina", american: "+390" },
+      { team: "Spain", american: "+600" }, { team: "England", american: "+600" },
+      { team: "Brazil", american: "+1200" }
     ],
-    longshots: "all other drafted teams sit at +10000 or longer — the morning update refreshes the full board.",
+    longshots: "every other team still alive sits at +1400 or longer (Germany, Portugal, Netherlands, Belgium, Colombia, Morocco, Croatia, Switzerland…) — check FanDuel for the full live board.",
     games: [
-      {
-        id: "B-2", time: "Sat Jun 13 · 3:00 PM ET", venue: "Levi's Stadium, Santa Clara",
-        home: "Qatar", away: "Switzerland",
-        ml: { home: "+1400", draw: "+550", away: "-550" },
-        dnb: { home: "+1300", away: "-1300" },
-        dc: { hd: "+380", ha: "-600", da: "-1500" },
-        total: { line: "2.5", over: "+110", under: "-135" },
-        spread: { homeLine: "Qatar +1.5", home: "+100", awayLine: "Switzerland -1.5", away: "-120" }
-      },
-      {
-        id: "C-1", time: "Sat Jun 13 · 6:00 PM ET", venue: "MetLife Stadium, NY/NJ",
-        home: "Brazil", away: "Morocco",
-        ml: { home: "-155", draw: "+300", away: "+450" },
-        dnb: { home: "-340", away: "+340" },
-        dc: { hd: "-470", ha: "-320", da: "+141" },
-        total: { line: "2.5", over: "-138", under: "+110" },
-        spread: { homeLine: "Brazil -1", home: "+135", awayLine: "Morocco +1", away: "-165" }
-      },
-      {
-        id: "C-2", time: "Sat Jun 13 · 9:00 PM ET", venue: "Gillette Stadium, Foxborough",
-        home: "Haiti", away: "Scotland",
-        ml: { home: "+525", draw: "+350", away: "-225" },
-        dnb: { home: "+430", away: "-430" },
-        dc: { hd: "+181", ha: "-380", da: "-580" },
-        total: { line: "2.5", over: "-105", under: "-115" },
-        spread: { homeLine: "Haiti +1", home: "-135", awayLine: "Scotland -1", away: "+110" }
-      }
+      { id:"R32-1", time:"Sun Jun 28 · 3:00 PM ET", venue:"SoFi Stadium, Los Angeles", home:"South Africa", away:"Canada",
+        ml:{ home:"+470", draw:"+250", away:"-145" }, toadv:{ home:"+260", away:"-340" } },
+      { id:"R32-2", time:"Mon Jun 29 · 1:00 PM ET", venue:"NRG Stadium, Houston", home:"Brazil", away:"Japan",
+        ml:{ home:"-145", draw:"+290", away:"+410" }, toadv:{ home:"-310", away:"+240" } },
+      { id:"R32-3", time:"Mon Jun 29 · 4:30 PM ET", venue:"Gillette Stadium, Boston", home:"Germany", away:"Paraguay",
+        ml:{ home:"-280", draw:"+400", away:"+800" }, toadv:{ home:"-750", away:"+490" } },
+      { id:"R32-4", time:"Mon Jun 29 · 9:00 PM ET", venue:"Estadio BBVA, Guadalajara", home:"Netherlands", away:"Morocco",
+        ml:{ home:"+110", draw:"+210", away:"+290" }, toadv:{ home:"-188", away:"+152" } },
+      { id:"R32-5", time:"Tue Jun 30 · 1:00 PM ET", venue:"AT&T Stadium, Dallas", home:"Ivory Coast", away:"Norway",
+        ml:{ home:"+260", draw:"+240", away:"+110" }, toadv:{ home:"+156", away:"-190" } },
+      { id:"R32-6", time:"Tue Jun 30 · 5:00 PM ET", venue:"MetLife Stadium, NY/NJ", home:"France", away:"Sweden",
+        ml:{ home:"-370", draw:"+490", away:"+1000" }, toadv:{ home:"-950", away:"+600" } },
+      { id:"R32-7", time:"Tue Jun 30 · 9:00 PM ET", venue:"Estadio Azteca, Mexico City", home:"Mexico", away:"Ecuador",
+        ml:{ home:"+115", draw:"+210", away:"+280" }, toadv:{ home:"-184", away:"+150" } },
+      { id:"R32-8", time:"Wed Jul 1 · 12:00 PM ET", venue:"Mercedes-Benz Stadium, Atlanta", home:"England", away:"DR Congo",
+        ml:{ home:"-360", draw:"+440", away:"+1100" }, toadv:{ home:"-1200", away:"+700" } },
+      { id:"R32-9", time:"Wed Jul 1 · 4:00 PM ET", venue:"Lumen Field, Seattle", home:"Belgium", away:"Senegal",
+        ml:{ home:"+105", draw:"+220", away:"+290" }, toadv:{ home:"-194", away:"+158" } },
+      { id:"R32-10", time:"Wed Jul 1 · 8:00 PM ET", venue:"Levi's Stadium, SF Bay Area", home:"United States", away:"Bosnia and Herzegovina",
+        ml:{ home:"-280", draw:"+380", away:"+800" }, toadv:{ home:"-800", away:"+530" } },
+      { id:"R32-11", time:"Thu Jul 2 · 3:00 PM ET", venue:"SoFi Stadium, Los Angeles", home:"Spain", away:"Austria",
+        ml:{ home:"-330", draw:"+390", away:"+1100" }, toadv:{ home:"-1200", away:"+670" } },
+      { id:"R32-12", time:"Thu Jul 2 · 7:00 PM ET", venue:"BMO Field, Toronto", home:"Portugal", away:"Croatia",
+        ml:{ home:"-110", draw:"+230", away:"+330" }, toadv:{ home:"-235", away:"+186" } },
+      { id:"R32-13", time:"Thu Jul 2 · 11:00 PM ET", venue:"BC Place, Vancouver", home:"Switzerland", away:"Algeria",
+        ml:{ home:"-155", draw:"+300", away:"+440" }, toadv:{ home:"-340", away:"+260" } },
+      { id:"R32-14", time:"Fri Jul 3 · 2:00 PM ET", venue:"AT&T Stadium, Dallas", home:"Australia", away:"Egypt",
+        ml:{ home:"+230", draw:"+190", away:"+150" }, toadv:{ home:"+114", away:"-140" } },
+      { id:"R32-15", time:"Fri Jul 3 · 6:00 PM ET", venue:"Hard Rock Stadium, Miami", home:"Argentina", away:"Cape Verde",
+        ml:{ home:"-650", draw:"+600", away:"+1900" }, toadv:{ home:"-2500", away:"+1320" } },
+      { id:"R32-16", time:"Fri Jul 3 · 9:30 PM ET", venue:"Arrowhead Stadium, Kansas City", home:"Colombia", away:"Ghana",
+        ml:{ home:"-135", draw:"+250", away:"+410" }, toadv:{ home:"-300", away:"+235" } }
     ],
     goldenBoot: [
       { name: "Kylian Mbappé", team: "France", american: "+600" },
@@ -126,19 +127,6 @@ module.exports = {
       { name: "Lionel Messi", team: "Argentina", american: "+1800" },
       { name: "Lamine Yamal", team: "Spain", american: "+2700" }
     ],
-    groupOdds: {
-      A: [ { team: "Mexico", win: "-140", adv: "-1200" }, { team: "South Korea", win: "+370", adv: "-300" }, { team: "Czech Republic", win: "+390", adv: "-280" }, { team: "South Africa", win: "+1200", adv: "+160" } ],
-      B: [ { team: "Switzerland", win: "-135", adv: "-1200" }, { team: "Canada", win: "+170", adv: "-550" }, { team: "Bosnia and Herzegovina", win: "+470", adv: "-150" }, { team: "Qatar", win: "+3500", adv: "+350" } ],
-      C: [ { team: "Brazil", win: "-340", adv: "-5000" }, { team: "Morocco", win: "+340", adv: "-400" }, { team: "Scotland", win: "+950", adv: "+100" }, { team: "Haiti", win: "+12500", adv: "+500" } ],
-      D: [ { team: "United States", win: "+130", adv: "-750" }, { team: "Turkey", win: "+175", adv: "-500" }, { team: "Paraguay", win: "+400", adv: "-180" }, { team: "Australia", win: "+800", adv: "+120" } ],
-      E: [ { team: "Germany", win: "-270", adv: "-4000" }, { team: "Ecuador", win: "+330", adv: "-350" }, { team: "Ivory Coast", win: "+550", adv: "-130" }, { team: "Curaçao", win: "+12500", adv: "+450" } ],
-      F: [ { team: "Netherlands", win: "-125", adv: "-2000" }, { team: "Japan", win: "+270", adv: "-450" }, { team: "Sweden", win: "+440", adv: "-170" }, { team: "Tunisia", win: "+1300", adv: "+200" } ],
-      G: [ { team: "Belgium", win: "-240", adv: "-3000" }, { team: "Egypt", win: "+420", adv: "-300" }, { team: "Iran", win: "+750", adv: "-110" }, { team: "New Zealand", win: "+2200", adv: "+280" } ],
-      H: [ { team: "Spain", win: "-425", adv: "-10000" }, { team: "Uruguay", win: "+410", adv: "-350" }, { team: "Saudi Arabia", win: "+4000", adv: "+300" }, { team: "Cape Verde", win: "+5500", adv: "+400" } ],
-      I: [ { team: "France", win: "-210", adv: "-5000" }, { team: "Norway", win: "+280", adv: "-300" }, { team: "Senegal", win: "+750", adv: "-120" }, { team: "Iraq", win: "+6500", adv: "+400" } ],
-      J: [ { team: "Argentina", win: "-290", adv: "-10000" }, { team: "Austria", win: "+370", adv: "-280" }, { team: "Algeria", win: "+800", adv: "-110" }, { team: "Jordan", win: "+6500", adv: "+400" } ],
-      K: [ { team: "Portugal", win: "-210", adv: "-2000" }, { team: "Colombia", win: "+200", adv: "-450" }, { team: "DR Congo", win: "+2000", adv: "+220" }, { team: "Uzbekistan", win: "+2700", adv: "+300" } ],
-      L: [ { team: "England", win: "-250", adv: "-3000" }, { team: "Croatia", win: "+340", adv: "-350" }, { team: "Ghana", win: "+1100", adv: "+100" }, { team: "Panama", win: "+4000", adv: "+320" } ]
-    }
+    groupOdds: {}
   }
 };
