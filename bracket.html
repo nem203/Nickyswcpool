@@ -80,11 +80,14 @@ const R32=[
 const colorOf=n=>(P.colors&&P.colors[n])||"#94a3b8";
 const cc=t=>`<span class="cc">${(P.codes&&P.codes[t])||""}</span>`;
 const ownerOf=t=>{ for(const pl in byPlayer) if(byPlayer[pl].includes(t)) return pl; return null; };
-function side(t){
+function koWinner(a,b){ const k="r32::"+[a,b].sort().join("|"); return (P.ko&&P.ko[k]&&P.ko[k].winner)||null; }
+function side(t,status){
   const o=ownerOf(t);
   const dot=o?`<span class="pdot" style="background:${colorOf(o)}" title="${o}"></span>`:`<span class="pdot" style="background:#cbd5e1"></span>`;
   const own=o?`<span class="own">${o}</span>`:`<span class="own">—</span>`;
-  return `<div class="side">${dot}${cc(t)}<span class="nm">${t}</span>${own}</div>`;
+  const nmStyle = status==="lost" ? "text-decoration:line-through;opacity:.5" : "";
+  const tick = status==="won" ? ` <span style="color:#059669;font-weight:800">✓</span>` : "";
+  return `<div class="side" style="${status==='lost'?'opacity:.65':''}">${dot}${cc(t)}<span class="nm" style="${nmStyle}">${t}</span>${tick}${own}</div>`;
 }
 async function load(){
   try{ const r=await fetch("/api/state",{cache:"no-store"}); P=await r.json(); render(); }
@@ -98,18 +101,20 @@ function render(){
     h+=d.ties.map(m=>{
       const oa=ownerOf(m.a), ob=ownerOf(m.b);
       const derby=(oa&&ob&&oa===ob)?`<div class="derby">All-${oa} tie</div>`:"";
+      const w=koWinner(m.a,m.b);
+      const sa=w?(w===m.a?"won":"lost"):null, sb=w?(w===m.b?"won":"lost"):null;
       return `<div class="tie">
-        <div class="gmeta"><span>${m.t}</span><span>${m.v}</span></div>
-        ${side(m.a)}<div class="vs">vs</div>${side(m.b)}
+        <div class="gmeta"><span>${m.t}</span><span>${w?`${w} advanced`:m.v}</span></div>
+        ${side(m.a,sa)}<div class="vs">vs</div>${side(m.b,sb)}
         ${derby}
       </div>`;
     }).join("");
     h+=`</div>`;
   });
   document.getElementById("out").innerHTML=h;
-  // count owner representation
-  const all=R32.flatMap(d=>d.ties).flatMap(m=>[m.a,m.b]);
-  const cnt={}; all.forEach(t=>{ const o=ownerOf(t); if(o) cnt[o]=(cnt[o]||0)+1; });
+  // count owner representation (winners once a tie is decided, else both sides)
+  const cnt={};
+  R32.flatMap(d=>d.ties).forEach(m=>{ const w=koWinner(m.a,m.b); (w?[w]:[m.a,m.b]).forEach(t=>{ const o=ownerOf(t); if(o) cnt[o]=(cnt[o]||0)+1; }); });
   const order=(P.order||[]).slice().sort((a,b)=>(cnt[b]||0)-(cnt[a]||0));
   document.getElementById("legend").innerHTML="<b>Teams still alive:</b> "+order.map(o=>`${o} ${cnt[o]||0}`).join(" · ");
   document.getElementById("stamp").textContent="Round of 32 · June 28 – July 3";

@@ -48,7 +48,15 @@
 </div>
 <script>
 const PATTERN=[[[0,1],[2,3]],[[0,2],[3,1]],[[3,0],[1,2]]];
-let P=null;
+// Round of 32 ties (home, away) — manual winner override; the cron auto-fills these too.
+const R32=[
+  ["South Africa","Canada"],["Brazil","Japan"],["Germany","Paraguay"],["Netherlands","Morocco"],
+  ["Ivory Coast","Norway"],["France","Sweden"],["Mexico","Ecuador"],["England","DR Congo"],
+  ["Belgium","Senegal"],["United States","Bosnia and Herzegovina"],["Spain","Austria"],["Portugal","Croatia"],
+  ["Switzerland","Algeria"],["Australia","Egypt"],["Argentina","Cape Verde"],["Colombia","Ghana"]
+];
+function KOKEY(field,a,b){ return field+"::"+[a,b].sort().join("|"); }
+let P=null, koPicks={};
 const tok=document.getElementById("tok");
 tok.value=localStorage.getItem("wcAdminToken")||"";
 
@@ -56,11 +64,20 @@ async function loadState(){
   try{ const r=await fetch("/api/state",{cache:"no-store"}); P=await r.json(); renderForm(); }
   catch(e){ document.getElementById("out").innerHTML=`<div class="msg err">Couldn't load site data.</div>`; }
 }
+function koWinnerFor(key){ return koPicks[key] || (P.ko && P.ko[key] && P.ko[key].winner) || ""; }
+function koBtn(team,key){
+  const sel=koWinnerFor(key)===team;
+  return `<button type="button" onclick="pickKo('${key}','${team.replace(/'/g,"\\'")}')" style="border:1px solid ${sel?'#059669':'#e5e7eb'};background:${sel?'#ecfdf5':'#fff'};color:${sel?'#047857':'#1a1c20'};font-weight:${sel?'700':'500'};border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer">${team}${sel?' ✓':''}</button>`;
+}
+function pickKo(key,team){ koPicks[key]=(koPicks[key]===team?"":team); renderForm(); }
 function renderForm(){
-  let h=`<h2>Group-stage results</h2>`;
+  let h=`<h2>Round of 32 — who advanced</h2><div class="grp"><div class="note" style="margin:0 0 10px">Tap the team that advanced (winner on the day, incl. extra time / penalties). Auto-detected results are pre-selected; tapping overrides. Tap again to clear.</div>`;
+  R32.forEach(([a,b])=>{ const key=KOKEY("r32",a,b);
+    h+=`<div class="m" style="gap:10px;flex-wrap:wrap">${koBtn(a,key)}<span class="vs">v</span>${koBtn(b,key)}</div>`; });
+  h+=`</div>`;
+  h+=`<h2>Group-stage results</h2>`;
   Object.keys(P.groups).forEach(g=>{
-    const gt=P.groups[g]; let n=0;
-    let rows="";
+    const gt=P.groups[g]; let n=0; let rows="";
     PATTERN.forEach((md,mi)=>md.forEach(([a,b])=>{ n++; const id=g+"-"+n; const r=(P.results||{})[id]||{};
       const hs=r.hs!=null?r.hs:""; const as=r.as!=null?r.as:"";
       rows+=`<div class="m"><span class="mt">MD${mi+1}</span><span class="nm">${gt[a]}</span><input data-id="${id}" data-s="h" type="number" min="0" value="${hs}"><span class="vs">–</span><input data-id="${id}" data-s="a" type="number" min="0" value="${as}"><span class="nm" style="text-align:right">${gt[b]}</span></div>`;
@@ -79,21 +96,25 @@ function gatherResults(){
     results[id]=results[id]||{};
     results[id][side==="h"?"hs":"as"]=parseInt(v,10);
   });
-  // keep only matches with BOTH scores
   Object.keys(results).forEach(id=>{ const r=results[id]; if(r.hs==null||r.as==null) delete results[id]; else r.status="FT"; });
   return results;
 }
-function recomputeTeams(results){
-  const prev=P.teams||{}; const teams={};
-  Object.keys(P.groups).forEach(g=>{
+function buildKo(){
+  const ko=Object.assign({}, P.ko||{});  // keep auto-detected entries (incl. later rounds)
+  R32.forEach(([a,b])=>{ const key=KOKEY("r32",a,b); const w=koPicks[key]; if(w){ const loser=w===a?b:a; ko[key]={stage:"LAST_32",field:"r32",winner:w,loser,home:a,away:b}; } });
+  return ko;
+}
+function recomputeTeams(results, ko){
+  const teams={}; const groupKeys=Object.keys(P.groups); const thirds=[];
+  groupKeys.forEach(g=>{
     const gt=P.groups[g];
-    gt.forEach(t=>{ const p=prev[t]||{}; teams[t]={gw:0,gd:0,r32:p.r32||0,r16:p.r16||0,qf:p.qf||0,sf:p.sf||0,third:p.third||0,final:p.final||0,groupPlace:null,advanced:false,sweep:false,out:p.out||false}; });
-    const st={}; gt.forEach(t=>st[t]={t,w:0,d:0,l:0,gf:0,ga:0,pld:0});
+    gt.forEach(t=>{ teams[t]={gw:0,gd:0,r32:0,r16:0,qf:0,sf:0,third:0,final:0,groupPlace:null,advanced:false,sweep:false,out:false}; });
+    const st={}; gt.forEach(t=>st[t]={t,w:0,d:0,l:0,gf:0,ga:0});
     let n=0, allPlayed=true;
     PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r=results[g+"-"+n];
       if(!r||r.hs==null||r.as==null){ allPlayed=false; return; }
       const h=gt[a],aw=gt[b];
-      st[h].pld++;st[aw].pld++; st[h].gf+=r.hs;st[h].ga+=r.as;st[aw].gf+=r.as;st[aw].ga+=r.hs;
+      st[h].gf+=r.hs;st[h].ga+=r.as;st[aw].gf+=r.as;st[aw].ga+=r.hs;
       if(r.hs>r.as){ st[h].w++;st[aw].l++; teams[h].gw++; }
       else if(r.hs<r.as){ st[aw].w++;st[h].l++; teams[aw].gw++; }
       else { st[h].d++;st[aw].d++; teams[h].gd++; teams[aw].gd++; }
@@ -103,8 +124,14 @@ function recomputeTeams(results){
       const rank=Object.values(st).map(x=>({...x,gd:x.gf-x.ga,pts:x.w*3+x.d})).sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
       if(rank[0]){ teams[rank[0].t].groupPlace=1; teams[rank[0].t].advanced=true; }
       if(rank[1]){ teams[rank[1].t].groupPlace=2; teams[rank[1].t].advanced=true; }
+      if(rank[2]) thirds.push(rank[2]);
     }
   });
+  if(thirds.length===groupKeys.length){
+    thirds.sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
+    thirds.slice(0,8).forEach(x=>{ teams[x.t].groupPlace="3adv"; teams[x.t].advanced=true; });
+  }
+  Object.values(ko||{}).forEach(k=>{ if(k&&k.field&&teams[k.winner]) teams[k.winner][k.field]=1; if(k&&k.loser&&teams[k.loser]) teams[k.loser].out=true; });
   return teams;
 }
 async function save(){
@@ -113,12 +140,13 @@ async function save(){
   if(!token){ msg.className="msg err"; msg.textContent="Enter your admin token first."; return; }
   localStorage.setItem("wcAdminToken",token);
   const results=gatherResults();
-  const teams=recomputeTeams(results);
-  const played=Object.keys(results).length;
+  const ko=buildKo();
+  const teams=recomputeTeams(results, ko);
+  const koCount=Object.keys(ko).length;
   const btn=document.getElementById("saveBtn"); btn.disabled=true; msg.className="msg"; msg.textContent="Saving…";
   try{
     const res=await fetch("/api/admin",{ method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ token, patch:{ results, teams, ntfyTopic:"nickys-wcpool-alerts-9k4m2" }, notify:`Results updated — ${played} group match${played===1?"":"es"} recorded.` }) });
+      body: JSON.stringify({ token, patch:{ results, ko, teams, ntfyTopic:"nickys-wcpool-alerts-9k4m2" }, notify:`Results updated — ${Object.keys(results).length} group matches, ${koCount} knockout results.` }) });
     if(res.status===401){ msg.className="msg err"; msg.textContent="Token rejected — check it matches Vercel's ADMIN_TOKEN."; }
     else if(!res.ok){ msg.className="msg err"; msg.textContent="Save failed ("+res.status+")."; }
     else { msg.className="msg ok"; msg.textContent="Saved! The live site is updated."; }

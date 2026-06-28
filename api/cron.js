@@ -47,13 +47,34 @@ function matchSlot(pool, g, home, away){
   return null;
 }
 
+// football-data knockout stage -> the per-team scoring field a WIN earns.
+const KO_FIELD = {
+  "LAST_32":"r32", "ROUND_OF_32":"r32",
+  "LAST_16":"r16", "ROUND_OF_16":"r16",
+  "QUARTER_FINALS":"qf", "QUARTER_FINAL":"qf",
+  "SEMI_FINALS":"sf", "SEMI_FINAL":"sf",
+  "THIRD_PLACE":"third", "THIRD_PLACE_FINAL":"third", "3RD_PLACE":"third",
+  "FINAL":"final"
+};
+// Which side won a knockout tie (accounts for extra time & penalties).
+function koWinnerSide(m){
+  const s = m.score || {};
+  if (s.winner === "HOME_TEAM") return "home";
+  if (s.winner === "AWAY_TEAM") return "away";
+  const pair = o => (o && o.home != null && o.away != null) ? [o.home, o.away] : null;
+  const pen = pair(s.penalties); if (pen && pen[0] !== pen[1]) return pen[0] > pen[1] ? "home" : "away";
+  const et = pair(s.extraTime);  if (et  && et[0]  !== et[1])  return et[0]  > et[1]  ? "home" : "away";
+  const ft = pair(s.fullTime);   if (ft  && ft[0]  !== ft[1])  return ft[0]  > ft[1]  ? "home" : "away";
+  return null;
+}
+
 function recomputeTeams(pool){
   const prev = pool.teams || {}, results = pool.results || {}, teams = {};
   const thirds = [];               // collect each completed group's 3rd-place team
   const groupKeys = Object.keys(pool.groups);
   groupKeys.forEach(g=>{
     const gt = pool.groups[g];
-    gt.forEach(t=>{ const p = prev[t]||{}; teams[t] = { gw:0, gd:0, r32:p.r32||0, r16:p.r16||0, qf:p.qf||0, sf:p.sf||0, third:p.third||0, final:p.final||0, groupPlace:null, advanced:false, sweep:false, out:p.out||false }; });
+    gt.forEach(t=>{ teams[t] = { gw:0, gd:0, r32:0, r16:0, qf:0, sf:0, third:0, final:0, groupPlace:null, advanced:false, sweep:false, out:false }; });
     const st = {}; gt.forEach(t=>st[t] = { t, w:0, d:0, l:0, gf:0, ga:0 });
     let n = 0, allPlayed = true;
     PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r = results[g+"-"+n];
@@ -77,6 +98,11 @@ function recomputeTeams(pool){
     thirds.sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
     thirds.slice(0,8).forEach(x=>{ teams[x.t].groupPlace = "3adv"; teams[x.t].advanced = true; });
   }
+  // Knockout rounds — shared source of truth pool.ko (written by cron auto-detect and/or the admin page).
+  Object.values(pool.ko || {}).forEach(k=>{
+    if (k && k.field && teams[k.winner]) teams[k.winner][k.field] = 1;
+    if (k && k.loser && teams[k.loser]) teams[k.loser].out = true;
+  });
   return teams;
 }
 
@@ -100,7 +126,8 @@ module.exports = async (req, res) => {
     const matches = data.matches || [];
 
     const results = Object.assign({}, pool.results || {});
-    let added = 0; const changes = []; const skipped = [];
+    const ko = Object.assign({}, pool.ko || {});
+    let added = 0, koAdded = 0; const changes = []; const skipped = [];
     for (const m of matches){
       if (m.status !== "FINISHED") continue;
       const ft = m.score && m.score.fullTime ? m.score.fullTime : null;
@@ -109,32 +136,40 @@ module.exports = async (req, res) => {
       const away = resolveTeam(pool, m.awayTeam && m.awayTeam.name);
       if (!home || !away){ skipped.push((m.homeTeam&&m.homeTeam.name)+" v "+(m.awayTeam&&m.awayTeam.name)); continue; }
       const g = groupOf(pool, home);
-      if (!g || groupOf(pool, away) !== g) continue; // group-stage only (knockouts handled manually)
-      const slot = matchSlot(pool, g, home, away);
-      if (!slot) continue;
-      const gt = pool.groups[g];
-      const firstIsHome = gt[slot.firstSlot] === home;
-      const hs = firstIsHome ? ft.home : ft.away;
-      const as = firstIsHome ? ft.away : ft.home;
-      const ex = results[slot.id];
-      if (!ex || ex.hs !== hs || ex.as !== as){
-        results[slot.id] = { hs, as, status: "FT" };
-        added++;
-        changes.push(`${gt[slot.firstSlot]} ${hs}-${as} ${gt[slot.secondSlot]}`);
+      if (g && groupOf(pool, away) === g){
+        // group-stage match (both teams in the same group)
+        const slot = matchSlot(pool, g, home, away);
+        if (!slot) continue;
+        const gt = pool.groups[g];
+        const firstIsHome = gt[slot.firstSlot] === home;
+        const hs = firstIsHome ? ft.home : ft.away;
+        const as = firstIsHome ? ft.away : ft.home;
+        const ex = results[slot.id];
+        if (!ex || ex.hs !== hs || ex.as !== as){
+          results[slot.id] = { hs, as, status: "FT" };
+          added++;
+          changes.push(`${gt[slot.firstSlot]} ${hs}-${as} ${gt[slot.secondSlot]}`);
+        }
+      } else {
+        // knockout match (teams from different groups) — award the round-win points to the winner
+        const field = KO_FIELD[m.stage];
+        if (!field){ skipped.push(`${home} v ${away} (stage ${m.stage||"?"})`); continue; }
+        const side = koWinnerSide(m);
+        if (!side) continue;
+        const winner = side === "home" ? home : away;
+        const loser  = side === "home" ? away : home;
+        const key = field + "::" + [home, away].sort().join("|");  // source-independent (matches admin page)
+        const ex = ko[key];
+        if (!ex || ex.winner !== winner){
+          ko[key] = { stage: m.stage, field, winner, loser, home, away, hs: ft.home, as: ft.away };
+          koAdded++;
+          changes.push(`${winner} def. ${loser} (${field.toUpperCase()})`);
+        }
       }
     }
 
-    if (added === 0) {
-      // No new/changed scores — but recompute standings anyway so any updated scoring
-      // logic (e.g. best-8 third-place advancement bonuses) is applied to stored data.
-      pool.teams = recomputeTeams(pool);
-      await setPool(pool);
-      const statuses = {}; matches.forEach(m => { statuses[m.status] = (statuses[m.status]||0)+1; });
-      const sample = matches.slice(0, 4).map(m => ({ status: m.status, home: m.homeTeam && m.homeTeam.name, away: m.awayTeam && m.awayTeam.name, score: m.score && m.score.fullTime, utcDate: m.utcDate, group: m.group }));
-      return res.status(200).json({ updated: false, recomputed: true, message: "no new finished matches (standings recomputed)", apiTotal: matches.length, statuses, sample, skipped });
-    }
-
     pool.results = results;
+    pool.ko = ko;
     pool.teams = recomputeTeams(pool);
     if (pool.ntfyTopic === "nickys-wcpool-draft-9k4m2") pool.ntfyTopic = "nickys-wcpool-alerts-9k4m2";
     // maintain daily standings history for the Points Over Time chart
@@ -149,12 +184,17 @@ module.exports = async (req, res) => {
     }
     await setPool(pool);
 
-    if (pool.ntfyTopic){
+    const totalChanges = added + koAdded;
+    if (totalChanges > 0 && pool.ntfyTopic){
       try {
         await fetch("https://ntfy.sh/" + pool.ntfyTopic, { method: "POST", headers: { "Title": "Nicky's World Cup Pool", "Tags": "soccer" }, body: `Scores updated — ${changes.slice(0,4).join("; ")}${changes.length>4?" …":""}` });
       } catch (e) { /* best-effort */ }
     }
-    return res.status(200).json({ updated: true, added, changes, skipped });
+    if (totalChanges === 0){
+      const statuses = {}; matches.forEach(m => { statuses[m.status] = (statuses[m.status]||0)+1; });
+      return res.status(200).json({ updated: false, recomputed: true, message: "no new finished matches (standings recomputed)", apiTotal: matches.length, statuses, skipped });
+    }
+    return res.status(200).json({ updated: true, added, koAdded, changes, skipped });
   } catch (e) {
     return res.status(500).json({ error: String(e) });
   }
