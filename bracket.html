@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bracket — Nicky's World Cup Pool</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#10204e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="WC Pool">
+<style>
+  :root{ color-scheme:light; --navy:#10204e; --orange:#ea580c; --dark:#1a1c20; --grey:#6b7280; --line:#e5e7eb; --green:#059669; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#eceef1; color:var(--dark); }
+  .wrap{ max-width:860px; margin:0 auto; padding:0 14px 60px; }
+  .top{ background:var(--navy); color:#fff; border-bottom:6px solid var(--orange); padding:16px 22px; display:flex; align-items:center; gap:12px; }
+  .badge{ width:40px;height:40px;border-radius:50%;background:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none; }
+  .top h1{ font-size:18px; } .top a{ color:#9fb0e0; font-size:12px; text-decoration:none; }
+  .intro{ font-size:13px; color:var(--grey); margin:16px 2px; line-height:1.5; }
+  h2{ font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--navy); margin:24px 0 10px; }
+  .day{ font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--orange); font-weight:800; margin:22px 2px 10px; }
+  .ties{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:600px){ .ties{ grid-template-columns:1fr; } }
+  .tie{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .tie .gmeta{ font-size:11px; color:var(--grey); margin-bottom:9px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+  .side{ display:flex; align-items:center; font-size:15px; font-weight:700; padding:4px 0; }
+  .side .nm{ flex:1; } .side .own{ font-size:11px; color:var(--grey); font-weight:600; }
+  .vs{ font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px; margin:2px 0; }
+  .pdot{ width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle;flex:none; }
+  .pdot[style*="#ffffff"]{ border:1.5px solid #2563eb; box-sizing:border-box; }
+  .cc{ display:inline-block; background:#eef1f5; color:#10204e; font-weight:800; padding:2px 5px; border-radius:4px; font-size:8px; font-family:ui-monospace,Menlo,Consolas,monospace; margin-right:7px; }
+  .derby{ margin-top:9px; font-size:10px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; background:#fff7ed; color:var(--orange); border:1px solid #fed7aa; border-radius:6px; padding:3px 7px; display:inline-block; }
+  .legend{ font-size:12px; color:var(--grey); margin:14px 2px 0; line-height:1.6; }
+  .msg{ color:var(--grey); font-size:14px; padding:18px 2px; }
+  .stamp{ text-align:right; font-size:11px; color:#9ca3af; margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="top"><span class="badge">26</span><h1>Knockout Bracket</h1><span style="margin-left:auto"></span><a href="/">Standings</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/odds.html" style="margin-left:14px">Odds</a><a href="/analysis.html" style="margin-left:14px">Analysis</a></div>
+<div class="wrap">
+  <div class="intro"><b>Round of 32.</b> Win or go home — 32 teams, 16 ties (June 28 – July 3). Owner shown next to each team. Ties marked <span class="derby" style="margin:0">ALL-OWNER</span> have the same manager on both sides — guaranteed to advance one team, and to knock out another of their own.</div>
+  <div id="out"><div class="msg">Loading bracket…</div></div>
+  <div class="legend" id="legend"></div>
+  <div class="stamp" id="stamp"></div>
+</div>
+<script>
+let P=null, byPlayer={};
+const R32=[
+  {day:"Sunday, June 28", ties:[
+    {a:"South Africa", b:"Canada", t:"3:00 PM ET", v:"SoFi Stadium, Los Angeles"}
+  ]},
+  {day:"Monday, June 29", ties:[
+    {a:"Brazil", b:"Japan", t:"1:00 PM ET", v:"NRG Stadium, Houston"},
+    {a:"Germany", b:"Paraguay", t:"4:30 PM ET", v:"Gillette Stadium, Boston"},
+    {a:"Netherlands", b:"Morocco", t:"9:00 PM ET", v:"Estadio BBVA, Guadalajara"}
+  ]},
+  {day:"Tuesday, June 30", ties:[
+    {a:"Ivory Coast", b:"Norway", t:"1:00 PM ET", v:"AT&T Stadium, Dallas"},
+    {a:"France", b:"Sweden", t:"5:00 PM ET", v:"MetLife Stadium, NY/NJ"},
+    {a:"Mexico", b:"Ecuador", t:"9:00 PM ET", v:"Estadio Azteca, Mexico City"}
+  ]},
+  {day:"Wednesday, July 1", ties:[
+    {a:"England", b:"DR Congo", t:"12:00 PM ET", v:"Mercedes-Benz Stadium, Atlanta"},
+    {a:"Belgium", b:"Senegal", t:"4:00 PM ET", v:"Lumen Field, Seattle"},
+    {a:"United States", b:"Bosnia and Herzegovina", t:"8:00 PM ET", v:"Levi's Stadium, SF Bay Area"}
+  ]},
+  {day:"Thursday, July 2", ties:[
+    {a:"Spain", b:"Austria", t:"3:00 PM ET", v:"SoFi Stadium, Los Angeles"},
+    {a:"Portugal", b:"Croatia", t:"7:00 PM ET", v:"BMO Field, Toronto"},
+    {a:"Switzerland", b:"Algeria", t:"11:00 PM ET", v:"BC Place, Vancouver"}
+  ]},
+  {day:"Friday, July 3", ties:[
+    {a:"Australia", b:"Egypt", t:"2:00 PM ET", v:"AT&T Stadium, Dallas"},
+    {a:"Argentina", b:"Cape Verde", t:"6:00 PM ET", v:"Hard Rock Stadium, Miami"},
+    {a:"Colombia", b:"Ghana", t:"9:30 PM ET", v:"Arrowhead Stadium, Kansas City"}
+  ]}
+];
+const colorOf=n=>(P.colors&&P.colors[n])||"#94a3b8";
+const cc=t=>`<span class="cc">${(P.codes&&P.codes[t])||""}</span>`;
+const ownerOf=t=>{ for(const pl in byPlayer) if(byPlayer[pl].includes(t)) return pl; return null; };
+function side(t){
+  const o=ownerOf(t);
+  const dot=o?`<span class="pdot" style="background:${colorOf(o)}" title="${o}"></span>`:`<span class="pdot" style="background:#cbd5e1"></span>`;
+  const own=o?`<span class="own">${o}</span>`:`<span class="own">—</span>`;
+  return `<div class="side">${dot}${cc(t)}<span class="nm">${t}</span>${own}</div>`;
+}
+async function load(){
+  try{ const r=await fetch("/api/state",{cache:"no-store"}); P=await r.json(); render(); }
+  catch(e){ document.getElementById("out").innerHTML=`<div class="msg">Connection issue — retrying…</div>`; setTimeout(load,2500); }
+}
+function render(){
+  byPlayer={}; (P.order||[]).forEach(p=>byPlayer[p]=[]); (P.picks||[]).forEach(x=>{ if(byPlayer[x.player]) byPlayer[x.player].push(x.team); });
+  let h="";
+  R32.forEach(d=>{
+    h+=`<div class="day">${d.day}</div><div class="ties">`;
+    h+=d.ties.map(m=>{
+      const oa=ownerOf(m.a), ob=ownerOf(m.b);
+      const derby=(oa&&ob&&oa===ob)?`<div class="derby">All-${oa} tie</div>`:"";
+      return `<div class="tie">
+        <div class="gmeta"><span>${m.t}</span><span>${m.v}</span></div>
+        ${side(m.a)}<div class="vs">vs</div>${side(m.b)}
+        ${derby}
+      </div>`;
+    }).join("");
+    h+=`</div>`;
+  });
+  document.getElementById("out").innerHTML=h;
+  // count owner representation
+  const all=R32.flatMap(d=>d.ties).flatMap(m=>[m.a,m.b]);
+  const cnt={}; all.forEach(t=>{ const o=ownerOf(t); if(o) cnt[o]=(cnt[o]||0)+1; });
+  const order=(P.order||[]).slice().sort((a,b)=>(cnt[b]||0)-(cnt[a]||0));
+  document.getElementById("legend").innerHTML="<b>Teams still alive:</b> "+order.map(o=>`${o} ${cnt[o]||0}`).join(" · ");
+  document.getElementById("stamp").textContent="Round of 32 · June 28 – July 3";
+}
+load();
+</script>
+</body>
+</html>

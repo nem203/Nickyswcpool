@@ -49,7 +49,9 @@ function matchSlot(pool, g, home, away){
 
 function recomputeTeams(pool){
   const prev = pool.teams || {}, results = pool.results || {}, teams = {};
-  Object.keys(pool.groups).forEach(g=>{
+  const thirds = [];               // collect each completed group's 3rd-place team
+  const groupKeys = Object.keys(pool.groups);
+  groupKeys.forEach(g=>{
     const gt = pool.groups[g];
     gt.forEach(t=>{ const p = prev[t]||{}; teams[t] = { gw:0, gd:0, r32:p.r32||0, r16:p.r16||0, qf:p.qf||0, sf:p.sf||0, third:p.third||0, final:p.final||0, groupPlace:null, advanced:false, sweep:false, out:p.out||false }; });
     const st = {}; gt.forEach(t=>st[t] = { t, w:0, d:0, l:0, gf:0, ga:0 });
@@ -67,8 +69,14 @@ function recomputeTeams(pool){
       const rank = Object.values(st).map(x=>({ ...x, gd:x.gf-x.ga, pts:x.w*3+x.d })).sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
       if (rank[0]){ teams[rank[0].t].groupPlace = 1; teams[rank[0].t].advanced = true; }
       if (rank[1]){ teams[rank[1].t].groupPlace = 2; teams[rank[1].t].advanced = true; }
+      if (rank[2]){ thirds.push(rank[2]); }
     }
   });
+  // Best 8 third-place teams advance (only once every group has finished).
+  if (thirds.length === groupKeys.length){
+    thirds.sort((p,q)=>q.pts-p.pts||q.gd-p.gd||q.gf-p.gf||p.t.localeCompare(q.t));
+    thirds.slice(0,8).forEach(x=>{ teams[x.t].groupPlace = "3adv"; teams[x.t].advanced = true; });
+  }
   return teams;
 }
 
