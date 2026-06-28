@@ -125,9 +125,13 @@ module.exports = async (req, res) => {
     }
 
     if (added === 0) {
+      // No new/changed scores — but recompute standings anyway so any updated scoring
+      // logic (e.g. best-8 third-place advancement bonuses) is applied to stored data.
+      pool.teams = recomputeTeams(pool);
+      await setPool(pool);
       const statuses = {}; matches.forEach(m => { statuses[m.status] = (statuses[m.status]||0)+1; });
       const sample = matches.slice(0, 4).map(m => ({ status: m.status, home: m.homeTeam && m.homeTeam.name, away: m.awayTeam && m.awayTeam.name, score: m.score && m.score.fullTime, utcDate: m.utcDate, group: m.group }));
-      return res.status(200).json({ updated: false, message: "no new finished matches", apiTotal: matches.length, statuses, sample, skipped });
+      return res.status(200).json({ updated: false, recomputed: true, message: "no new finished matches (standings recomputed)", apiTotal: matches.length, statuses, sample, skipped });
     }
 
     pool.results = results;
