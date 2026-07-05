@@ -49,11 +49,9 @@
 <script>
 const PATTERN=[[[0,1],[2,3]],[[0,2],[3,1]],[[3,0],[1,2]]];
 // Round of 32 ties (home, away) — manual winner override; the cron auto-fills these too.
-const R32=[
-  ["South Africa","Canada"],["Brazil","Japan"],["Germany","Paraguay"],["Netherlands","Morocco"],
-  ["Ivory Coast","Norway"],["France","Sweden"],["Mexico","Ecuador"],["England","DR Congo"],
-  ["Belgium","Senegal"],["United States","Bosnia and Herzegovina"],["Spain","Austria"],["Portugal","Croatia"],
-  ["Switzerland","Algeria"],["Australia","Egypt"],["Argentina","Cape Verde"],["Colombia","Ghana"]
+const KO16=[
+  ["Canada","Morocco"],["Paraguay","France"],["Brazil","Norway"],["Mexico","England"],
+  ["Portugal","Spain"],["United States","Belgium"],["Argentina","Egypt"],["Switzerland","Colombia"]
 ];
 function KOKEY(field,a,b){ return field+"::"+[a,b].sort().join("|"); }
 let P=null, koPicks={};
@@ -71,8 +69,8 @@ function koBtn(team,key){
 }
 function pickKo(key,team){ koPicks[key]=(koPicks[key]===team?"":team); renderForm(); }
 function renderForm(){
-  let h=`<h2>Round of 32 — who advanced</h2><div class="grp"><div class="note" style="margin:0 0 10px">Tap the team that advanced (winner on the day, incl. extra time / penalties). Auto-detected results are pre-selected; tapping overrides. Tap again to clear.</div>`;
-  R32.forEach(([a,b])=>{ const key=KOKEY("r32",a,b);
+  let h=`<h2>Round of 16 — who advanced</h2><div class="grp"><div class="note" style="margin:0 0 10px">Tap the team that advanced (winner on the day, incl. extra time / penalties). Auto-detected results are pre-selected; tapping overrides. Tap again to clear.</div>`;
+  KO16.forEach(([a,b])=>{ const key=KOKEY("r16",a,b);
     h+=`<div class="m" style="gap:10px;flex-wrap:wrap">${koBtn(a,key)}<span class="vs">v</span>${koBtn(b,key)}</div>`; });
   h+=`</div>`;
   h+=`<h2>Group-stage results</h2>`;
@@ -100,8 +98,8 @@ function gatherResults(){
   return results;
 }
 function buildKo(){
-  const ko=Object.assign({}, P.ko||{});  // keep auto-detected entries (incl. later rounds)
-  R32.forEach(([a,b])=>{ const key=KOKEY("r32",a,b); const w=koPicks[key]; if(w){ const loser=w===a?b:a; ko[key]={stage:"LAST_32",field:"r32",winner:w,loser,home:a,away:b}; } });
+  const ko=Object.assign({}, P.ko||{});  // keep auto-detected entries (incl. other rounds)
+  KO16.forEach(([a,b])=>{ const key=KOKEY("r16",a,b); const w=koPicks[key]; if(w){ const loser=w===a?b:a; ko[key]={stage:"LAST_16",field:"r16",winner:w,loser,home:a,away:b}; } });
   return ko;
 }
 function recomputeTeams(results, ko){

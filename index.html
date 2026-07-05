@@ -80,11 +80,12 @@ function teamPoints(t){
 function rows(){
   return P.order.map(name=>{
     const teams=byPlayer[name]||[]; let total=0,adv=0,gp=0;
-    const detail=teams.map(tn=>{ const t=(P.teams||{})[tn]; const pts=teamPoints(t); total+=pts; if(t&&t.advanced)adv++; return {name:tn,pts,advanced:!!(t&&t.advanced)}; });
+    const detail=teams.map(tn=>{ const t=(P.teams||{})[tn]; const pts=teamPoints(t); total+=pts; if(t&&t.advanced)adv++; return {name:tn,pts,advanced:!!(t&&t.advanced),alive:isAlive(tn),out:!!(t&&t.out)}; });
+    const aliveCount=teams.filter(isAlive).length;
     teams.forEach(tn=>{ gp+=groupGP(tn); });
     const left=teams.length*3-gp;
     if(teams.length===6 && adv===6){ total+=P.scoring.bonusAllAdvance; }
-    return {name,total,adv,gp,left,poss:gp*(P.scoring.groupWin||2),drafted:teams.length,detail};
+    return {name,total,adv,aliveCount,gp,left,poss:gp*(P.scoring.groupWin||2),drafted:teams.length,detail};
   }).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
 }
 function groupTable(g){
@@ -97,7 +98,7 @@ function groupTable(g){
 function groupGP(team){ const g=Object.keys(P.groups).find(k=>P.groups[k].includes(team)); if(!g)return 0; const teams=P.groups[g]; let n=0,played=0; PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r=(P.results||{})[g+"-"+n]; if(r&&r.hs!=null&&(teams[a]===team||teams[b]===team))played++; })); return played; }
 function koAll(){ const S=P.scoring; return S.r32+S.r16+S.qf+S.sf+S.final; }
 function maxFuture(team){ const t=(P.teams||{})[team]; const S=P.scoring; if(t&&t.out)return 0; if(!t)return 3*S.groupWin+S.bonus1st+S.bonusSweep+koAll(); if(t.final)return 0; if(t.sf)return S.final; if(t.qf)return S.sf+S.final; if(t.r16)return S.qf+S.sf+S.final; if(t.r32)return S.r16+S.qf+S.sf+S.final; if(t.advanced)return koAll(); const gp=groupGP(team),losses=Math.max(0,gp-(t.gw||0)-(t.gd||0)),rem=Math.max(0,3-gp); const placeUp=t.groupPlace?0:S.bonus1st; const sweepUp=(losses===0&&(t.gd||0)===0&&!t.sweep)?S.bonusSweep:0; return rem*S.groupWin+placeUp+sweepUp+koAll(); }
-function isAlive(team){ const t=(P.teams||{})[team]; return !(t&&t.out); }
+function isAlive(team){ const t=(P.teams||{})[team]; if(!t) return true; if(t.out) return false; const anyDone=Object.values(P.teams||{}).some(x=>x&&x.groupPlace!=null); return anyDone ? !!t.advanced : true; }
 function h2hMatrix(){ const players=P.order; const M={}; players.forEach(a=>{M[a]={};players.forEach(b=>M[a][b]=[0,0,0]);}); Object.keys(P.groups).forEach(g=>{ const teams=P.groups[g]; let n=0; PATTERN.forEach(md=>md.forEach(([a,b])=>{ n++; const r=(P.results||{})[g+"-"+n]; if(!r||r.hs==null)return; const ho=ownerOf(teams[a]),ao=ownerOf(teams[b]); if(!ho||!ao||ho===ao)return; if(r.hs>r.as){M[ho][ao][0]++;M[ao][ho][2]++;}else if(r.hs<r.as){M[ao][ho][0]++;M[ho][ao][2]++;}else{M[ho][ao][1]++;M[ao][ho][1]++;} })); }); return M; }
 
 async function load(){
@@ -117,11 +118,15 @@ function render(){
   if(al){ if(P.ntfyTopic){ al.innerHTML=`<div style="background:#fff7ed;border:1px solid #f3c6a8;border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.5;color:#7c2d12">📱 <b>Get phone alerts</b> for standings updates &amp; the daily report: install the free <b>ntfy</b> app (App Store / Google Play), then subscribe to topic <b>${P.ntfyTopic}</b> — or open <a href="https://ntfy.sh/${P.ntfyTopic}" target="_blank" rel="noopener" style="color:#9a3412;font-weight:700">ntfy.sh/${P.ntfyTopic}</a>. Keep the topic name within the group.</div>`; } else { al.innerHTML=""; } }
   // content
   let h=`<h2>Standings</h2><div class="card"><table><thead><tr><th>#</th><th>Player</th><th>Teams in</th><th style="text-align:right">GP</th><th style="text-align:right">Rem</th><th style="text-align:right">Pts</th><th style="text-align:right">Poss</th></tr></thead><tbody>`;
-  h+=R.map((r,i)=>`<tr class="${anyPts&&i===0&&r.total>0?'lead':''}"><td>${i+1}</td><td><span class="pdot" style="background:${colorOf(r.name)}"></span>${r.name}</td><td>${r.adv}/${r.drafted||6}</td><td style="text-align:right">${r.gp}</td><td style="text-align:right">${r.left}</td><td class="pts">${r.total}</td><td style="text-align:right">${r.poss}</td></tr>`).join("");
+  h+=R.map((r,i)=>`<tr class="${anyPts&&i===0&&r.total>0?'lead':''}"><td>${i+1}</td><td><span class="pdot" style="background:${colorOf(r.name)}"></span>${r.name}</td><td>${r.aliveCount}/${r.drafted||6}</td><td style="text-align:right">${r.gp}</td><td style="text-align:right">${r.left}</td><td class="pts">${r.total}</td><td style="text-align:right">${r.poss}</td></tr>`).join("");
   h+=`</tbody></table></div>`;
-  h+=`<h2>Rosters</h2><div class="rosters">`+R.map(r=>{
-    const items=r.drafted===0?`<li class="tbd">no picks yet</li>`:r.detail.map(d=>`<li><span>${cc(d.name)}${d.name}${d.advanced?' ▶':''}</span><span>${d.pts}</span></li>`).join("");
-    return `<div class="roster" style="border-top:4px solid ${colorOf(r.name)}"><h3><span><span class="pdot" style="background:${colorOf(r.name)}"></span>${r.name}</span><span>${r.total} pts</span></h3><ul>${items}</ul></div>`;
+  h+=`<h2>Rosters</h2><div style="font-size:11px;color:#9ca3af;margin:0 2px 8px"><span style="color:#059669;font-weight:700">✓</span> still alive · <span style="text-decoration:line-through">struck-through</span> = eliminated</div><div class="rosters">`+R.map(r=>{
+    const items=r.drafted===0?`<li class="tbd">no picks yet</li>`:r.detail.map(d=>{
+      const st=d.alive?`<span style="color:#059669;font-weight:700">✓</span>`:`<span style="color:#dc2626;font-size:10px;font-weight:700;background:#fee2e2;border-radius:5px;padding:1px 5px">OUT</span>`;
+      const ns=d.alive?"":"text-decoration:line-through;color:#9ca3af";
+      return `<li><span style="${ns}">${cc(d.name)}${d.name}</span><span style="display:inline-flex;gap:8px;align-items:center">${st}<b>${d.pts}</b></span></li>`;
+    }).join("");
+    return `<div class="roster" style="border-top:4px solid ${colorOf(r.name)}"><h3><span><span class="pdot" style="background:${colorOf(r.name)}"></span>${r.name}</span><span>${r.aliveCount} alive · ${r.total} pts</span></h3><ul>${items}</ul></div>`;
   }).join("")+`</div>`;
   h+=`<h2>Group Tables</h2><div class="groups">`+Object.keys(P.groups).map(g=>{
     const tbl=groupTable(g); const played=tbl.some(x=>x.pld>0);
