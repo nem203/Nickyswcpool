@@ -32,45 +32,51 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Round of 16 — Sat Jul 4",
+    date: "Quarterfinals — Wed Jul 8",
     html: `<h3>The story so far</h3>
-<p>Down to the Sweet 16. The Round of 32 was carnage — Paraguay stunned Germany on penalties and Morocco bounced the Netherlands, two all-owner ties that quietly cost Gary and Nicky a contender each. Diccy went a flawless 4-for-4 to stretch his lead to <b>50</b>, while Reilly's trio (Canada, France, Colombia) all advanced to leapfrog Nicky into 3rd. Grades below.</p>
-<h3>Round of 32 — headlines</h3>
+<p>The Round of 16 thinned the herd and shook the pool. Diccy's armada was gutted — three of his four teams went out in a single round, leaving just England to protect a lead now trimmed to four. Gabey (two teams) surged to sole 2nd and gets a shot at England. Lee's Argentina and Belgium both won to climb off the floor. And Gary is done — both his teams lost, so he's out of teams and out of the race. Grades below.</p>
+<h3>Round of 16 — headlines</h3>
 <ul>
-<li>Paraguay stun Germany on penalties (1–1 aet) — biggest win in their history</li>
-<li>Morocco knock out the Netherlands on penalties</li>
-<li>Canada beat South Africa in stoppage time — first-ever knockout win</li>
-<li>Belgium edge Senegal 3–2 after extra time; France cruise past Sweden 3–0</li>
-<li>Brazil edge Japan 2–1 on a 96th-minute winner; Haaland's Norway down Ivory Coast</li>
+<li>Morocco 3–0 Canada; Spain 1–0 Portugal</li>
+<li>France 1–0 Paraguay; Belgium 4–1 USA</li>
+<li>Norway 2–1 Brazil (all-Gabey); England 3–2 Mexico (all-Diccy)</li>
+<li>Argentina 3–2 Egypt — Messi-inspired comeback</li>
+<li>Switzerland beat Colombia on penalties</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A+.</b> Perfect. A flawless 4-for-4 — Mexico, England, USA and Egypt all through — and a 50-point lead so fat it belongs on a wealth-inequality chart. Mexico still hasn't conceded a goal all tournament; you still haven't conceded anyone else has a prayer. Everyone officially hates the frontrunner now. Mexico v England is an all-you tie, so kick back — you've already booked a quarterfinal against yourself.</p>
-<p><b>Nicky — B.</b> A masterclass in shooting yourself in both feet. Morocco knocked out your Netherlands, Spain bounced your Austria — a two-tie civil war in which you eliminated your own men before anyone else got the chance. Morocco and Spain march on, technically, but the self-inflicted bloodbath let Reilly stroll right past you into 3rd. The handsome Dutch bastard, now doing his own dirty work.</p>
-<p><b>Reilly — A.</b> The surge that refuses to die. Canada in stoppage time, France steamrolling Sweden 3–0, Colombia squeezing past Ghana — 3-for-3, and you've muscled past Nicky into sole 3rd at 41. We've stopped calling it a fluke and started calling it a problem. The reward? France draws your OWN Paraguay — so you're on track to knock yourself out. Poetic.</p>
-<p><b>Lee — C+.</b> Two teams left and STILL in last — a genuine feat of engineering. In fairness, both delivered: Argentina waltzed past Cape Verde and Belgium clung on until the 125th minute against Senegal, presumably because they know how much you enjoy suffering. Argentina is your lone lottery ticket — laminate it. Belgium draws the USA; Argentina gets Egypt.</p>
-<p><b>Gary — B.</b> Only you could lose a genuine contender and have nobody to blame — because you owned both sides. Paraguay (population: who-knows) dumped your Germany out on penalties: the biggest win in their history and the most on-brand loss in yours. Portugal survived to extend Ronaldo's farewell tour another week. Next, Paraguay "gets" France — which is the polite way of saying it's been fun.</p>
-<p><b>Gabey — A.</b> Three-for-three and still climbing — Brazil on a 96th-minute winner, Haaland's Norway, and Switzerland doing Switzerland things — up to 43 and 2nd, the glow-up complete. But the football gods have jokes: Brazil v Norway is an all-Gabey tie, so you'll personally end one of your own fairytales this weekend. Bring tissues.</p>
+<p><b>Diccy — C+.</b> The mortal juggernaut. Three of your four teams — Mexico, USA, Egypt — crashed out in a single round, and only England survived (by knocking out your own Mexico, naturally). You still lead at 53, but the four-team armada is now a one-man dinghy, and it sails straight into Gabey's Norway in the quarters. Everyone can suddenly smell blood.</p>
+<p><b>Nicky — A.</b> Finally, a round where you didn't assassinate your own players. Morocco dispatched Canada and Spain edged Portugal — two clean wins, +6, up to 3rd at 45 with both teams intact. The handsome Dutch bastard has remembered which goal to shoot at, and now has as good a two-team hand as anyone in the field.</p>
+<p><b>Reilly — C.</b> The surge sputters. France did its job past Paraguay, but Canada and Colombia both bowed out, and you're down to a single team — France, sitting 4th at 44. The good news: France is arguably the best team left standing. The bad news: it's <i>all</i> you've got, so it has to win the entire thing. No pressure.</p>
+<p><b>Lee — A.</b> Well, look at you. Argentina survived a Messi-inspired thriller and Belgium hammered the USA 4–1 — both through, +6, and you've bullied your way off the bottom to 38. From punching bag to genuinely dangerous in one round, and both your teams can actually play. Who invited this guy?</p>
+<p><b>Gary — F.</b> It's over. Paraguay's fairytale ended against France, Portugal fell to Spain, and you're left with exactly <b>zero</b> teams and zero ways to score another point. Frozen at 33, mathematically eliminated, and demoted to a spectator with strong opinions. Pour one out — the Tartan Army disbands early and the golf-pool Commish slander was, in the end, correct.</p>
+<p><b>Gabey — A.</b> The glow-up rolls on. Norway ended Brazil's tournament (you wept, then remembered you owned both), and Switzerland ground Colombia out on penalties. Two teams into the quarters, up to 49 and sole 2nd — and now Norway gets a crack at knocking out the leader's last team. From laughing stock to the man most likely to catch Diccy. Wild.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Diccy</td><td>50</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>2</td><td>Gabey</td><td>43</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>3</td><td>Reilly</td><td>41</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>4</td><td>Nicky</td><td>39</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
-<tr><td>5</td><td>Gary</td><td>33</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>6</td><td>Lee</td><td>32</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>1</td><td>Diccy</td><td>53</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>2</td><td>Gabey</td><td>49</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>3</td><td>Nicky</td><td>45</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>4</td><td>Reilly</td><td>44</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>5</td><td>Lee</td><td>38</td><td><span style="color:#059669">▲ 1</span></td></tr>
+<tr><td>6</td><td>Gary</td><td>33</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
 </tbody></table>
-<h3>Round of 16 slate (Jul 4–7)</h3>
+<h3>Quarterfinal slate (Jul 9–11)</h3>
 <ul>
-<li>Sat Jul 4, 1:00 PM ET — Canada <b>(Reilly)</b> v Morocco <b>(Nicky)</b></li>
-<li>Sat Jul 4, 5:00 PM ET — Paraguay <b>(Gary)</b> v France <b>(Reilly)</b></li>
-<li>Sun Jul 5, 4:00 PM ET — Brazil <b>(Gabey)</b> v Norway <b>(Gabey)</b></li>
-<li>Sun Jul 5, 8:00 PM ET — Mexico <b>(Diccy)</b> v England <b>(Diccy)</b></li>
-<li>Mon Jul 6, 3:00 PM ET — Portugal <b>(Gary)</b> v Spain <b>(Nicky)</b></li>
-<li>Mon Jul 6, 8:00 PM ET — United States <b>(Diccy)</b> v Belgium <b>(Lee)</b></li>
-<li>Tue Jul 7, 12:00 PM ET — Argentina <b>(Lee)</b> v Egypt <b>(Diccy)</b></li>
-<li>Tue Jul 7, 4:00 PM ET — Switzerland <b>(Gabey)</b> v Colombia <b>(Reilly)</b></li>
+<li>Thu Jul 9, 4:00 PM ET — France <b>(Reilly)</b> v Morocco <b>(Nicky)</b></li>
+<li>Fri Jul 10, 3:00 PM ET — Spain <b>(Nicky)</b> v Belgium <b>(Lee)</b></li>
+<li>Sat Jul 11, 5:00 PM ET — Norway <b>(Gabey)</b> v England <b>(Diccy)</b></li>
+<li>Sat Jul 11, 9:00 PM ET — Argentina <b>(Lee)</b> v Switzerland <b>(Gabey)</b></li>
 </ul>
-<p>Win or go home — a R16 win is worth <b>3</b> points. Two all-owner ties guarantee a quarterfinalist: Diccy's Mexico v England and Gabey's Brazil v Norway. Full bracket, with every matchup and owner, on the <b>Bracket</b> page.</p>`
+<p>A QF win is worth <b>3</b> points. The whole pool may hinge on <b>Norway v England</b> — the leader's last team against the top challenger's. Full bracket and every owner on the <b>Bracket</b> page.</p>
+<h3>Path to win</h3>
+<ul>
+<li><b>Diccy — 53.</b> Clinches the title the moment <b>England reaches the final</b> (that puts him at 59, out of reach). If England loses in the QF or semi, the door swings open.</li>
+<li><b>Gabey — 49.</b> Needs <b>Norway to beat England</b> in the QF (freezing Diccy at 53), then Norway or Switzerland to reach the final. A title makes it certain.</li>
+<li><b>Nicky — 45.</b> Needs Morocco <b>and</b> Spain to win their quarterfinals and one to go on and win the tournament — with England falling before the final.</li>
+<li><b>Reilly — 44.</b> One thread: <b>France wins it all</b>, England loses its QF, and Argentina is the team France beats in the final. Anything else and a rival passes him.</li>
+<li><b>Lee — 38.</b> Needs an <b>all-Lee final</b> — both Argentina and Belgium reaching it — plus England losing its QF. It's the only way he reaches 54.</li>
+<li><b>Gary — 33.</b> Eliminated — no teams left, no way to score.</li>
+</ul>
+<p>The fulcrum of the whole pool: <b>Norway (Gabey) v England (Diccy)</b> on Saturday — it decides whether Diccy cruises or the race blows wide open.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
@@ -81,39 +87,31 @@ module.exports = {
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
   odds: {
-    updated: "Jul 4, 2026",
-    gamesLabel: "Round of 16 — moneyline & to advance",
+    updated: "Jul 8, 2026",
+    gamesLabel: "Quarterfinals — moneyline & to advance",
     title: [
-      { team: "France", american: "+360" }, { team: "Argentina", american: "+390" },
-      { team: "Spain", american: "+600" }, { team: "England", american: "+600" },
-      { team: "Brazil", american: "+1200" }
+      { team: "France", american: "+260" }, { team: "Argentina", american: "+320" },
+      { team: "Spain", american: "+550" }, { team: "England", american: "+650" },
+      { team: "Belgium", american: "+1400" }, { team: "Morocco", american: "+2000" },
+      { team: "Switzerland", american: "+2800" }, { team: "Norway", american: "+3000" }
     ],
-    longshots: "every other team still alive sits at +1400 or longer (Germany, Portugal, Netherlands, Belgium, Colombia, Morocco, Croatia, Switzerland…) — check FanDuel for the full live board.",
+    longshots: "all eight quarterfinalists are listed above — point-in-time FanDuel snapshot; check the app for live prices.",
     games: [
-      { id:"R16-1", time:"Sat Jul 4 · 1:00 PM ET", venue:"NRG Stadium, Houston", home:"Canada", away:"Morocco",
-        ml:{ home:"+380", draw:"+230", away:"-115" }, toadv:{ home:"+205", away:"-260" } },
-      { id:"R16-2", time:"Sat Jul 4 · 5:00 PM ET", venue:"Lincoln Financial Field, Philadelphia", home:"Paraguay", away:"France",
-        ml:{ home:"+1900", draw:"+600", away:"-600" }, toadv:{ home:"+1220", away:"-2000" } },
-      { id:"R16-3", time:"Sun Jul 5 · 4:00 PM ET", venue:"MetLife Stadium, NY/NJ", home:"Brazil", away:"Norway",
-        ml:{ home:"-125", draw:"+260", away:"+360" }, toadv:{ home:"-270", away:"+215" } },
-      { id:"R16-4", time:"Sun Jul 5 · 8:00 PM ET", venue:"Estadio Azteca, Mexico City", home:"Mexico", away:"England",
-        ml:{ home:"+210", draw:"+210", away:"+140" }, toadv:{ home:"+114", away:"-140" } },
-      { id:"R16-5", time:"Mon Jul 6 · 3:00 PM ET", venue:"AT&T Stadium, Dallas", home:"Portugal", away:"Spain",
-        ml:{ home:"+310", draw:"+260", away:"-115" }, toadv:{ home:"+180", away:"-225" } },
-      { id:"R16-6", time:"Mon Jul 6 · 8:00 PM ET", venue:"Lumen Field, Seattle", home:"United States", away:"Belgium",
-        ml:{ home:"+165", draw:"+230", away:"+170" }, toadv:{ home:"-104", away:"-118" } },
-      { id:"R16-7", time:"Tue Jul 7 · 12:00 PM ET", venue:"Mercedes-Benz Stadium, Atlanta", home:"Argentina", away:"Egypt",
-        ml:{ home:"-290", draw:"+390", away:"+850" }, toadv:{ home:"-800", away:"+520" } },
-      { id:"R16-8", time:"Tue Jul 7 · 4:00 PM ET", venue:"BC Place, Vancouver", home:"Switzerland", away:"Colombia",
-        ml:{ home:"", draw:"", away:"" }, toadv:{ home:"", away:"" } }
+      { id:"QF-1", time:"Thu Jul 9 · 4:00 PM ET", venue:"Gillette Stadium, Boston", home:"France", away:"Morocco",
+        ml:{ home:"-175", draw:"+290", away:"+550" }, toadv:{ home:"-390", away:"+300" } },
+      { id:"QF-2", time:"Fri Jul 10 · 3:00 PM ET", venue:"SoFi Stadium, Los Angeles", home:"Spain", away:"Belgium",
+        ml:{ home:"-165", draw:"+290", away:"+490" }, toadv:{ home:"-380", away:"+280" } },
+      { id:"QF-3", time:"Sat Jul 11 · 5:00 PM ET", venue:"Hard Rock Stadium, Miami", home:"Norway", away:"England",
+        ml:{ home:"+330", draw:"+260", away:"-120" }, toadv:{ home:"+182", away:"-230" } },
+      { id:"QF-4", time:"Sat Jul 11 · 9:00 PM ET", venue:"Arrowhead Stadium, Kansas City", home:"Argentina", away:"Switzerland",
+        ml:{ home:"-145", draw:"+260", away:"+450" }, toadv:{ home:"-310", away:"+240" } }
     ],
     goldenBoot: [
-      { name: "Kylian Mbappé", team: "France", american: "+600" },
-      { name: "Harry Kane", team: "England", american: "+700" },
-      { name: "Mikel Oyarzabal", team: "Spain", american: "+1200" },
-      { name: "Erling Haaland", team: "Norway", american: "+1600" },
-      { name: "Lionel Messi", team: "Argentina", american: "+1800" },
-      { name: "Lamine Yamal", team: "Spain", american: "+2700" }
+      { name: "Kylian Mbappé", team: "France", american: "+280" },
+      { name: "Harry Kane", team: "England", american: "+450" },
+      { name: "Lionel Messi", team: "Argentina", american: "+900" },
+      { name: "Erling Haaland", team: "Norway", american: "+1000" },
+      { name: "Mikel Oyarzabal", team: "Spain", american: "+1400" }
     ],
     groupOdds: {}
   }
