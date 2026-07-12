@@ -32,51 +32,46 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "Quarterfinals — Wed Jul 8",
+    date: "🏆 Diccy Clinches the Pool — Sun Jul 12",
     html: `<h3>The story so far</h3>
-<p>The Round of 16 thinned the herd and shook the pool. Diccy's armada was gutted — three of his four teams went out in a single round, leaving just England to protect a lead now trimmed to four. Gabey (two teams) surged to sole 2nd and gets a shot at England. Lee's Argentina and Belgium both won to climb off the floor. And Gary is done — both his teams lost, so he's out of teams and out of the race. Grades below.</p>
-<h3>Round of 16 — headlines</h3>
+<p>It's over. England's quarterfinal win over Norway banked Diccy's 56th point — and no one left alive can reach 56. <b>Diccy is the 2026 champion of Nicky's World Cup Pool</b>, crowned with the World Cup semifinals still to be played. That result was also the dagger: England knocked out Gabey's Norway — the only live threat — and hours later Gabey's Switzerland fell to Lee's Argentina, so the runner-up spent both his teams in a single afternoon. All that's left now is the race for 2nd. Grades below.</p>
+<h3>Quarterfinals — results</h3>
 <ul>
-<li>Morocco 3–0 Canada; Spain 1–0 Portugal</li>
-<li>France 1–0 Paraguay; Belgium 4–1 USA</li>
-<li>Norway 2–1 Brazil (all-Gabey); England 3–2 Mexico (all-Diccy)</li>
-<li>Argentina 3–2 Egypt — Messi-inspired comeback</li>
-<li>Switzerland beat Colombia on penalties</li>
+<li>France 2–0 Morocco — Les Bleus cruise into the semis</li>
+<li>Spain 2–1 Belgium — Merino's late winner</li>
+<li>England edge Norway — Diccy's clinching point</li>
+<li>Argentina beat Switzerland — more late Messi heroics</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — C+.</b> The mortal juggernaut. Three of your four teams — Mexico, USA, Egypt — crashed out in a single round, and only England survived (by knocking out your own Mexico, naturally). You still lead at 53, but the four-team armada is now a one-man dinghy, and it sails straight into Gabey's Norway in the quarters. Everyone can suddenly smell blood.</p>
-<p><b>Nicky — A.</b> Finally, a round where you didn't assassinate your own players. Morocco dispatched Canada and Spain edged Portugal — two clean wins, +6, up to 3rd at 45 with both teams intact. The handsome Dutch bastard has remembered which goal to shoot at, and now has as good a two-team hand as anyone in the field.</p>
-<p><b>Reilly — C.</b> The surge sputters. France did its job past Paraguay, but Canada and Colombia both bowed out, and you're down to a single team — France, sitting 4th at 44. The good news: France is arguably the best team left standing. The bad news: it's <i>all</i> you've got, so it has to win the entire thing. No pressure.</p>
-<p><b>Lee — A.</b> Well, look at you. Argentina survived a Messi-inspired thriller and Belgium hammered the USA 4–1 — both through, +6, and you've bullied your way off the bottom to 38. From punching bag to genuinely dangerous in one round, and both your teams can actually play. Who invited this guy?</p>
-<p><b>Gary — F.</b> It's over. Paraguay's fairytale ended against France, Portugal fell to Spain, and you're left with exactly <b>zero</b> teams and zero ways to score another point. Frozen at 33, mathematically eliminated, and demoted to a spectator with strong opinions. Pour one out — the Tartan Army disbands early and the golf-pool Commish slander was, in the end, correct.</p>
-<p><b>Gabey — A.</b> The glow-up rolls on. Norway ended Brazil's tournament (you wept, then remembered you owned both), and Switzerland ground Colombia out on penalties. Two teams into the quarters, up to 49 and sole 2nd — and now Norway gets a crack at knocking out the leader's last team. From laughing stock to the man most likely to catch Diccy. Wild.</p>
+<p><b>Diccy — A+ 🏆 CHAMPION.</b> England saw off Norway to bank your 56th point — and with that, it's mathematically <b>over</b>: nobody left can reach 56. You've <b>won Nicky's World Cup Pool</b>. The four-team armada became a one-man dinghy, and the dinghy still lapped the field. Fittingly, the clinching win also knocked out Gabey's Norway — your only real threat — in one stroke. Diccy the inevitable. Pop the champagne.</p>
+<p><b>Nicky — A.</b> Spain edged Belgium behind Merino's late strike and you're up to 48 with a semifinalist still standing — excellent work. The only snag: Diccy already clinched, so you're now playing for a very handsome 2nd. Spain v France next; win the whole thing and you're a proud runner-up. The handsome Dutch bastard settles for silver contention.</p>
+<p><b>Reilly — B+.</b> France did France things past Morocco (2–0) and your lone survivor is into the semis as a title favorite — you're up to 47. The pool crown's gone, but you're square in the scrap with Nicky for silver. Only Spain stands between France and the final.</p>
+<p><b>Lee — B.</b> Argentina rode more Messi magic past Switzerland and you're up to 41 — down to one team, but what a one. No route to the pool crown, but Argentina v England in the semis is appointment viewing, and a run to the final locks you well clear of the basement.</p>
+<p><b>Gabey — D.</b> Gut-punch. Both Norway and Switzerland lost their quarterfinals on the same afternoon — the generational run ends one step short of the semis, and the man who was Diccy's only real threat is suddenly out of teams. Frozen at 49 and about to be passed for 2nd. From fairytale to funeral in the space of a single day.</p>
+<p><b>Gary — F.</b> Still 33, still eliminated — but now you've got company down in the graveyard. Misery loves it.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr><td>1</td><td>Diccy</td><td>53</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr style="background:#fff7ed"><td>1</td><td><b>Diccy 🏆</b></td><td><b>56</b></td><td><span style="color:#059669">CLINCHED</span></td></tr>
 <tr><td>2</td><td>Gabey</td><td>49</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>3</td><td>Nicky</td><td>45</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>4</td><td>Reilly</td><td>44</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
-<tr><td>5</td><td>Lee</td><td>38</td><td><span style="color:#059669">▲ 1</span></td></tr>
-<tr><td>6</td><td>Gary</td><td>33</td><td><span style="color:#dc2626">▼ 1</span></td></tr>
+<tr><td>3</td><td>Nicky</td><td>48</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>4</td><td>Reilly</td><td>47</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>5</td><td>Lee</td><td>41</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>6</td><td>Gary</td><td>33</td><td><span style="color:#9ca3af">—</span></td></tr>
 </tbody></table>
-<h3>Quarterfinal slate (Jul 9–11)</h3>
+<h3>Semifinal slate (Jul 14–15)</h3>
 <ul>
-<li>Thu Jul 9, 4:00 PM ET — France <b>(Reilly)</b> v Morocco <b>(Nicky)</b></li>
-<li>Fri Jul 10, 3:00 PM ET — Spain <b>(Nicky)</b> v Belgium <b>(Lee)</b></li>
-<li>Sat Jul 11, 5:00 PM ET — Norway <b>(Gabey)</b> v England <b>(Diccy)</b></li>
-<li>Sat Jul 11, 9:00 PM ET — Argentina <b>(Lee)</b> v Switzerland <b>(Gabey)</b></li>
+<li>Tue Jul 14, 3:00 PM ET — France <b>(Reilly)</b> v Spain <b>(Nicky)</b></li>
+<li>Wed Jul 15, 3:00 PM ET — England <b>(Diccy)</b> v Argentina <b>(Lee)</b></li>
 </ul>
-<p>A QF win is worth <b>3</b> points. The whole pool may hinge on <b>Norway v England</b> — the leader's last team against the top challenger's. Full bracket and every owner on the <b>Bracket</b> page.</p>
-<h3>Path to win</h3>
+<p>The World Cup rolls on to the final (Jul 19), but the pool trophy is decided. These games are now about the <b>race for 2nd</b>.</p>
+<h3>The race for 2nd</h3>
 <ul>
-<li><b>Diccy — 53.</b> Clinches the title the moment <b>England reaches the final</b> (that puts him at 59, out of reach). If England loses in the QF or semi, the door swings open.</li>
-<li><b>Gabey — 49.</b> Needs <b>Norway to beat England</b> in the QF (freezing Diccy at 53), then Norway or Switzerland to reach the final. A title makes it certain.</li>
-<li><b>Nicky — 45.</b> Needs Morocco <b>and</b> Spain to win their quarterfinals and one to go on and win the tournament — with England falling before the final.</li>
-<li><b>Reilly — 44.</b> One thread: <b>France wins it all</b>, England loses its QF, and Argentina is the team France beats in the final. Anything else and a rival passes him.</li>
-<li><b>Lee — 38.</b> Needs an <b>all-Lee final</b> — both Argentina and Belgium reaching it — plus England losing its QF. It's the only way he reaches 54.</li>
-<li><b>Gary — 33.</b> Eliminated — no teams left, no way to score.</li>
+<li><b>Gabey — 49</b> (no teams left) — frozen; can only watch and hope the chasers fall short.</li>
+<li><b>Nicky — 48</b> (Spain) — a Spain semifinal win (→51) leapfrogs Gabey. Best-placed for silver.</li>
+<li><b>Reilly — 47</b> (France) — France v Spain is a straight silver-medal shootout with Nicky; a SF win (→50) also clears Gabey.</li>
+<li><b>Lee — 41</b> (Argentina) — needs a deep Argentina run to crash the top of the chasing pack.</li>
 </ul>
-<p>The fulcrum of the whole pool: <b>Norway (Gabey) v England (Diccy)</b> on Saturday — it decides whether Diccy cruises or the race blows wide open.</p>`
+<p><b>But at the top, it's settled: Diccy has won it all.</b> 🏆</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
@@ -87,24 +82,18 @@ module.exports = {
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
   odds: {
-    updated: "Jul 8, 2026",
-    gamesLabel: "Quarterfinals — moneyline & to advance",
+    updated: "Jul 12, 2026",
+    gamesLabel: "Semifinals — moneyline & to advance",
     title: [
-      { team: "France", american: "+260" }, { team: "Argentina", american: "+320" },
-      { team: "Spain", american: "+550" }, { team: "England", american: "+650" },
-      { team: "Belgium", american: "+1400" }, { team: "Morocco", american: "+2000" },
-      { team: "Switzerland", american: "+2800" }, { team: "Norway", american: "+3000" }
+      { team: "France", american: "+180" }, { team: "Argentina", american: "+240" },
+      { team: "Spain", american: "+360" }, { team: "England", american: "+500" }
     ],
-    longshots: "all eight quarterfinalists are listed above — point-in-time FanDuel snapshot; check the app for live prices.",
+    longshots: "the final four — France v Spain and England v Argentina. Point-in-time FanDuel snapshot; check the app for live prices.",
     games: [
-      { id:"QF-1", time:"Thu Jul 9 · 4:00 PM ET", venue:"Gillette Stadium, Boston", home:"France", away:"Morocco",
-        ml:{ home:"-175", draw:"+290", away:"+550" }, toadv:{ home:"-390", away:"+300" } },
-      { id:"QF-2", time:"Fri Jul 10 · 3:00 PM ET", venue:"SoFi Stadium, Los Angeles", home:"Spain", away:"Belgium",
-        ml:{ home:"-165", draw:"+290", away:"+490" }, toadv:{ home:"-380", away:"+280" } },
-      { id:"QF-3", time:"Sat Jul 11 · 5:00 PM ET", venue:"Hard Rock Stadium, Miami", home:"Norway", away:"England",
-        ml:{ home:"+330", draw:"+260", away:"-120" }, toadv:{ home:"+182", away:"-230" } },
-      { id:"QF-4", time:"Sat Jul 11 · 9:00 PM ET", venue:"Arrowhead Stadium, Kansas City", home:"Argentina", away:"Switzerland",
-        ml:{ home:"-145", draw:"+260", away:"+450" }, toadv:{ home:"-310", away:"+240" } }
+      { id:"SF-1", time:"Tue Jul 14 · 3:00 PM ET", venue:"AT&T Stadium, Dallas", home:"France", away:"Spain",
+        ml:{ home:"", draw:"", away:"" }, toadv:{ home:"", away:"" } },
+      { id:"SF-2", time:"Wed Jul 15 · 3:00 PM ET", venue:"Mercedes-Benz Stadium, Atlanta", home:"England", away:"Argentina",
+        ml:{ home:"", draw:"", away:"" }, toadv:{ home:"", away:"" } }
     ],
     goldenBoot: [
       { name: "Kylian Mbappé", team: "France", american: "+280" },

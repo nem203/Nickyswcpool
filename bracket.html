@@ -40,7 +40,7 @@
 <body>
 <div class="top"><span class="badge">26</span><h1>Knockout Bracket</h1><span style="margin-left:auto"></span><a href="/">Standings</a><a href="/schedule.html" style="margin-left:14px">Schedule</a><a href="/odds.html" style="margin-left:14px">Odds</a><a href="/analysis.html" style="margin-left:14px">Analysis</a></div>
 <div class="wrap">
-  <div class="intro"><b>Quarterfinals.</b> Win or go home — 8 teams, 4 ties (July 9–11). Owner shown next to each team; a green ✓ marks who advanced. The Round of 16 and Round of 32 results are shown below.</div>
+  <div class="intro"><b>Semifinals.</b> Four teams left — France v Spain and England v Argentina (July 14–15). Owner shown next to each team; a green ✓ marks who advanced. Earlier rounds shown below.</div>
   <div id="out"><div class="msg">Loading bracket…</div></div>
   <div class="legend" id="legend"></div>
   <div class="stamp" id="stamp"></div>
@@ -107,6 +107,14 @@ const QF=[
     {a:"Argentina", b:"Switzerland", t:"9:00 PM ET", v:"Arrowhead Stadium, Kansas City"}
   ]}
 ];
+const SF=[
+  {day:"Tuesday, July 14", ties:[
+    {a:"France", b:"Spain", t:"3:00 PM ET", v:"AT&T Stadium, Dallas"}
+  ]},
+  {day:"Wednesday, July 15", ties:[
+    {a:"England", b:"Argentina", t:"3:00 PM ET", v:"Mercedes-Benz Stadium, Atlanta"}
+  ]}
+];
 const colorOf=n=>(P.colors&&P.colors[n])||"#94a3b8";
 const cc=t=>`<span class="cc">${(P.codes&&P.codes[t])||""}</span>`;
 const ownerOf=t=>{ for(const pl in byPlayer) if(byPlayer[pl].includes(t)) return pl; return null; };
@@ -142,19 +150,20 @@ function roundSection(rounds, field){
 }
 function render(){
   byPlayer={}; (P.order||[]).forEach(p=>byPlayer[p]=[]); (P.picks||[]).forEach(x=>{ if(byPlayer[x.player]) byPlayer[x.player].push(x.team); });
-  let h=`<h2 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--navy);margin:6px 2px 2px">Quarterfinals · July 9–11</h2>`;
+  let h=`<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:14px;color:#9a3412"><b>🏆 Diccy has clinched the pool</b> — mathematically uncatchable at 56. The semis &amp; final now decide 2nd place and the World Cup itself.</div>`;
+  h+=`<h2 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--navy);margin:6px 2px 2px">Semifinals · July 14–15</h2>`;
+  h+=roundSection(SF,"sf");
+  h+=`<h2 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin:26px 2px 2px">Quarterfinals · results</h2>`;
   h+=roundSection(QF,"qf");
   h+=`<h2 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin:26px 2px 2px">Round of 16 · results</h2>`;
   h+=roundSection(R16,"r16");
-  h+=`<h2 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin:26px 2px 2px">Round of 32 · results</h2>`;
-  h+=roundSection(R32,"r32");
   document.getElementById("out").innerHTML=h;
-  // teams still alive = QF winners once decided, else both sides of each QF tie
+  // teams still alive = SF winners once decided, else both sides of each SF tie
   const cnt={};
-  QF.flatMap(d=>d.ties).forEach(m=>{ const w=koWinner("qf",m.a,m.b); (w?[w]:[m.a,m.b]).forEach(t=>{ const o=ownerOf(t); if(o) cnt[o]=(cnt[o]||0)+1; }); });
+  SF.flatMap(d=>d.ties).forEach(m=>{ const w=koWinner("sf",m.a,m.b); (w?[w]:[m.a,m.b]).forEach(t=>{ const o=ownerOf(t); if(o) cnt[o]=(cnt[o]||0)+1; }); });
   const order=(P.order||[]).slice().sort((a,b)=>(cnt[b]||0)-(cnt[a]||0));
   document.getElementById("legend").innerHTML="<b>Teams still alive:</b> "+order.map(o=>`${o} ${cnt[o]||0}`).join(" · ");
-  document.getElementById("stamp").textContent="Quarterfinals · July 9 – 11";
+  document.getElementById("stamp").textContent="Semifinals · July 14 – 15";
 }
 load();
 </script>
