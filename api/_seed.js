@@ -32,46 +32,36 @@ module.exports = {
   results: {},   // { "A-1": {hs,as} } group-match scores
   teams: {},     // per-team scoring records (set by admin / daily task)
   recap: {
-    date: "🏆 Diccy Clinches the Pool — Sun Jul 12",
+    date: "The Final Is Set — Wed Jul 15",
     html: `<h3>The story so far</h3>
-<p>It's over. England's quarterfinal win over Norway banked Diccy's 56th point — and no one left alive can reach 56. <b>Diccy is the 2026 champion of Nicky's World Cup Pool</b>, crowned with the World Cup semifinals still to be played. That result was also the dagger: England knocked out Gabey's Norway — the only live threat — and hours later Gabey's Switzerland fell to Lee's Argentina, so the runner-up spent both his teams in a single afternoon. All that's left now is the race for 2nd. Grades below.</p>
-<h3>Quarterfinals — results</h3>
+<p>The World Cup final is set: <b>Nicky's Spain v Lee's Argentina</b> on Sunday. Spain dismantled France 2–0 and Argentina edged England 2–1 (Messi, of course) to book it. In the pool, the podium is now locked in bronze, silver and gold: <b>Diccy is champion</b> (long since clinched), <b>Nicky has secured 2nd</b> — Spain reaching the final pushed him to 51, out of reach — and <b>Gabey is stuck in 3rd</b>, frozen at 49 with no one able to catch him. Diccy's England and Reilly's France meet in the third-place game. Grades below.</p>
+<h3>Semifinals — results</h3>
 <ul>
-<li>France 2–0 Morocco — Les Bleus cruise into the semis</li>
-<li>Spain 2–1 Belgium — Merino's late winner</li>
-<li>England edge Norway — Diccy's clinching point</li>
-<li>Argentina beat Switzerland — more late Messi heroics</li>
+<li>Spain 2–0 France — La Roja into the final; France off to the third-place game</li>
+<li>Argentina 2–1 England — Messi drags Argentina to another final</li>
 </ul>
 <h3>Report card</h3>
-<p><b>Diccy — A+ 🏆 CHAMPION.</b> England saw off Norway to bank your 56th point — and with that, it's mathematically <b>over</b>: nobody left can reach 56. You've <b>won Nicky's World Cup Pool</b>. The four-team armada became a one-man dinghy, and the dinghy still lapped the field. Fittingly, the clinching win also knocked out Gabey's Norway — your only real threat — in one stroke. Diccy the inevitable. Pop the champagne.</p>
-<p><b>Nicky — A.</b> Spain edged Belgium behind Merino's late strike and you're up to 48 with a semifinalist still standing — excellent work. The only snag: Diccy already clinched, so you're now playing for a very handsome 2nd. Spain v France next; win the whole thing and you're a proud runner-up. The handsome Dutch bastard settles for silver contention.</p>
-<p><b>Reilly — B+.</b> France did France things past Morocco (2–0) and your lone survivor is into the semis as a title favorite — you're up to 47. The pool crown's gone, but you're square in the scrap with Nicky for silver. Only Spain stands between France and the final.</p>
-<p><b>Lee — B.</b> Argentina rode more Messi magic past Switzerland and you're up to 41 — down to one team, but what a one. No route to the pool crown, but Argentina v England in the semis is appointment viewing, and a run to the final locks you well clear of the basement.</p>
-<p><b>Gabey — D.</b> Gut-punch. Both Norway and Switzerland lost their quarterfinals on the same afternoon — the generational run ends one step short of the semis, and the man who was Diccy's only real threat is suddenly out of teams. Frozen at 49 and about to be passed for 2nd. From fairytale to funeral in the space of a single day.</p>
-<p><b>Gary — F.</b> Still 33, still eliminated — but now you've got company down in the graveyard. Misery loves it.</p>
+<p><b>Diccy — A+ 🏆 CHAMPION.</b> England bowed out to Argentina, but it couldn't matter less — you wrapped this up a week ago. The pool title is yours, wire to wire, and England's off to the ceremonial third-place kickabout. Kick back and watch the peasants squabble over the scraps.</p>
+<p><b>Nicky — A 🥈.</b> Spain dismantled France 2–0 to reach the World Cup final AND lock up 2nd in the pool at 51 — nobody can catch you now. The handsome Dutch bastard takes silver and still has a live shot at the actual trophy on Sunday. A monster tournament that just fell one draft slot short.</p>
+<p><b>Gabey — C 🥉.</b> No teams, no drama, no more points — but the frozen 49 holds up for bronze because the chasers ran out of runway. A quiet, teamless coast to a medal you earned in the group stage. The generational run lands on the podium after all.</p>
+<p><b>Reilly — C+.</b> France ran into a buzzsaw — 2–0 to Spain — and the dream dies in the semis. Stuck at 47 and locked in 4th (a third-place-game win nudges you to 48). France for bronze in the real thing, at least.</p>
+<p><b>Lee — A– 🎉.</b> From dead last a fortnight ago to a <b>World Cup finalist</b> — Argentina beat England and you're up to 44. No pool medal, but Argentina v Spain on Sunday, and a title would cap the greatest glow-up of the whole pool. Nobody's laughing now.</p>
+<p><b>Gary — F.</b> Still 33, still last, still teamless. At this point it's less a grade than a memorial.</p>
 <h3>Standings</h3>
 <table><thead><tr><th>#</th><th>Manager</th><th>Pts</th><th>Move</th></tr></thead><tbody>
-<tr style="background:#fff7ed"><td>1</td><td><b>Diccy 🏆</b></td><td><b>56</b></td><td><span style="color:#059669">CLINCHED</span></td></tr>
-<tr><td>2</td><td>Gabey</td><td>49</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>3</td><td>Nicky</td><td>48</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr style="background:#fff7ed"><td>1</td><td><b>Diccy 🏆</b></td><td><b>56</b></td><td><span style="color:#059669">CHAMPION</span></td></tr>
+<tr><td>2</td><td>Nicky 🥈</td><td>51</td><td><span style="color:#059669">▲ 1 · 2nd locked</span></td></tr>
+<tr><td>3</td><td>Gabey 🥉</td><td>49</td><td><span style="color:#dc2626">▼ 1 · 3rd locked</span></td></tr>
 <tr><td>4</td><td>Reilly</td><td>47</td><td><span style="color:#9ca3af">—</span></td></tr>
-<tr><td>5</td><td>Lee</td><td>41</td><td><span style="color:#9ca3af">—</span></td></tr>
+<tr><td>5</td><td>Lee</td><td>44</td><td><span style="color:#9ca3af">—</span></td></tr>
 <tr><td>6</td><td>Gary</td><td>33</td><td><span style="color:#9ca3af">—</span></td></tr>
 </tbody></table>
-<h3>Semifinal slate (Jul 14–15)</h3>
+<h3>What's left (Jul 18–19)</h3>
 <ul>
-<li>Tue Jul 14, 3:00 PM ET — France <b>(Reilly)</b> v Spain <b>(Nicky)</b></li>
-<li>Wed Jul 15, 3:00 PM ET — England <b>(Diccy)</b> v Argentina <b>(Lee)</b></li>
+<li>Sat Jul 18, 3:00 PM ET — 3rd place: France <b>(Reilly)</b> v England <b>(Diccy)</b></li>
+<li>Sun Jul 19, 3:00 PM ET — <b>FINAL</b>: Spain <b>(Nicky)</b> v Argentina <b>(Lee)</b></li>
 </ul>
-<p>The World Cup rolls on to the final (Jul 19), but the pool trophy is decided. These games are now about the <b>race for 2nd</b>.</p>
-<h3>The race for 2nd</h3>
-<ul>
-<li><b>Gabey — 49</b> (no teams left) — frozen; can only watch and hope the chasers fall short.</li>
-<li><b>Nicky — 48</b> (Spain) — a Spain semifinal win (→51) leapfrogs Gabey. Best-placed for silver.</li>
-<li><b>Reilly — 47</b> (France) — France v Spain is a straight silver-medal shootout with Nicky; a SF win (→50) also clears Gabey.</li>
-<li><b>Lee — 41</b> (Argentina) — needs a deep Argentina run to crash the top of the chasing pack.</li>
-</ul>
-<p><b>But at the top, it's settled: Diccy has won it all.</b> 🏆</p>`
+<p>The pool podium is set — <b>Diccy 🏆, Nicky 🥈, Gabey 🥉</b>. Only 4th place is still live: Reilly (47) leads Lee (44), but if Argentina wins the World Cup, Lee jumps to 48 and could pass him. And Nicky's Spain plays for the real trophy on Sunday.</p>`
   },   // { date, html } latest daily report
   ntfyTopic: "nickys-wcpool-alerts-9k4m2",  // phone-push topic on ntfy.sh; subscribers get a buzz on standings updates + the daily report
   history: [
@@ -82,17 +72,16 @@ module.exports = {
   // Betting odds (FanDuel). Refreshed each morning by the daily task with that day's games.
   // ml/total/title = FanDuel published; dnb & dc = derived from FanDuel moneyline; spread = goal handicap (price approx).
   odds: {
-    updated: "Jul 12, 2026",
-    gamesLabel: "Semifinals — moneyline & to advance",
+    updated: "Jul 15, 2026",
+    gamesLabel: "The Final — Sun Jul 19",
     title: [
-      { team: "France", american: "+180" }, { team: "Argentina", american: "+240" },
-      { team: "Spain", american: "+360" }, { team: "England", american: "+500" }
+      { team: "Argentina", american: "+115" }, { team: "Spain", american: "+160" }
     ],
-    longshots: "the final four — France v Spain and England v Argentina. Point-in-time FanDuel snapshot; check the app for live prices.",
+    longshots: "down to two — Spain (Nicky) v Argentina (Lee) for the World Cup. Point-in-time FanDuel snapshot; check the app for live prices.",
     games: [
-      { id:"SF-1", time:"Tue Jul 14 · 3:00 PM ET", venue:"AT&T Stadium, Dallas", home:"France", away:"Spain",
+      { id:"FINAL", time:"Sun Jul 19 · 3:00 PM ET", venue:"MetLife Stadium, NY/NJ", home:"Spain", away:"Argentina",
         ml:{ home:"", draw:"", away:"" }, toadv:{ home:"", away:"" } },
-      { id:"SF-2", time:"Wed Jul 15 · 3:00 PM ET", venue:"Mercedes-Benz Stadium, Atlanta", home:"England", away:"Argentina",
+      { id:"THIRD", time:"Sat Jul 18 · 3:00 PM ET", venue:"Hard Rock Stadium, Miami · 3rd place", home:"France", away:"England",
         ml:{ home:"", draw:"", away:"" }, toadv:{ home:"", away:"" } }
     ],
     goldenBoot: [
